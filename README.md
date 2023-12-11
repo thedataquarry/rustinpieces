@@ -4,4 +4,6 @@ My experiments and learnings in Rust 🦀. This repo contains code to translate 
 
 ## Projects
 
-- [x] [Hello World](hello_world)
+- [x] Hello World
+- [ ] Regex Money
+- [ ] Regex dates
