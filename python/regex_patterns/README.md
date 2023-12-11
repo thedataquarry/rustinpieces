@@ -55,7 +55,7 @@ python main.py
 
 ### Output
 
-```json
+```python
 {'companies': [{'annual_revenue': '$10M-$20M',
                 'annual_revenue_lower': 10000000.0,
                 'annual_revenue_upper': 20000000.0,
