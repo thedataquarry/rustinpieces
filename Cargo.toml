@@ -1,6 +1,7 @@
 [workspace]
 
 members = [
-    "hello_world/rust",
+    "rust/hello_world",
+    "rust/regex_money",
 ]
 resolver = "1"

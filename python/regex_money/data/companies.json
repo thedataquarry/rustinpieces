@@ -1,0 +1,22 @@
+[
+    {
+        "company": "Acme Inc.",
+        "annual_revenue": "$10M-$20M",
+        "industry": "Technology"
+    },
+    {
+        "company": "Globex Corp.",
+        "annual_revenue": "$7.5M-$8.5M",
+        "industry": "Logistics"
+    },
+    {
+        "company": "Initech Corp.",
+        "annual_revenue": "$500K-$1M",
+        "industry": "Technology"
+    },
+    {
+        "company": "Umbrella Corp.",
+        "annual_revenue": "$800M-$1B",
+        "industry": "Retail"
+    }
+]
