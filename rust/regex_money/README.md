@@ -1,0 +1,103 @@
+# Regex: Money
+
+Converting string values of annual revenue into floats via regex patterns.
+
+## Goal
+
+The aim of this project is to convert a dataset of JSON blobs containing string values of companies' annual revenue in dollars to their float ranges of lower/upper bounds using regex pattern matching.
+
+## Sample input
+
+The example input shown below contains the revenue field as a string that's human-readable but not very machine-readable.
+
+```json
+{
+    "company": "Initech Corp.",
+    "annual_revenue": "$500K-$1M",
+    "industry": "Technology"
+}
+```
+
+## Desired output
+
+Two new fields containing valid floats are added to each record that can be queried easily in a SQL or NoSQL database downstream.
+
+```json
+{
+    "company": "Initech Corp.",
+    "annual_revenue": "$500K-$1M",
+    "annual_revenue_lower": 500000.0,
+    "annual_revenue_upper": 1000000.0,
+    "industry": "Technology"
+}
+```
+
+## Assumptions
+
+> [!NOTE]
+> It's assumed that the annual revenue field from the incoming data is always in the format of `$<lower><unit>-$<upper><unit>` where `<lower>` and `<upper>` are numbers and `<unit>` is a multiplier that's one of `K`, `M`, or `B`, representing a thousand, million or billion respectively.
+
+## Setup
+
+Install dependencies via a virtual environment.
+
+```bash
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+## Run project
+
+The provided `Makefile` runs the formatter, linter, tests and the main file all in sequence.
+
+```
+make all
+```
+
+To run just the main file, use the following command.
+
+```
+make run
+# or, simply run via cargo
+cargo run --quiet
+```
+
+### Output
+
+```sh
+[
+  {
+    "company": "Acme Inc.",
+    "industry": "Technology",
+    "annual_revenue": "$10M-$20M",
+    "annual_revenue_lower": 10000000.0,
+    "annual_revenue_upper": 20000000.0
+  },
+  {
+    "company": "Globex Corp.",
+    "industry": "Logistics",
+    "annual_revenue": "$7.5M-$8.5M",
+    "annual_revenue_lower": 7500000.0,
+    "annual_revenue_upper": 8500000.0
+  },
+  {
+    "company": "Initech Corp.",
+    "industry": "Technology",
+    "annual_revenue": "$500K-$1M",
+    "annual_revenue_lower": 500000.0,
+    "annual_revenue_upper": 1000000.0
+  },
+  {
+    "company": "Umbrella Corp.",
+    "industry": "Retail",
+    "annual_revenue": "$800M-$1B",
+    "annual_revenue_lower": 800000000.0,
+    "annual_revenue_upper": 1000000000.0
+  }
+]
+```
+
+## Run tests
+
+Upcoming...
