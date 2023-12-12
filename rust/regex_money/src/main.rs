@@ -2,6 +2,8 @@ use regex::Regex;
 use serde::{Deserialize, Serialize};
 use std::fs;
 
+mod test_main;
+
 #[derive(Debug, Serialize, Deserialize)]
 struct Company {
     company: String,
@@ -63,7 +65,7 @@ fn construct_company_final(
     serde_json::from_value(value).unwrap()
 }
 
-fn main() {
+fn run() -> Vec<CompanyFinal> {
     let data: Vec<Company> = get_data("data/companies.json");
     let mut companies: Vec<CompanyFinal> = Vec::new();
     for company in data {
@@ -72,5 +74,12 @@ fn main() {
             construct_company_final(&company, annual_revenue_lower, annual_revenue_upper);
         companies.push(company_final);
     }
-    println!("{}", serde_json::to_string_pretty(&companies).unwrap());
+    let result = serde_json::to_string_pretty(&companies).unwrap();
+    println!("{}", result);
+    // Return the result as an object so it can be tested
+    serde_json::from_str(&result).unwrap()
+}
+
+fn main() {
+    run();
 }

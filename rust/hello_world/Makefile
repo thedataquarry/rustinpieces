@@ -8,6 +8,6 @@ test:
 	cargo test --quiet
 
 run:
-	cargo run
+	cargo run --quiet
 
 all: format lint test run
