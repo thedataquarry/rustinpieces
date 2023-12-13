@@ -1,3 +1,5 @@
+use std::path::Path;
+
 use regex::Regex;
 use serde::{Deserialize, Serialize};
 use std::fs;
@@ -20,9 +22,11 @@ struct CompanyFinal {
     annual_revenue_upper: f64,
 }
 
-fn get_data(path: &str) -> Vec<Company> {
-    let file_path = path.to_owned();
-    let contents = fs::read_to_string(file_path).expect("Could not load from file");
+fn get_data(path: &Path) -> Vec<Company> {
+    if !path.exists() {
+        panic!("File {:?} not found", path);
+    }
+    let contents = fs::read_to_string(path).expect("Could not load from file");
     let data: Vec<Company> = serde_json::from_str(&contents).unwrap();
     data
 }
@@ -66,7 +70,7 @@ fn construct_company_final(
 }
 
 fn run() -> Vec<CompanyFinal> {
-    let data: Vec<Company> = get_data("data/companies.json");
+    let data: Vec<Company> = get_data(Path::new("data/companies.json"));
     let mut companies: Vec<CompanyFinal> = Vec::new();
     for company in data {
         let (annual_revenue_lower, annual_revenue_upper) = calculate_range(&company.annual_revenue);

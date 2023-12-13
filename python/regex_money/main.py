@@ -1,6 +1,7 @@
 import json
 import re
 from enum import Enum
+from pathlib import Path
 from typing import Any
 
 # Compiled patterns
@@ -9,7 +10,7 @@ hyphenated_pattern = re.compile(r"\$(\d+\.?\d*)([KMB])?-?\$?(\d+\.?\d*)([KMB])?"
 
 def get_data() -> dict[str, Any]:
     data = {}
-    with open("data/companies.json", "r") as f:
+    with open(Path("data/companies.json"), "r") as f:
         data = json.load(f)
     return data
 
