@@ -39,12 +39,12 @@ Two new fields containing valid floats are added to each record that can be quer
 
 ## Setup
 
-Install dependencies via a virtual environment.
+Install dependencies via Cargo. Note that because we perform serialization/deserialization features in `serde_json` via `serde`, we need to install it using the features flag.
 
 ```bash
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
+cargo add regex
+cargo add serde --features derive
+cargo add serde_json
 ```
 
 ## Run project
