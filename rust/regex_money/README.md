@@ -51,7 +51,7 @@ cargo add serde_json
 
 The provided `Makefile` runs the formatter, linter, tests and the main file all in sequence.
 
-```
+```bash
 make all
 
 # Runs the following
@@ -63,7 +63,7 @@ cargo run --quiet
 
 To run just the main file, use the following command.
 
-```
+```bash
 make run
 # or, simply run via cargo
 cargo run --quiet
@@ -118,11 +118,12 @@ cargo clippy --quiet
 
 ## Run tests only
 
-Tests are run using `make test` or `cargo test --quiet`. The following command runs the tests and shows the output.
+Using Rust's inbuilt client, tests can either be within `main.rs` or in a separate file `test_main.rs` made accessible to `main.rs` via `mod test_main`.
+
+Tests are run using `make test` or `cargo test --quiet`.
 
 ```bash
 make test
-
 cargo test --quiet
 
 running 2 tests

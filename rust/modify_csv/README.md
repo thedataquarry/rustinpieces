@@ -49,7 +49,7 @@ id,name,age,isMarried,city,state,country
 
 ## Setup
 
-Install dependencies via Cargo. Note that because we perform serialization/deserialization features in `serde_json` via `serde`, we need to install it using the features flag.
+Install dependencies via Cargo. Note that because we perform CSV serialization/deserialization via `serde`, we need to install it using the features flag.
 
 ```bash
 cargo add csv
@@ -60,7 +60,7 @@ cargo add serde --features derive
 
 The provided `Makefile` runs the formatter, linter, tests and the main file all in sequence.
 
-```
+```bash
 make all
 
 # Runs the following
@@ -72,7 +72,7 @@ cargo run --quiet
 
 To run just the main file, use the following command.
 
-```
+```bash
 make run
 # or, simply run via cargo
 cargo run --quiet
