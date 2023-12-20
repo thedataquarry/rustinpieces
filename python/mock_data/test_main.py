@@ -9,7 +9,6 @@ from main import (
     write_persons_to_csv,
 )
 
-
 AGE_LOWER, AGE_UPPER = 22, 65
 
 
