@@ -52,9 +52,8 @@ id,name,age,isMarried,city,state,country
 Install dependencies via Cargo. Note that because we perform serialization/deserialization features in `serde_json` via `serde`, we need to install it using the features flag.
 
 ```bash
-cargo add regex
+cargo add csv
 cargo add serde --features derive
-cargo add serde_json
 ```
 
 ## Run project
