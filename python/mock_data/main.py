@@ -65,8 +65,8 @@ def generate_fake_persons(faker: Faker, locations: list[Location], num: int) -> 
     return profiles
 
 
-def write_persons_to_csv(profiles: list[Person], filename: Path) -> None:
-    with open("./data/persons.csv", "w", newline="") as csvfile:
+def write_persons_to_csv(profiles: list[Person], output_path: Path) -> None:
+    with open(output_path, "w", newline="") as csvfile:
         fieldnames = list(profiles[0].keys())
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
