@@ -3,5 +3,6 @@
 members = [
     "rust/hello_world",
     "rust/regex_money",
+    "rust/modify_csv",
 ]
 resolver = "1"
