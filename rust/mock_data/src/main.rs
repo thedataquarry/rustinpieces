@@ -7,6 +7,8 @@ use serde::{Deserialize, Serialize};
 use std::{fs, io::Write, path::Path};
 use unicode_normalization::UnicodeNormalization;
 
+mod test_main;
+
 struct Location {
     city: String,
     state: String,
