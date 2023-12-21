@@ -3,6 +3,8 @@ use std::fs;
 use std::io::Write;
 use std::path::Path;
 
+mod test_main;
+
 #[derive(Deserialize)]
 #[serde(rename_all = "camelCase")]
 struct Person {
@@ -70,28 +72,4 @@ fn main() {
     let result = wtr.into_inner().expect("Unable to construct CSV output");
     let output_path = Path::new("./data/persons_modified.csv");
     write_csv(output_path, result);
-}
-
-// Tests
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_read_csv() {
-        let input_path = Path::new("./data/persons.csv");
-        let data = read_csv(input_path).expect("Unable to read/open CSV");
-        assert_eq!(data.len(), 6);
-        // To do: Test that the `isMarried` key exists in each struct
-    }
-
-    #[test]
-    fn test_construct_person_obj() {
-        let input_path = Path::new("./data/persons.csv");
-        let data = read_csv(input_path).expect("Unable to read/open CSV");
-        let persons_modified = construct_person_obj(data);
-        assert_eq!(persons_modified.len(), 6);
-        assert!(persons_modified[0].id > 0);
-    }
 }
