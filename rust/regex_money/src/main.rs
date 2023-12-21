@@ -27,7 +27,7 @@ fn get_data(path: &Path) -> Vec<Company> {
         panic!("File {:?} not found", path);
     }
     let contents = fs::read_to_string(path).expect("Could not load from file");
-    let data: Vec<Company> = serde_json::from_str(&contents).unwrap();
+    let data: Vec<Company> = serde_json::from_str(&contents).expect("Could not parse JSON");
     data
 }
 
@@ -41,10 +41,17 @@ fn get_revenue_multiplier(multiplier: &str) -> f64 {
 }
 
 fn calculate_range(revenue_string: &str) -> (f64, f64) {
-    let re = Regex::new(r"\$(\d+\.?\d*)([KMB])?-?\$?(\d+\.?\d*)([KMB])?").unwrap();
-    let captures = re.captures(revenue_string).unwrap();
-    let left_match_num = captures[1].parse::<f64>().unwrap();
-    let right_match_num = captures[3].parse::<f64>().unwrap();
+    let re = Regex::new(r"\$(\d+\.?\d*)([KMB])?-?\$?(\d+\.?\d*)([KMB])?")
+        .expect("Could not compile regex");
+    let captures = re
+        .captures(revenue_string)
+        .expect("Could not parse revenue string");
+    let left_match_num = captures[1]
+        .parse::<f64>()
+        .expect("Could not parse left match");
+    let right_match_num = captures[3]
+        .parse::<f64>()
+        .expect("Could not parse right match");
 
     let revenue_lower_multiplier = get_revenue_multiplier(&captures[2]);
     let revenue_upper_multiplier = get_revenue_multiplier(&captures[4]);
@@ -66,7 +73,7 @@ fn construct_company_final(
         "annual_revenue_lower": annual_revenue_lower,
         "annual_revenue_upper": annual_revenue_upper,
     });
-    serde_json::from_value(value).unwrap()
+    serde_json::from_value(value).expect("Could not parse JSON from value")
 }
 
 fn run() -> Vec<CompanyFinal> {
@@ -78,10 +85,11 @@ fn run() -> Vec<CompanyFinal> {
             construct_company_final(&company, annual_revenue_lower, annual_revenue_upper);
         companies.push(company_final);
     }
-    let result = serde_json::to_string_pretty(&companies).unwrap();
+    let result =
+        serde_json::to_string_pretty(&companies).expect("Could not serialize JSON from string");
     println!("{}", result);
     // Return the result as an object so it can be tested
-    serde_json::from_str(&result).unwrap()
+    serde_json::from_str(&result).expect("Could not parse JSON")
 }
 
 fn main() {
