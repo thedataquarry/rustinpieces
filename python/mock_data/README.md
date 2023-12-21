@@ -92,6 +92,14 @@ test_main.py::test_write_persons_to_csv PASSED                                  
 ============================================================== 9 passed in 0.32s ==============================================================
 ```
 
+## Performance
+
+Because the number of persons generated via this script is configurable, we can generate datasets of different sizes.
+
+> [!NOTE]
+> The timing numbers shown below are the run times from a 2022 M2 Macbook Pro with 16GB of RAM.
+> The Python version used was `3.11.6`.
+
 numPersons | Python
 --- | ---
 10 | 0.21 sec
