@@ -46,6 +46,7 @@ id,name,age,isMarried,city,state,country
 7,Kyle Blair,30,false,Ettapur,Tamil Nadu,India
 8,Thomas Garcia,30,false,Gurpinar,Van,Turkey
 9,Leslie Bowman,61,true,Madaba,Madaba,Jordan
+10,Tammy Woods,56,false,Vernon,British Columbia,Canada
 ```
 
 ## Setup
@@ -90,3 +91,12 @@ test_main.py::test_write_persons_to_csv PASSED                                  
 
 ============================================================== 9 passed in 0.32s ==============================================================
 ```
+
+numPersons | Python
+--- | ---
+10 | 0.21 sec
+100 | 0.22 sec
+1000 | 0.29 sec
+10000 | 0.91 sec
+100000 | 7.28 sec
+1000000 | 69.91 sec

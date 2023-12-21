@@ -1,6 +1,6 @@
 # Mock data generation
 
-Generate a mock dataset using the [Faker](https://faker.readthedocs.io/en/master/) library in Python.
+Generate a mock dataset using the [`fake-rs`](https://github.com/cksac/fake-rs) crate in Rust.
 
 ## Goal
 
@@ -129,9 +129,9 @@ numPersons | Python | Rust (unoptimized) | Rust (Release)
 --- | --- | --- | ---
 10 | 0.21 sec | 0.35 sec (**0.6x**) | 0.15 sec (**1.4x**)
 100 | 0.22 sec | 0.36 sec (**0.6x**) | 0.17 sec (**1.3x**)
-1000 | 0.28 sec | 0.38 sec (**0.7x**) | 0.17 sec (**1.6x**)
-10000 | 0.90 sec | 0.55 sec (**1.6x**)| 0.18 sec (**5.0x**)
-100000 | 7.21 sec | 2.34 sec (**3.1x**) | 0.27 sec (**26.7x**)
-1000000 | 70.91 sec | 20.29 sec (**3.5x**) | 1.16 sec (**61.1x**)
+1000 | 0.29 sec | 0.38 sec (**0.7x**) | 0.17 sec (**1.7x**)
+10000 | 0.91 sec | 0.55 sec (**1.6x**)| 0.18 sec (**5.1x**)
+100000 | 7.28 sec | 2.34 sec (**3.1x**) | 0.27 sec (**27.0x**)
+1000000 | 69.91 sec | 20.29 sec (**3.4x**) | 1.16 sec (**60.3x**)
 
 Even the unoptimized Rust code is multiple times faster than the Python code, the more data we're dealing with.

@@ -50,7 +50,7 @@ def get_locations(filename: Path) -> list[Location]:
 def generate_fake_persons(faker: Faker, locations: list[Location], num: int) -> list[Person]:
     # Generate fake persons with the desired structure and return a list of mappings
     profiles = []
-    for i in range(1, num):
+    for i in range(1, num + 1):
         location = random.choice(locations)
         profile = dict()
         profile["id"] = i
@@ -94,7 +94,7 @@ def main() -> None:
 if __name__ == "__main__":
     # fmt: off
     parser = argparse.ArgumentParser()
-    parser.add_argument("--num", "-n", type=int, default=5, help="Number of fake profiles to generate")
+    parser.add_argument("--num", "-n", type=int, default=10, help="Number of fake profiles to generate")
     parser.add_argument("--seed", "-s", type=int, default=0, help="Random seed")
     args = parser.parse_args()
     # fmt: on
