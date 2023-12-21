@@ -4,5 +4,6 @@ members = [
     "rust/hello_world",
     "rust/regex_money",
     "rust/modify_csv",
+    "rust/mock_data",
 ]
 resolver = "1"
