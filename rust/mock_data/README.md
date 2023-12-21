@@ -51,11 +51,14 @@ id,name,age,isMarried,city,state,country
 
 ## Setup
 
-Install dependencies via Cargo. Note that because we perform CSV serialization/deserialization via `serde`, we need to install it using the features flag.
+Install dependencies via Cargo. Note that because we perform CSV serialization/deserialization via `serde`, we need to install it using the features flag. Multiple other crates, like `fake` for generating fake data, `unicode-normalization` for normalizing unicode strings and `csv` for reading/writing CSV files are also installed.
 
 ```bash
 cargo add csv
 cargo add serde --features derive
+cargo add fake --features derive
+cargo add unicode-normalization
+cargo rand
 ```
 
 ## Run project

@@ -151,7 +151,6 @@ dependencies = [
  "fake",
  "rand",
  "serde",
- "serde_json",
  "unicode-normalization",
 ]
 
