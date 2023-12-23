@@ -1,10 +1,10 @@
-# Regex patterns
+# Regex parsing from JSON
 
 Converting string values of annual revenue into floats via regex patterns.
 
 ## Goal
 
-The aim of this project is to convert a dataset of JSON blobs containing string values of companies' annual revenue into their float ranges of lower/upper bounds using regex pattern matching.
+The aim of this project is to convert a dataset of JSON blobs containing string values of companies' annual revenue in dollars to their float ranges of lower/upper bounds using regex pattern matching.
 
 ## Sample input
 

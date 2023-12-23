@@ -9,5 +9,8 @@ Rust is a language that's known for its steep learning curve (yet, it's almost u
 ## Projects
 
 - [x] Hello World
-- [x] Regex Money
-- [ ] Mock data generation
+- [x] Regex JSON
+- [x] Modify CSV
+- [x] Mock data generation
+- [ ] Postgres ETL
+- [ ] Polars analysis

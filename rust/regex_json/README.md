@@ -1,4 +1,4 @@
-# Regex: Money
+# Regex parsing from JSON
 
 Converting string values of annual revenue into floats via regex patterns.
 
