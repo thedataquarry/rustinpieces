@@ -2,7 +2,7 @@
 
 members = [
     "rust/hello_world",
-    "rust/regex_money",
+    "rust/regex_json",
     "rust/modify_csv",
     "rust/mock_data",
 ]
