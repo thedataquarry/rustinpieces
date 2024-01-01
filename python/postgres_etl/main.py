@@ -1,90 +1,57 @@
+import argparse
 import asyncio
-import csv
-import json
 import os
 import random
-from pathlib import Path
-from typing import Any
 
 import asyncpg
 from asyncpg.connection import Connection
 from dotenv import load_dotenv
 
 
-def read_sql(filename: Path) -> str:
-    with open(filename) as f:
-        sql = f.read()
-    return sql
-
-
-def read_data(filename: Path) -> list[dict[str, Any]] | None:
-    with open(filename) as f:
-        reader = csv.DictReader(f)
-        data = list(reader)
-    return data
-
-
-async def create_tables(conn: Connection) -> None:
-    await conn.execute(read_sql(Path("sql/create_persons_table.sql")))
-    # Truncate table once it exists
-    await conn.execute("TRUNCATE TABLE persons")
-
-
-async def summary_query(conn: Connection) -> None:
+async def summary_query(conn: Connection) -> int:
     count = await conn.fetchval("SELECT COUNT(*) FROM persons")
-    data = await conn.fetch("SELECT * FROM persons limit 10")
-    for record in data[:2]:
-        print(json.dumps(dict(record), indent=4))
     print(f"Total records: {count}")
+    return count
 
 
-async def perf_query(conn: Connection, age_limits: list[int]) -> None:
-    for age_limit in age_limits:
+async def perf_query(conn: Connection, age_limits: list[int]) -> int:
+    for count, age_limit in enumerate(age_limits, 1):
         _ = await conn.fetchval(
             """
             SELECT COUNT(*) AS count
             FROM persons WHERE age > $1
             """,
-            age_limit
+            age_limit,
         )
+    return count
 
 
-async def main() -> None:
+async def main(limit: int) -> None:
+    load_dotenv()
+
+    PG_PASSWORD = os.environ.get("POSTGRES_PASSWORD")
+    PG_URI = f"postgres://postgres:{PG_PASSWORD}@localhost:5432/etl"
+
     conn = await asyncpg.connect(PG_URI)
-    await create_tables(conn)
-    data = read_data(Path("data/persons.csv"))
-    for row in data:
-        await conn.execute(
-            """
-                INSERT INTO persons (id, name, age, isMarried, city, state, country)
-                VALUES ($1, $2, $3, $4, $5, $6, $7)
-            """,
-            int(row["id"]),
-            row["name"],
-            int(row["age"]),
-            bool(row["isMarried"]),
-            row["city"],
-            row["state"],
-            row["country"],
-        )
-    print("Data loaded successfully!")
 
-    # Get summary of dataset
+    # Get summary
     await summary_query(conn)
 
+    # Fix seed
+    random.seed(1)
     # Test performance
-    age_limits = [random.randint(22, 65) for _ in range(1000)]
+    age_limits = [random.randint(22, 65) for _ in range(limit)]
     await perf_query(conn, age_limits)
+    print(f"Ran {limit} async queries")
 
     await conn.close()
 
 
 if __name__ == "__main__":
-    load_dotenv()
-    # Fix seed
-    random.seed(1)
+    # fmt: off
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--number", "-n", type=int, default=1000, help="Number of queries to run")
+    args = parser.parse_args()
+    # fmt: on
 
-    PG_PASSWORD = os.environ.get("POSTGRES_PASSWORD")
-    PG_URI = f"postgres://postgres:{PG_PASSWORD}@localhost:5432/etl"
-
-    asyncio.run(main())
+    asyncio.run(main(args.number))
