@@ -1,0 +1,13 @@
+[tool.ruff]
+
+# Set same as Black.
+line-length = 100
+indent-width = 4
+
+[tool.ruff.lint]
+select = ["I"]
+ignore = ["E501"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
