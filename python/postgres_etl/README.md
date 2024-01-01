@@ -32,8 +32,37 @@ python main.py
 
 ## Run tests
 
-TBD
+Tests can be run as follows:
+
+```bash
+$ pytest -v
+================================ test session starts ================================
+platform darwin -- Python 3.11.7, pytest-7.4.4, pluggy-1.3.0 -- /code/rustinpieces/python/postgres_etl/.venv/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /code/rustinpieces/python/postgres_etl
+plugins: asyncio-0.23.3
+asyncio: mode=Mode.STRICT
+collected 3 items                                                                   
+
+test_main.py::test_main PASSED                                                [ 33%]
+test_main.py::test_summary_query PASSED                                       [ 66%]
+test_main.py::test_perf_query PASSED                                          [100%]
+
+================================= 3 passed in 0.59s =================================
+```
 
 ## Performance
 
-TBD
+By specifying an argument to `main.py`, we can control the number of async queries that we're running. The queries are aggregation queries that perform counts of persons whose age is greater than a random number between 22 and 65.
+
+> [!NOTE]
+> The timing numbers shown below are the run times from a 2023 M3 Macbook Pro with 32GB of RAM.
+> The Python version used was `3.11.7`.
+
+numPersons | Python
+--- | ---
+10 | 0.123 sec
+100 | 0.150 sec
+1000 | 0.299 sec
+10000 | 1.761 sec
+100000 | 15.999 sec
