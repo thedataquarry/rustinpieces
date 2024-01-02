@@ -1,6 +1,5 @@
 import asyncio
 import csv
-import json
 import os
 from pathlib import Path
 from typing import Any
