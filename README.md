@@ -12,5 +12,6 @@ Rust is a language that's known for its steep learning curve (yet, it's almost u
 - [x] Regex JSON
 - [x] Modify CSV
 - [x] Mock data generation
-- [ ] Postgres ETL
+- [x] Postgres ETL
 - [ ] Polars analysis
+- [ ] Blending 🐍 + 🦀 worlds via PyO3
