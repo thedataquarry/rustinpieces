@@ -1,4 +1,4 @@
-use dotenv::dotenv;
+use dotenvy::dotenv;
 use serde::{Deserialize, Serialize};
 use sqlx::{postgres::PgPoolOptions, Pool, Postgres};
 use std::{error::Error, fs, path::Path};
@@ -87,7 +87,7 @@ async fn run() -> Result<u32, Box<dyn Error>> {
     // Create pool
     let pg_uri = format!(
         "postgres://postgres:{}@localhost:5432/etl",
-        dotenv::var("POSTGRES_PASSWORD").unwrap()
+        dotenvy::var("POSTGRES_PASSWORD").unwrap()
     );
     let pool = get_connection_pool(&pg_uri)
         .await
