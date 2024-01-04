@@ -1012,6 +1012,7 @@ dependencies = [
  "csv",
  "dotenvy",
  "postgres",
+ "rand",
  "serde",
  "sqlx",
  "tokio",
