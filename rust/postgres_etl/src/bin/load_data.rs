@@ -1,9 +1,9 @@
 use dotenvy::dotenv;
-use serde::{Deserialize, Serialize};
-use sqlx::{postgres::PgPoolOptions, Pool, Postgres};
+use serde::Serialize;
+use sqlx::{Connection, PgConnection};
 use std::{error::Error, fs, path::Path};
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize)]
 #[serde(rename_all = "camelCase")]
 struct Person {
     id: i32,
@@ -40,78 +40,60 @@ fn read_data(persons_csv_file: &Path) -> Result<Vec<Person>, csv::Error> {
     Ok(persons)
 }
 
-async fn get_connection_pool(pg_uri: &str) -> Result<Pool<Postgres>, sqlx::Error> {
-    let pool: Pool<Postgres> = PgPoolOptions::new()
-        .max_connections(5)
-        .connect(pg_uri)
-        .await?;
-    Ok(pool)
+async fn insert_person(persons: Vec<Person>, mut conn: PgConnection) -> u32 {
+    // Populate database
+    let mut counter: u32 = 0;
+    for person in persons.iter() {
+        sqlx::query!(
+            r#"
+                INSERT INTO persons (id, name, age, isMarried, city, state, country)
+                VALUES ($1, $2, $3, $4, $5, $6, $7)
+                "#,
+            person.id,
+            &person.name,
+            person.age,
+            person.is_married,
+            &person.city,
+            &person.state,
+            &person.country,
+        )
+        .execute(&mut conn)
+        .await
+        .expect("Cannot insert data into persons table");
+        counter += 1;
+    }
+    counter
 }
 
-async fn create_tables(
-    persons_table_sql_file: &Path,
-    pool: &Pool<Postgres>,
-) -> Result<(), sqlx::Error> {
-    let persons_table_sql = read_sql(persons_table_sql_file).expect("Cannot read SQL file.");
-    sqlx::query(&persons_table_sql).execute(pool).await?;
-    // Truncate table once it exists
-    sqlx::query("TRUNCATE TABLE persons").execute(pool).await?;
-    println!("Created persons table");
-    Ok(())
-}
-
-async fn insert_person(person: &Person, pool: &Pool<Postgres>) {
-    sqlx::query(
-        r#"
-            INSERT INTO persons (id, name, age, isMarried, city, state, country)
-            VALUES ($1, $2, $3, $4, $5, $6, $7)
-            "#,
-    )
-    .bind(person.id)
-    .bind(&person.name)
-    .bind(person.age)
-    .bind(person.is_married)
-    .bind(&person.city)
-    .bind(&person.state)
-    .bind(&person.country)
-    .execute(pool)
-    .await
-    .expect("Cannot insert data into persons table");
-}
-
-async fn run() -> Result<u32, Box<dyn Error>> {
+async fn run() -> Result<u32, sqlx::Error> {
     dotenv().ok();
     // Get files
     let persons_csv_file = Path::new("data/persons.csv");
     let persons_table_sql_file = Path::new("sql/create_persons_table.sql");
-    // Create pool
-    let pg_uri = format!(
-        "postgres://postgres:{}@localhost:5432/etl",
-        dotenvy::var("POSTGRES_PASSWORD").unwrap()
-    );
-    let pool = get_connection_pool(&pg_uri)
-        .await
-        .expect("Cannot create pool.");
 
     let persons: Vec<Person> =
         read_data(persons_csv_file).expect("Did not obtain valid output from CSV");
     println!("Number of persons: {}", persons.len());
-    // create table
 
-    create_tables(persons_table_sql_file, &pool)
-        .await
-        .expect("Cannot create table in database, please check SQL files.");
-    // Populate database
-    let mut counter: u32 = 0;
-    for person in persons.iter() {
-        insert_person(person, &pool).await;
-        counter += 1;
-    }
-    println!("Finished loading {} records", counter);
+    // Obtain connection
+    let pg_uri = dotenvy::var("DATABASE_URL").unwrap();
+    let mut conn = PgConnection::connect(&pg_uri).await.unwrap();
+    // create table
+    let persons_table_sql = read_sql(persons_table_sql_file).expect("Cannot read SQL file.");
+    sqlx::query(&persons_table_sql).execute(&mut conn).await?;
+    // Truncate table once it exists
+    sqlx::query!("TRUNCATE TABLE persons")
+        .execute(&mut conn)
+        .await?;
+    println!("Created persons table");
+    // Insert data
+    let counter = insert_person(persons, conn).await;
+    println!("Finished loading {:?} records", counter);
     Ok(counter)
 }
 
 #[tokio::main]
 async fn main() {
+    dotenv().ok();
     _ = run().await;
 }
