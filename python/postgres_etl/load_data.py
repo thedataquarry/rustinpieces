@@ -28,20 +28,22 @@ async def create_tables(conn: Connection) -> None:
     await conn.execute("TRUNCATE TABLE persons")
 
 
-async def insert(conn: Connection, data: dict[str, Any]) -> None:
-    await conn.execute(
-        """
-            INSERT INTO persons (id, name, age, isMarried, city, state, country)
-            VALUES ($1, $2, $3, $4, $5, $6, $7)
-        """,
-        int(data["id"]),
-        data["name"],
-        int(data["age"]),
-        bool(data["isMarried"]),
-        data["city"],
-        data["state"],
-        data["country"],
-    )
+async def insert(conn: Connection, persons: list[dict[str, Any]]) -> None:
+    for counter, person in enumerate(persons, 1):
+        await conn.execute(
+            """
+                INSERT INTO persons (id, name, age, isMarried, city, state, country)
+                VALUES ($1, $2, $3, $4, $5, $6, $7)
+            """,
+            int(person["id"]),
+            person["name"],
+            int(person["age"]),
+            bool(person["isMarried"]),
+            person["city"],
+            person["state"],
+            person["country"],
+        )
+    return counter
 
 
 async def run() -> int:
@@ -49,10 +51,11 @@ async def run() -> int:
     PG_URI = f"postgres://postgres:{PG_PASSWORD}@localhost:5432/etl"
 
     conn = await asyncpg.connect(PG_URI)
+    # Create table and truncate it once it exists
     await create_tables(conn)
-    data = read_data(Path("data/persons.csv"))
-    for counter, record in enumerate(data, 1):
-        await insert(conn, record)
+    persons = read_data(Path("data/persons.csv"))
+    # Insert data
+    counter = await insert(conn, persons)
     print(f"Finished loading {counter} records")
 
     await conn.close()

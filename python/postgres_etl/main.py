@@ -8,12 +8,6 @@ from asyncpg.connection import Connection
 from dotenv import load_dotenv
 
 
-async def summary_query(conn: Connection) -> int:
-    count = await conn.fetchval("SELECT COUNT(*) FROM persons")
-    print(f"Total records: {count}")
-    return count
-
-
 async def perf_query(conn: Connection, age_limits: list[int]) -> int:
     for count, age_limit in enumerate(age_limits, 1):
         _ = await conn.fetchval(
@@ -33,9 +27,6 @@ async def main(limit: int) -> None:
     PG_URI = f"postgres://postgres:{PG_PASSWORD}@localhost:5432/etl"
 
     conn = await asyncpg.connect(PG_URI)
-
-    # Get summary
-    await summary_query(conn)
 
     # Fix seed
     random.seed(1)
