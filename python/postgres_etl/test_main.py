@@ -15,20 +15,17 @@ PG_PASSWORD = os.environ.get("POSTGRES_PASSWORD")
 PG_URI = f"postgres://postgres:{PG_PASSWORD}@localhost:5432/etl"
 
 
-@pytest.mark.asyncio
 async def test_main():
     counter = await loader()
     assert counter == 1000
 
 
-@pytest.mark.asyncio
 async def test_summary_query():
     conn = await asyncpg.connect(PG_URI)
     count = await summary_query(conn)
     assert count == 1000
 
 
-@pytest.mark.asyncio
 async def test_perf_query():
     conn = await asyncpg.connect(PG_URI)
     age_limits = [random.randint(22, 65) for _ in range(1000)]
