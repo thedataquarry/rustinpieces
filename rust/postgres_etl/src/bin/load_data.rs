@@ -40,7 +40,7 @@ fn read_data(persons_csv_file: &Path) -> Result<Vec<Person>, csv::Error> {
     Ok(persons)
 }
 
-async fn insert_person(persons: Vec<Person>, mut conn: PgConnection) -> u32 {
+async fn insert(persons: Vec<Person>, mut conn: PgConnection) -> u32 {
     // Populate database
     let mut counter: u32 = 0;
     for person in persons.iter() {
@@ -87,7 +87,7 @@ async fn run() -> Result<u32, sqlx::Error> {
         .await?;
     println!("Created persons table");
     // Insert data
-    let counter = insert_person(persons, conn).await;
+    let counter = insert(persons, conn).await;
     println!("Finished loading {:?} records", counter);
     Ok(counter)
 }

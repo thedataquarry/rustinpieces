@@ -3,6 +3,8 @@ use rand::{rngs::StdRng, Rng, SeedableRng};
 use serde::Serialize;
 use sqlx::{Connection, PgConnection};
 
+mod test_main;
+
 #[derive(Serialize)]
 #[serde(rename_all = "camelCase")]
 struct Person {
@@ -33,7 +35,7 @@ async fn get_age_limits() -> Vec<i16> {
     }
 }
 
-async fn perf_query(mut conn: PgConnection, ages: Vec<i16>) -> i32 {
+async fn perf_query(mut conn: PgConnection, ages: Vec<i16>) -> Result<i32, sqlx::Error> {
     let mut count = 0;
     for age in ages {
         let query = sqlx::query!(
@@ -43,10 +45,10 @@ async fn perf_query(mut conn: PgConnection, ages: Vec<i16>) -> i32 {
             "#,
             age
         );
-        _ = query.fetch_one(&mut conn).await.unwrap();
+        _ = query.fetch_one(&mut conn).await?;
         count += 1;
     }
-    count
+    Ok(count)
 }
 
 #[tokio::main]
@@ -57,6 +59,7 @@ async fn main() -> Result<(), sqlx::Error> {
     let conn = PgConnection::connect(&pg_uri).await.unwrap();
 
     let ages = get_age_limits().await;
-    perf_query(conn, ages).await;
+    let count = perf_query(conn, ages).await.expect("Query did not execute");
+    println!("Number of queries executed: {}", count);
     Ok(())
 }
