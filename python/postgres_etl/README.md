@@ -1,10 +1,10 @@
 # PostgreSQL ETL
 
-Insert data into a Postgres table and measure the performance of async querying.
+Insert data into a Postgres table and measure the performance of the async client.
 
 ## Goal
 
-In this project, we will insert a tabular dataset containing a million people, their age, marital status and the city, state and country they last visited into a Postgres table. We will then measure the performance of 1000 async queries to the table.
+In this project, we will use `asyncpg` to load a tabular dataset containing a million people, their age, marital status and the city, state and country they last visited into a Postgres table. We will then measure the throughput of up to 1000 async queries to the table.
 
 ## Inputs
 
@@ -12,7 +12,7 @@ The input is a CSV file `./data/persons.csv` generated from the [mock_data](../m
 
 ## Output
 
-The output is the runtime performance (in seconds) of 1000 async queries to the Postgres table.
+The outputs are the data loading time for 1M records and the query throughput time of 1M async queries via `asyncpg`.
 
 ## Setup
 
@@ -24,10 +24,25 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## Run script
+## Run scripts
+
+### Load data into Postgres
+
+The loader script is run just once as follows.
 
 ```bash
-python main.py
+python load_data.py
+```
+
+### Run queries
+
+The query script is run as follows.
+
+```bash
+# Run for 10, 100 and 1000 queries
+python main.py -n 10
+python main.py -n 100
+python main.py -n 1000
 ```
 
 ## Run tests
@@ -36,33 +51,46 @@ Tests can be run as follows:
 
 ```bash
 $ pytest -v
-================================ test session starts ================================
+=========================================== test session starts ============================================
 platform darwin -- Python 3.11.7, pytest-7.4.4, pluggy-1.3.0 -- /code/rustinpieces/python/postgres_etl/.venv/bin/python3.11
 cachedir: .pytest_cache
 rootdir: /code/rustinpieces/python/postgres_etl
+configfile: pyproject.toml
 plugins: asyncio-0.23.3
-asyncio: mode=Mode.STRICT
-collected 3 items                                                                   
+asyncio: mode=Mode.AUTO
+collected 2 items                                                                                          
 
-test_main.py::test_main PASSED                                                [ 33%]
-test_main.py::test_summary_query PASSED                                       [ 66%]
-test_main.py::test_perf_query PASSED                                          [100%]
+test_main.py::test_summary_query PASSED                                                              [ 50%]
+test_main.py::test_perf_query PASSED                                                                 [100%]
 
-================================= 3 passed in 0.59s =================================
+============================================ 2 passed in 0.26s =============================================
 ```
 
-## Performance
+## Results
 
-By specifying an argument to `main.py`, we can control the number of async queries that we're running. The queries are aggregation queries that perform counts of persons whose age is greater than a random number between 22 and 65.
+The results for the data loading and for the query throughput are shown below.
 
 > [!NOTE]
 > The timing numbers shown below are the run times from a 2023 M3 Macbook Pro with 32GB of RAM.
 > The Python version used was `3.11.7`.
 
+### Data loading
+
+The data loading time is measured by running the `load_data.py` script.
+
+numPersons | Python
+--- | --- | ---
+1000000 | 222 sec
+
+The run time for loading 1M records is around 3 min 42 seconds. Note that a sync for loop was used to insert the records, so the insertion isn't truly non-blocking.
+
+### Query throughput
+
+By specifying an argument to `main.py`, we can control the number of async queries that we're running. The queries are aggregation queries that perform counts of persons whose age is greater than a random number between 22 and 65.
+
 numPersons | Python
 --- | ---
-10 | 0.123 sec
-100 | 0.150 sec
-1000 | 0.299 sec
-10000 | 1.761 sec
-100000 | 15.999 sec
+10 | 0.510 sec
+100 | 3.786 sec
+1000 | 37.616 sec
+

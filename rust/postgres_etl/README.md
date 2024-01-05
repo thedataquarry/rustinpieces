@@ -1,10 +1,10 @@
 # PostgreSQL ETL
 
-Insert data into a Postgres table and measure the performance of async querying.
+Insert data into a Postgres table and measure the performance of the async client.
 
 ## Goal
 
-In this project, we will insert a tabular dataset containing a million people, their age, marital status and the city, state and country they last visited into a Postgres table. We will then measure the performance of 1000 async queries to the table.
+In this project, we will use the `sqlx` crate to load a tabular dataset containing a million people, their age, marital status and the city, state and country they last visited into a Postgres table. We will then measure the throughput of up to 1000 async queries to the table.
 
 ## Inputs
 
@@ -12,7 +12,7 @@ The input is a CSV file `./data/persons.csv` generated from the [mock_data](../m
 
 ## Output
 
-The output is the runtime performance (in seconds) of 1000 async queries to the Postgres table.
+The outputs are the data loading time for 1M records and the query throughput time of 1M async queries via `sqlx`.
 
 ## Setup
 
@@ -23,13 +23,14 @@ cargo add csv
 cargo add dotenvy
 cargo add sqlx
 cargo add postgres
+cargo add rand
 cargo add serde --features derive
 cargo add tokio --features full
 ```
 
-## Run script
+## Run scripts
 
-The provided `Makefile` runs the formatter, linter, tests and the main file all in sequence.
+The provided `Makefile` runs the formatter, linter, tests for `main.rs` file all in sequence.
 
 ```bash
 make all
@@ -49,6 +50,17 @@ The loader script is run just once, via the `src/bin` directory that's external 
 cargo run --bin load_data
 ```
 
+### Run queries
+
+The query script is run via `main.rs` and can be run multiple times. The query script is run as follows:
+
+```bash
+# Run for 10, 100 and 1000 queries
+cargo run -- 10
+cargo run -- 100
+cargo run -- 1000
+```
+
 ## Run tests
 
 Using Rust's inbuilt client, tests can either be within `main.rs` or in a separate file `test_main.rs` made accessible to `main.rs` via `mod test_main`.
@@ -60,22 +72,40 @@ make test
 cargo test --quiet
 ```
 
-TODO: Add test results here
+```bash
+running 2 tests
+test test_main::test_summary_query ... ok
+test test_main::test_perf_query ... ok
 
-## Performance
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.22s
+```
 
-By specifying an argument to `main.rs`, we can control the number of async queries that we're running. The queries are aggregation queries that perform counts of persons whose age is greater than a random number between 22 and 65.
+## Results
+
+The results for the data loading and for the query throughput are shown below.
 
 > [!NOTE]
 > The timing numbers shown below are the run times from a 2023 M3 Macbook Pro with 32GB of RAM.
 > The Rust version used was `1.74.1`.
 
-numPersons | Python | Rust (unoptimized) | Rust (release)
---- | --- | --- | ---
-10 | 0.123 sec | 0.295 | 0.220
-100 | 0.150 sec | 0.315 | 0.237
-1000 | 0.299 sec | 0.469 | 0.370
-10000 | 1.761 sec | 1.760 | 1.660
-100000 | 15.999 sec | 15.266 | 14.319
+### Data loading
 
-There isn't that much difference between the Rust and Python code when running many asynchronous queries, because the bottleneck is the network overhead due to the client/server connection in Postgres, which Python's `asyncpg` library also handles well (because it's implemented in C and Cython under the hood). The Rust code is faster when compiled in release mode, but not by much.
+The data loading time is measured by running the `load_data.rs` script. The results are shown below for just the unoptimized (dev) run, as this script is run just one time only to load the data.
+
+numPersons | Python | Rust
+--- | --- | ---
+1000000 | 222 sec | 187 sec
+
+The Rust code takes about 16% less time than the Python code to insert 1M records into Postgres. Note that a sync for loop was used to insert the records, so the insertion isn't truly non-blocking.
+
+### Query throughput
+
+By specifying an argument to `main.rs`, we can control the number of async queries that we're running. The queries are aggregation queries that perform counts of persons whose age is greater than a random number between 22 and 65.
+
+numPersons | Python | Rust
+--- | --- | --- | ---
+10 | 0.510 sec | 0.677 sec
+100 | 3.786 sec | 3.977 sec
+1000 | 37.616 sec | 37.895 sec
+
+There isn't that much difference between the Rust and Python code when running many asynchronous queries, because the bottleneck is the network overhead due to the client/server connection in Postgres, which Python's `asyncpg` library also handles well (because it's implemented in C and Cython under the hood). The Rust code is also not idiomatic, so there's a lot of room for improvement overall.
