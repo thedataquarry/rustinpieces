@@ -1,0 +1,31 @@
+version: "3.9"
+
+services:
+  database:
+    image: "postgres:latest"
+    ports:
+      - 5432:5432
+    env_file:
+      - .env
+    networks:
+      - postgres-network
+    volumes:
+      - ./data/pg/:/var/lib/postgresql/data/
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+  
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - 5433:5433
+    env_file:
+      - .env
+    depends_on:
+      - database
+    networks:
+      - postgres-network
+    volumes:
+      - ./data/pgadmin/:/var/lib/pgadmin/
+
+networks: 
+  postgres-network:
+    driver: bridge
