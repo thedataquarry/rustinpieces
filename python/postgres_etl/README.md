@@ -12,7 +12,7 @@ The input is a CSV file `./data/persons.csv` generated from the [mock_data](../m
 
 ## Output
 
-The outputs are the data loading time for 1M records and the query throughput time of 1M async queries via `asyncpg`.
+The outputs are the data loading time for 1M records and the query throughput (QPS) of 10, 100 and 1000 async queries via `asyncpg`.
 
 ## Setup
 
@@ -78,19 +78,20 @@ The results for the data loading and for the query throughput are shown below.
 
 The data loading time is measured by running the `load_data.py` script.
 
-numPersons | Python
+numPersons | Python | Rust
 --- | --- | ---
-1000000 | 222 sec
+1000000 | 222 sec | 187 sec
 
-The run time for loading 1M records is around 3 min 42 seconds. Note that a sync for loop was used to insert the records, so the insertion isn't truly non-blocking.
+The run time for Python to load 1M records is around 3 min 42 seconds. Note that a sync for loop was used to insert the records, so the insertion isn't truly non-blocking, and can be further improved. See the Rust [section](../../rust/postgres_etl/README.md) for docs on Rust's performance for the same task.
 
 ### Query throughput
 
 By specifying an argument to `main.py`, we can control the number of async queries that we're running. The queries are aggregation queries that perform counts of persons whose age is greater than a random number between 22 and 65.
 
-numPersons | Python
---- | ---
-10 | 0.510 sec
-100 | 3.786 sec
-1000 | 37.616 sec
+numPersons | Python | Rust
+--- | --- | ---
+10 | 0.510 sec (19.6 QPS) | 0.677 sec (14.8 QPS)
+100 | 3.786 sec (26.4 QPS) | 3.977 sec (25.1 QPS)
+1000 | 37.616 sec (26.5 QPS) | 37.895 sec (26.3 QPS)
 
+There isn't that much difference between the Rust and Python code when running many asynchronous queries, because the bottleneck is the network overhead due to the client/server connection in Postgres, which Python's `asyncpg` library also handles well (because it's implemented in C and Cython under the hood). The Rust code is also not idiomatic, so there's a lot of room for improvement overall.
