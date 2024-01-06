@@ -8,10 +8,9 @@ use sqlx::{PgPool, postgres::PgPoolOptions};
 pub async fn get_pool() -> PgPool {
     dotenv().ok();
     let pg_uri = dotenvy::var("DATABASE_URL").expect("Invalid DB URI");
-    let pool = PgPoolOptions::new().min_connections(5).max_connections(5).connect(&pg_uri)
+    PgPoolOptions::new().min_connections(5).max_connections(5).connect(&pg_uri)
         .await
-        .expect("Could not connect to DB");
-    pool
+        .expect("Could not connect to DB")
 }
 
 #[sqlx::test]
