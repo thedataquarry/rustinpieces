@@ -6,5 +6,6 @@ members = [
     "rust/modify_csv",
     "rust/mock_data",
     "rust/postgres_etl",
+    "rust/intro",
 ]
 resolver = "1"
