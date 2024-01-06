@@ -13,7 +13,7 @@ async def get_pool():
     load_dotenv()
     PG_PASSWORD = os.environ.get("POSTGRES_PASSWORD")
     PG_URI = f"postgres://postgres:{PG_PASSWORD}@localhost:5432/etl"
-    pool = await asyncpg.create_pool(PG_URI)
+    pool = await asyncpg.create_pool(PG_URI, min_size=5, max_size=5)
     yield pool
     await pool.close()
 

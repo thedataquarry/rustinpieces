@@ -50,7 +50,7 @@ async def run() -> int:
 
     # Insert data
     tasks = []
-    async with asyncpg.create_pool(PG_URI) as pool:
+    async with asyncpg.create_pool(PG_URI, min_size=5, max_size=5) as pool:
         for person in persons:
             tasks.append(insert(pool, person))
 

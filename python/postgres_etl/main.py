@@ -25,7 +25,7 @@ async def main(limit: int) -> None:
     PG_PASSWORD = os.environ.get("POSTGRES_PASSWORD")
     PG_URI = f"postgres://postgres:{PG_PASSWORD}@localhost:5432/etl"
 
-    async with asyncpg.create_pool(PG_URI) as pool:
+    async with asyncpg.create_pool(PG_URI, min_size=5, max_size=5) as pool:
         # Fix seed
         random.seed(1)
         # Test performance
