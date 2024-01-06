@@ -4,20 +4,19 @@ import os
 import random
 
 import asyncpg
-from asyncpg.connection import Connection
+from asyncpg.pool import Pool
 from dotenv import load_dotenv
 
 
-async def perf_query(conn: Connection, age_limits: list[int]) -> int:
-    for count, age_limit in enumerate(age_limits, 1):
-        _ = await conn.fetchval(
+async def perf_query(pool: Pool, age_limit: int) -> int:
+    async with pool.acquire() as conn:
+        return await conn.fetchval(
             """
-            SELECT COUNT(*) AS count
-            FROM persons WHERE age > $1
-            """,
+                SELECT COUNT(*) AS count
+                FROM persons WHERE age > $1
+                """,
             age_limit,
         )
-    return count
 
 
 async def main(limit: int) -> None:
@@ -26,16 +25,15 @@ async def main(limit: int) -> None:
     PG_PASSWORD = os.environ.get("POSTGRES_PASSWORD")
     PG_URI = f"postgres://postgres:{PG_PASSWORD}@localhost:5432/etl"
 
-    conn = await asyncpg.connect(PG_URI)
-
-    # Fix seed
-    random.seed(1)
-    # Test performance
-    age_limits = [random.randint(22, 65) for _ in range(limit)]
-    await perf_query(conn, age_limits)
-    print(f"Ran {limit} async queries")
-
-    await conn.close()
+    async with asyncpg.create_pool(PG_URI) as pool:
+        # Fix seed
+        random.seed(1)
+        # Test performance
+        tasks = []
+        for age_limit in [random.randint(22, 65) for _ in range(limit)]:
+            tasks.append(perf_query(pool, age_limit))
+        await asyncio.gather(*tasks)
+        print(f"Ran {limit} async queries")
 
 
 if __name__ == "__main__":
