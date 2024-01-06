@@ -1,10 +1,7 @@
-use std::sync::Arc;
-
 use dotenvy::dotenv;
 use rand::{rngs::StdRng, Rng, SeedableRng};
 use serde::Serialize;
-//use sqlx::{Connection, PgConnection};
-use sqlx::PgPool;
+use sqlx::{PgPool, postgres::PgPoolOptions};
 
 mod test_main;
 
@@ -38,7 +35,7 @@ async fn get_age_limits() -> Vec<i16> {
     }
 }
 
-async fn perf_query(pool: Arc<PgPool>, age: i16) -> Result<(), sqlx::Error> {
+async fn perf_query(pool: PgPool, age: i16) -> Result<(), sqlx::Error> {
     let query = sqlx::query!(
         r#"
         SELECT COUNT(*) AS count
@@ -46,7 +43,7 @@ async fn perf_query(pool: Arc<PgPool>, age: i16) -> Result<(), sqlx::Error> {
         "#,
         age
     );
-    query.fetch_one(&*pool).await?;
+    query.fetch_one(&pool).await?;
 
     Ok(())
 }
@@ -56,13 +53,14 @@ async fn main() -> Result<(), sqlx::Error> {
     dotenv().ok();
     // Obtain connection
     let pg_uri = dotenvy::var("DATABASE_URL").unwrap();
-    let pool = Arc::new(PgPool::connect(&pg_uri).await.unwrap());
+    // let pool = Arc::new(PgPool::connect(&pg_uri).await.unwrap());
+    let pool = PgPoolOptions::new().min_connections(5).max_connections(5).connect(&pg_uri).await?;
 
     let ages = get_age_limits().await;
     let mut tasks = Vec::new();
 
     for &age in ages.iter() {
-        let task = tokio::spawn(perf_query(Arc::clone(&pool), age));
+        let task = tokio::spawn(perf_query(pool.clone(), age));
         tasks.push(task);
     }
     for task in tasks {
