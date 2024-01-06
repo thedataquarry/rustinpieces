@@ -10,7 +10,9 @@ In the reverse direction, Python is a language that's falsely known for its perf
 
 The larger goal of the book is to help developers become proficient enough with software/data engineering use cases in either language to make an informed choice about whether to use one or the other language for parts of a larger project. This will come from a deeper understanding of Rust's performance benefits, and how to unite Python and Rust code bases via [PyO3](https://github.com/PyO3/pyo3).
 
-## Projects
+## Pieces
+
+Each *piece* is a small project that's implemented in both Python and Rust. The goal is to make it as easy as possible for Python developers to understand the Rust implementation, and vice versa.
 
 ### Intro
 - [x] Hello World
