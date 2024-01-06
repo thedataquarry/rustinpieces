@@ -1,7 +1,7 @@
 use dotenvy::dotenv;
 use rand::{rngs::StdRng, Rng, SeedableRng};
 use serde::Serialize;
-use sqlx::{Connection, PgConnection};
+use sqlx::{PgPool, postgres::PgPoolOptions};
 
 mod test_main;
 
@@ -35,20 +35,17 @@ async fn get_age_limits() -> Vec<i16> {
     }
 }
 
-async fn perf_query(mut conn: PgConnection, ages: Vec<i16>) -> Result<i32, sqlx::Error> {
-    let mut count = 0;
-    for age in ages {
-        let query = sqlx::query!(
-            r#"
-            SELECT COUNT(*) AS count
-            FROM persons WHERE age > $1
-            "#,
-            age
-        );
-        _ = query.fetch_one(&mut conn).await?;
-        count += 1;
-    }
-    Ok(count)
+async fn perf_query(pool: PgPool, age: i16) -> Result<(), sqlx::Error> {
+    let query = sqlx::query!(
+        r#"
+        SELECT COUNT(*) AS count
+        FROM persons WHERE age > $1
+        "#,
+        age
+    );
+    query.fetch_one(&pool).await?;
+
+    Ok(())
 }
 
 #[tokio::main]
@@ -56,10 +53,20 @@ async fn main() -> Result<(), sqlx::Error> {
     dotenv().ok();
     // Obtain connection
     let pg_uri = dotenvy::var("DATABASE_URL").unwrap();
-    let conn = PgConnection::connect(&pg_uri).await.unwrap();
+    // let pool = Arc::new(PgPool::connect(&pg_uri).await.unwrap());
+    let pool = PgPoolOptions::new().min_connections(5).max_connections(5).connect(&pg_uri).await?;
 
     let ages = get_age_limits().await;
-    let count = perf_query(conn, ages).await.expect("Query did not execute");
-    println!("Number of queries executed: {}", count);
+    let mut tasks = Vec::new();
+
+    for &age in ages.iter() {
+        let task = tokio::spawn(perf_query(pool.clone(), age));
+        tasks.push(task);
+    }
+    for task in tasks {
+        _ = task.await.expect("Error running task");
+    }
+    pool.close().await;
+    println!("Number of queries executed: {}", ages.len());
     Ok(())
 }

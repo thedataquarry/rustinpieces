@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Any
 
 import asyncpg
-from asyncpg.connection import Connection
+from asyncpg.pool import Pool
 from dotenv import load_dotenv
 
 
@@ -22,8 +22,8 @@ def read_data(filename: Path) -> list[dict[str, Any]] | None:
     return data
 
 
-async def insert(conn: Connection, persons: list[dict[str, Any]]) -> None:
-    for counter, person in enumerate(persons, 1):
+async def insert(pool: Pool, person: dict[str, Any]) -> None:
+    async with pool.acquire() as conn:
         await conn.execute(
             """
                 INSERT INTO persons (id, name, age, isMarried, city, state, country)
@@ -37,20 +37,26 @@ async def insert(conn: Connection, persons: list[dict[str, Any]]) -> None:
             person["state"],
             person["country"],
         )
-    return counter
 
 
 async def run() -> int:
     PG_PASSWORD = os.environ.get("POSTGRES_PASSWORD")
     PG_URI = f"postgres://postgres:{PG_PASSWORD}@localhost:5432/etl"
-    conn = await asyncpg.connect(PG_URI)
 
     persons = read_data(Path("data/persons.csv"))
+    if not persons:
+        raise ValueError("No people found")
+    counter = len(persons)
+
     # Insert data
-    counter = await insert(conn, persons)
+    tasks = []
+    async with asyncpg.create_pool(PG_URI, min_size=5, max_size=5) as pool:
+        for person in persons:
+            tasks.append(insert(pool, person))
+
+        await asyncio.gather(*tasks)
     print(f"Finished loading {counter} records")
 
-    await conn.close()
     return counter
 
 

@@ -1,6 +1,8 @@
+use std::sync::Arc;
+
 use dotenvy::dotenv;
 use serde::Serialize;
-use sqlx::{Connection, PgConnection};
+use sqlx::PgPool;
 use std::path::Path;
 
 #[derive(Serialize)]
@@ -34,50 +36,53 @@ fn read_data(persons_csv_file: &Path) -> Result<Vec<Person>, csv::Error> {
     Ok(persons)
 }
 
-async fn insert(persons: Vec<Person>, mut conn: PgConnection) -> u32 {
+async fn insert(person: Person, pool: Arc<PgPool>) {
     // Populate database
-    let mut counter: u32 = 0;
-    for person in persons.iter() {
-        sqlx::query!(
-            r#"
-                INSERT INTO persons (id, name, age, isMarried, city, state, country)
-                VALUES ($1, $2, $3, $4, $5, $6, $7)
-                "#,
-            person.id,
-            &person.name,
-            person.age,
-            person.is_married,
-            &person.city,
-            &person.state,
-            &person.country,
-        )
-        .execute(&mut conn)
-        .await
-        .expect("Cannot insert data into persons table");
-        counter += 1;
-    }
-    counter
+    sqlx::query!(
+        r#"
+            INSERT INTO persons (id, name, age, isMarried, city, state, country)
+            VALUES ($1, $2, $3, $4, $5, $6, $7)
+            "#,
+        person.id,
+        &person.name,
+        person.age,
+        person.is_married,
+        &person.city,
+        &person.state,
+        &person.country,
+    )
+    .execute(&*pool)
+    .await
+    .expect("Cannot insert data into persons table");
 }
 
-async fn run() -> Result<u32, sqlx::Error> {
+async fn run() -> Result<usize, sqlx::Error> {
     dotenv().ok();
     // Get files
     let persons_csv_file = Path::new("data/persons.csv");
 
     let persons: Vec<Person> =
         read_data(persons_csv_file).expect("Did not obtain valid output from CSV");
-    println!("Number of persons: {}", persons.len());
+    let counter = persons.len();
+    println!("Number of persons: {}", counter);
 
     // Obtain connection
     let pg_uri = dotenvy::var("DATABASE_URL").unwrap();
-    let mut conn = PgConnection::connect(&pg_uri).await.unwrap();
+    let pool = Arc::new(PgPool::connect(&pg_uri).await.unwrap());
     // Truncate table
     sqlx::query!("TRUNCATE TABLE persons")
-        .execute(&mut conn)
+        .execute(&*pool)
         .await?;
     println!("Created persons table");
+    let mut tasks = Vec::new();
     // Insert data
-    let counter = insert(persons, conn).await;
+    for person in persons.into_iter() {
+        let task = tokio::spawn(insert(person, Arc::clone(&pool)));
+        tasks.push(task);
+    }
+    for task in tasks {
+        task.await.expect("Error running task");
+    }
     println!("Finished loading {:?} records", counter);
     Ok(counter)
 }
