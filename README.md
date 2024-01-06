@@ -16,7 +16,7 @@ Each *piece* is a small project that's implemented in both Python and Rust. The 
 
 ### Intro
 - [x] Hello World
-- [ ] Data structures and constructs
+- [x] Data structures and constructs
 
 ### File handling
 - [x] Modify CSV
