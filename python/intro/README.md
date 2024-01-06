@@ -17,12 +17,12 @@ The following basic concepts (with their rough Rust equivalents) are illustrated
 - Protocols
 - Enumerate
 - Zip
-- First-class functions
+- Tuple unpacking and indexing
 - Anonymous functions
 - Single-line if statements
 - List comprehensions
 
-We start with defining a simple data structure, `Person`, that has a name and an age. We then define a list of `Person` objects, and use the above constructs to illustrate how to use them. See the file `main.py` for implementation details.
+We start with defining a simple data structure, `Person`, that has a name and an age. We then define a list of `Person` objects, and use the above constructs to illustrate how to work with them. See the file `main.py` for implementation details.
 
 ## Inputs
 
@@ -35,14 +35,15 @@ Megan is 28 years old
 Person: Megan, 28
 0: James is 33 years old
 1: Salima is 31 years old
-Khalil is 50 years old. They are estimated to be born in 1974
+[Person: Alice, 24, Person: Charlie, 45]
+Youngest age: 18, oldest age: 65
+Middle age: 41
 Rohan is the youngest person at 18 years old
-Josephine is 20 years old. Born in leap year?: True
-Will is 31 years old. Born in leap year?: False
-Adebayo is estimated to be born in 1995
-Ibrahim is estimated to be born in 1998
+Josephine is 20 years old. Born in a leap year?: True
+Wesley is 31 years old. Born in a leap year?: False
+Persons born after 1995: [('Ibrahim', 26)]
 ```
 
 ## Takeaways
 
-Once you look at the Python code, take a look at the equivalent Rust code in the `rust` directory and hopefully, you'll start appreciating some of the similarities!
+Once you read the Python code, take a look at the equivalent Rust code in the [Rust script](../../rust/intro/src/main.rs) and hopefully, you'll start appreciating some of the similarities!
