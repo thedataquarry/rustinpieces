@@ -12,10 +12,26 @@ The larger goal of the book is to help developers become proficient enough with 
 
 ## Projects
 
+### Intro
 - [x] Hello World
-- [x] Regex JSON
+- [ ] Data structures and constructs
+
+### File handling
 - [x] Modify CSV
+- [x] Regex JSON
 - [x] Mock data generation
+
+### Databases
 - [x] Postgres ETL
+- [ ] Meilisearch
+- [ ] Qdrant
+
+### APIs
+- [ ] REST API to Postgres
+- [ ] More to come...
+
+### Data analysis
 - [ ] Polars analysis
+
+### Unification
 - [ ] Blending 🐍 + 🦀 worlds via PyO3
