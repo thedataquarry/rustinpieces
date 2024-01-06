@@ -1,7 +1,7 @@
 use dotenvy::dotenv;
 use serde::Serialize;
 use sqlx::{Connection, PgConnection};
-use std::{error::Error, fs, path::Path};
+use std::path::Path;
 
 #[derive(Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -13,12 +13,6 @@ struct Person {
     city: String,
     state: String,
     country: String,
-}
-
-fn read_sql(path: &Path) -> Result<String, Box<dyn Error>> {
-    let sql: String = fs::read_to_string(path)?.parse()?;
-    println!("{}", sql);
-    Ok(sql)
 }
 
 fn read_data(persons_csv_file: &Path) -> Result<Vec<Person>, csv::Error> {
@@ -69,7 +63,6 @@ async fn run() -> Result<u32, sqlx::Error> {
     dotenv().ok();
     // Get files
     let persons_csv_file = Path::new("data/persons.csv");
-    let persons_table_sql_file = Path::new("sql/create_persons_table.sql");
 
     let persons: Vec<Person> =
         read_data(persons_csv_file).expect("Did not obtain valid output from CSV");
@@ -78,10 +71,7 @@ async fn run() -> Result<u32, sqlx::Error> {
     // Obtain connection
     let pg_uri = dotenvy::var("DATABASE_URL").unwrap();
     let mut conn = PgConnection::connect(&pg_uri).await.unwrap();
-    // create table
-    let persons_table_sql = read_sql(persons_table_sql_file).expect("Cannot read SQL file.");
-    sqlx::query(&persons_table_sql).execute(&mut conn).await?;
-    // Truncate table once it exists
+    // Truncate table
     sqlx::query!("TRUNCATE TABLE persons")
         .execute(&mut conn)
         .await?;
