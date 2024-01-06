@@ -22,6 +22,11 @@ def read_data(filename: Path) -> list[dict[str, Any]] | None:
     return data
 
 
+async def truncate_table(pool: Pool) -> None:
+    async with pool.acquire() as conn:
+        await conn.execute("TRUNCATE TABLE persons;")
+
+
 async def insert(pool: Pool, person: dict[str, Any]) -> None:
     async with pool.acquire() as conn:
         await conn.execute(
@@ -51,6 +56,9 @@ async def run() -> int:
     # Insert data
     tasks = []
     async with asyncpg.create_pool(PG_URI, min_size=5, max_size=5) as pool:
+        # Truncate persons table before inserting data
+        truncate_table(pool)
+        # Run insert tasks
         for person in persons:
             tasks.append(insert(pool, person))
 
