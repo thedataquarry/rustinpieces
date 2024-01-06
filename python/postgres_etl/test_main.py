@@ -25,9 +25,9 @@ async def test_summary_query(get_pool):
     assert count > 0
 
 
-@pytest.mark.parametrize("age_limit", (22, 45))
-async def test_perf_query(age_limit, get_pool):
+@pytest.mark.parametrize("age_limit, expected", ((22, 10), (65, 0)))
+async def test_perf_query(age_limit, expected, get_pool):
     pool = get_pool
     # This is a template test: in a real situation, we'd measure more meaningful counts
     count = await perf_query(pool, age_limit)
-    assert count > 0
+    assert count == expected
