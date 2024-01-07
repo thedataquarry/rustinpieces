@@ -3,7 +3,7 @@
 members = [
     "rust/hello_world",
     "rust/regex_json",
-    "rust/modify_csv",
+    "rust/datetime_parsing_csv",
     "rust/mock_data",
     "rust/postgres_etl",
     "rust/intro",
