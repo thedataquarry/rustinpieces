@@ -13,10 +13,10 @@ fn date_deserializer<'de, D>(deserializer: D) -> Result<Option<NaiveDate>, D::Er
 where
     D: Deserializer<'de>,
 {
-    let s: Option<String> = Option::deserialize(deserializer)?;
+    let date_str: Option<String> = Option::deserialize(deserializer)?;
 
-    match s {
-        Some(date_str) => NaiveDate::parse_from_str(&date_str, CSV_DATE_FORMAT)
+    match date_str {
+        Some(date) => NaiveDate::parse_from_str(&date, CSV_DATE_FORMAT)
             .map_err(serde::de::Error::custom)
             .map(Some),
         None => Ok(None),
@@ -28,7 +28,7 @@ where
     S: Serializer,
 {
     match date {
-        Some(d) => serializer.serialize_str(&d.to_string()),
+        Some(date_str) => serializer.serialize_str(&date_str.to_string()),
         None => serializer.serialize_none(),
     }
 }
@@ -74,9 +74,8 @@ fn read_csv(input_path: &Path) -> Result<Vec<Person>, Box<dyn std::error::Error>
 fn construct_person_obj(persons: Vec<Person>) -> Vec<PersonFinal> {
     let mut persons_modified: Vec<PersonFinal> = Vec::new();
     for (id, person) in persons.iter().enumerate() {
-        let id = id as u32 + 1;
         let person_with_id = PersonFinal {
-            id,
+            id: id as u32 + 1,
             name: person.name.to_string(),
             dob: person.dob,
             age: person.age,
