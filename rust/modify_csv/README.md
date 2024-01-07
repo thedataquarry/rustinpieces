@@ -4,31 +4,34 @@ Read in data from a CSV file and write it back to a new CSV file with modificati
 
 ## Goal
 
-In this project, we will add a new column to a CSV file that contains data on people, their age,
-marital status and the city, state and country they last visited. The goal is to write an integer
-`id` for each person, starting from 1 and incrementing by 1 for each person, and store that as a new CSV file,
-and to convert the dob column from mm-dd-yyyy format to yyyy-mm-dd format.
+In this project, we will add two new columns to a CSV file that contains data on people, their age,
+their date of birth, marital status and the city, state and country they last visited. The goal is to
+write a new CSV file containing an integer `id` for each person, starting from 1 and incrementing by 1
+for each person, and to convert the dob column from the `mm-dd-yyyy` format to `yyyy-mm-dd` format.
 
 One difference you will notice between the Rust and Python versions in working with dates is in the
-Python version no external packages are required, while in Rust we install the
-[chrono](https://github.com/chronotope/chrono) crate to work with dates. Python is often referred to
-as a "batteries included" langage because it has a large standard library with a lot of functionality
+Python version, no external packages are required, while in Rust we install the
+[chrono](https://github.com/chronotope/chrono) crate to work with datetimes. Python is often referred to
+as a "batteries included" language because it has a large standard library with a lot of functionality
 built in. Rust takes the opposite approach with a small standard library, requiring the use of
-external libraries, known as crates, to handle a lot of the functionality.
+external libraries, known as *crates*, to handle a lot of the functionality.
 
-Each of these approaches has it's own set of advantages and disadvantages. The Python approach makes
-things simple, you just need to import `datetime` and you are ready to go. The downside to this
-approach is new functioniality can only be added to the standard library modules at the realease of
-of new Python versions, which currently happens yearly. Additionally, older versions of Python will
-not be able to use the new functionality.
+Each of these approaches has its own set of advantages and disadvantages. The Python approach focuses on
+simplicity and productivity: you just need to import `datetime` from the standard library and you are
+good to go. The downside to this approach is that new functionality can only be added to the standard library
+modules during the release of new Python versions, which currently happens yearly. Additionally, older
+versions of Python will not be able to use the new functionality.
 
-Rust's apporach allows for more flexabiltiy and faster adding of features. This however means that
-you need to find external crates to handle a lot of functionality making things less straight forward.
-In this example we chose the chrono crate because it is currently the most popular option, but it
-is not the only option. We could have, for example, used the [time](https://github.com/time-rs/time)
-crate to achieve the same thing.
+Rust's philosophy allows for more flexibility on the developer's end and faster adding of features to existing
+projects based on the ever-growing crates ecosystem. This however means that
+you need to know about which external crates to to use to handle specific functionality, making things less straightforward
+if you're new to Rust. In this example we choose the chrono crate because it is currently the most popular option based on
+the [number of downloads on crates.io](https://crates.io/search?q=chrono), but it's improtant to remember that it's
+not the only option. We could have, for example, used the [time](https://github.com/time-rs/time)
+crate to achieve the same thing. It's recommended to look up the catalog of crates on [crates.io](https://crates.io/)
+and choose the one that best fits your needs.
 
-One approach is not better than the other, it is just something you need to be aware of when moving
+Either language's approach is not better or worse than the other, it is just something you need to be aware of when moving
 between the two languages.
 
 The dataset is in the following format:
