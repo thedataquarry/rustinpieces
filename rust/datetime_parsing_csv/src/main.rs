@@ -68,6 +68,7 @@ fn read_csv(input_path: &Path) -> Result<Vec<Person>, Box<dyn std::error::Error>
     let contents = fs::read_to_string(input_path).expect("Unable to read from CSV");
     let mut reader = csv::Reader::from_reader(contents.as_bytes());
     let data: Vec<Person> = reader.deserialize().collect::<Result<_, _>>()?;
+    println!("Read {} records from {}", data.len(), input_path.display());
     Ok(data)
 }
 
@@ -89,16 +90,7 @@ fn construct_person_obj(persons: Vec<Person>) -> Vec<PersonFinal> {
     persons_modified
 }
 
-fn write_csv(output_path: &Path, result: Vec<u8>) {
-    let mut file = fs::File::create(output_path).expect("Unable to create file for writer");
-    file.write_all(result.as_slice())
-        .expect("Unable to write to output CSV file");
-}
-
-fn main() {
-    let input_path = Path::new("./data/persons.csv");
-    let data = read_csv(input_path).expect("Unable to read/open CSV");
-    let persons_modified = construct_person_obj(data);
+fn write_csv(persons_modified: Vec<PersonFinal>, output_path: &Path) {
     let mut wtr = csv::Writer::from_writer(vec![]);
     // Serialize the data to CSV and write it to file
     for person in persons_modified.iter() {
@@ -106,6 +98,16 @@ fn main() {
             .expect("Unable to serialize output CSV");
     }
     let result = wtr.into_inner().expect("Unable to construct CSV output");
+    let mut file = fs::File::create(output_path).expect("Unable to create file for writer");
+    file.write_all(result.as_slice())
+        .expect("Unable to write to output CSV file");
+}
+
+fn main() {
+    let input_path = Path::new("./data/persons.csv");
+    let persons = read_csv(input_path).expect("Unable to read/open CSV");
+    let persons_modified = construct_person_obj(persons);
+    // Write the data to a new CSV file
     let output_path = Path::new("./data/persons_modified.csv");
-    write_csv(output_path, result);
+    write_csv(persons_modified, output_path);
 }
