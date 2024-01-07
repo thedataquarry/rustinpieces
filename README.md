@@ -19,8 +19,9 @@ Each *piece* is a small project that's implemented in both Python and Rust. The 
 - [x] Data structures and constructs
 
 ### File handling
-- [x] Modify CSV
+- [ ] Simple CSV parsing
 - [x] Regex JSON
+- [x] Datetime parsing CSV
 - [x] Mock data generation
 
 ### Databases
@@ -29,10 +30,11 @@ Each *piece* is a small project that's implemented in both Python and Rust. The 
 - [ ] Qdrant
 
 ### APIs
-- [ ] REST API to Postgres
+- [ ] REST API on top of Postgres
 - [ ] More to come...
 
 ### Data analysis
+- [ ] Polars datetime handling
 - [ ] Polars analysis
 
 ### Unification

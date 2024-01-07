@@ -1,14 +1,46 @@
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use std::fs;
 use std::io::Write;
 use std::path::Path;
 
+use chrono::NaiveDate;
+
 mod test_main;
+
+const CSV_DATE_FORMAT: &str = "%m-%d-%Y";
+
+fn date_deserializer<'de, D>(deserializer: D) -> Result<Option<NaiveDate>, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    let date_str: Option<String> = Option::deserialize(deserializer)?;
+
+    match date_str {
+        Some(date) => NaiveDate::parse_from_str(&date, CSV_DATE_FORMAT)
+            .map_err(serde::de::Error::custom)
+            .map(Some),
+        None => Ok(None),
+    }
+}
+
+pub fn date_serializer<S>(date: &Option<NaiveDate>, serializer: S) -> Result<S::Ok, S::Error>
+where
+    S: Serializer,
+{
+    match date {
+        Some(date_str) => serializer.serialize_str(&date_str.to_string()),
+        None => serializer.serialize_none(),
+    }
+}
 
 #[derive(Deserialize)]
 #[serde(rename_all = "camelCase")]
 struct Person {
     name: String,
+
+    #[serde(deserialize_with = "date_deserializer")]
+    dob: Option<NaiveDate>,
+
     age: u16,
     is_married: bool,
     city: String,
@@ -21,6 +53,10 @@ struct Person {
 struct PersonFinal {
     id: u32,
     name: String,
+
+    #[serde(serialize_with = "date_serializer")]
+    dob: Option<NaiveDate>,
+
     age: u16,
     is_married: bool,
     city: String,
@@ -32,16 +68,17 @@ fn read_csv(input_path: &Path) -> Result<Vec<Person>, Box<dyn std::error::Error>
     let contents = fs::read_to_string(input_path).expect("Unable to read from CSV");
     let mut reader = csv::Reader::from_reader(contents.as_bytes());
     let data: Vec<Person> = reader.deserialize().collect::<Result<_, _>>()?;
+    println!("Read {} records from {}", data.len(), input_path.display());
     Ok(data)
 }
 
 fn construct_person_obj(persons: Vec<Person>) -> Vec<PersonFinal> {
     let mut persons_modified: Vec<PersonFinal> = Vec::new();
     for (id, person) in persons.iter().enumerate() {
-        let id = id as u32 + 1;
         let person_with_id = PersonFinal {
-            id,
+            id: id as u32 + 1,
             name: person.name.to_string(),
+            dob: person.dob,
             age: person.age,
             is_married: person.is_married,
             city: person.city.to_string(),
@@ -53,16 +90,7 @@ fn construct_person_obj(persons: Vec<Person>) -> Vec<PersonFinal> {
     persons_modified
 }
 
-fn write_csv(output_path: &Path, result: Vec<u8>) {
-    let mut file = fs::File::create(output_path).expect("Unable to create file for writer");
-    file.write_all(result.as_slice())
-        .expect("Unable to write to output CSV file");
-}
-
-fn main() {
-    let input_path = Path::new("./data/persons.csv");
-    let data = read_csv(input_path).expect("Unable to read/open CSV");
-    let persons_modified = construct_person_obj(data);
+fn write_csv(persons_modified: Vec<PersonFinal>, output_path: &Path) {
     let mut wtr = csv::Writer::from_writer(vec![]);
     // Serialize the data to CSV and write it to file
     for person in persons_modified.iter() {
@@ -70,6 +98,16 @@ fn main() {
             .expect("Unable to serialize output CSV");
     }
     let result = wtr.into_inner().expect("Unable to construct CSV output");
+    let mut file = fs::File::create(output_path).expect("Unable to create file for writer");
+    file.write_all(result.as_slice())
+        .expect("Unable to write to output CSV file");
+}
+
+fn main() {
+    let input_path = Path::new("./data/persons.csv");
+    let persons = read_csv(input_path).expect("Unable to read/open CSV");
+    let persons_modified = construct_person_obj(persons);
+    // Write the data to a new CSV file
     let output_path = Path::new("./data/persons_modified.csv");
-    write_csv(output_path, result);
+    write_csv(persons_modified, output_path);
 }
