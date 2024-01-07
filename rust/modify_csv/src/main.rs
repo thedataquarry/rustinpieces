@@ -1,14 +1,46 @@
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use std::fs;
 use std::io::Write;
 use std::path::Path;
 
+use chrono::NaiveDate;
+
 mod test_main;
+
+const CSV_DATE_FORMAT: &str = "%m-%d-%Y";
+
+fn date_deserializer<'de, D>(deserializer: D) -> Result<Option<NaiveDate>, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    let s: Option<String> = Option::deserialize(deserializer)?;
+
+    match s {
+        Some(date_str) => NaiveDate::parse_from_str(&date_str, CSV_DATE_FORMAT)
+            .map_err(serde::de::Error::custom)
+            .map(Some),
+        None => Ok(None),
+    }
+}
+
+pub fn date_serializer<S>(date: &Option<NaiveDate>, serializer: S) -> Result<S::Ok, S::Error>
+where
+    S: Serializer,
+{
+    match date {
+        Some(d) => serializer.serialize_str(&d.to_string()),
+        None => serializer.serialize_none(),
+    }
+}
 
 #[derive(Deserialize)]
 #[serde(rename_all = "camelCase")]
 struct Person {
     name: String,
+
+    #[serde(deserialize_with = "date_deserializer")]
+    dob: Option<NaiveDate>,
+
     age: u16,
     is_married: bool,
     city: String,
@@ -21,6 +53,10 @@ struct Person {
 struct PersonFinal {
     id: u32,
     name: String,
+
+    #[serde(serialize_with = "date_serializer")]
+    dob: Option<NaiveDate>,
+
     age: u16,
     is_married: bool,
     city: String,
@@ -42,6 +78,7 @@ fn construct_person_obj(persons: Vec<Person>) -> Vec<PersonFinal> {
         let person_with_id = PersonFinal {
             id,
             name: person.name.to_string(),
+            dob: person.dob,
             age: person.age,
             is_married: person.is_married,
             city: person.city.to_string(),

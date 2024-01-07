@@ -10,12 +10,13 @@ The dataset is in the following format:
 
 ```json
 {
-    "name": "string",
-    "age": "integer",
-    "isMarried": "boolean",
-    "city": "string",
-    "state": "string",
-    "country": "string"
+  "name": "string",
+  "dob": "string",
+  "age": "integer",
+  "isMarried": "boolean",
+  "city": "string",
+  "state": "string",
+  "country": "string"
 }
 ```
 
@@ -24,27 +25,28 @@ The dataset is in the following format:
 The input CSV file is `./data/people.csv` with the following data.
 
 ```csv
-name,age,isMarried,city,state,country
-Michelle Lewis,49,true,San Borja,El Beni,Bolivia
-Jack Garrison,36,true,Lakeland North,Washington,United States
-Rebecca Hawkins,36,false,Houghton le Spring,Sunderland,United Kingdom
-Erik Nelson,53,true,Talagante,Region Metropolitana,Chile
-Stephanie Morgan,46,false,Shankou,Guangdong,China
-Daniel Prince,26,false,Audubon,Pennsylvania,United States
+name,dob,age,isMarried,city,state,country
+Michelle Lewis,,49,true,San Borja,El Beni,Bolivia
+Jack Garrison,05-01-1987,36,true,Lakeland North,Washington,United States
+Rebecca Hawkins,11-21-1987,36,false,Houghton le Spring,Sunderland,United Kingdom
+Erik Nelson,03-14-1970,53,true,Talagante,Region Metropolitana,Chile
+Stephanie Morgan,12-25-1977,46,false,Shankou,Guangdong,China
+Daniel Prince,02-02-1997,26,false,Audubon,Pennsylvania,United States
 ```
 
 ## Output
 
 The output is also a CSV file `./data/people_modified.csv` with an additional column `id` that has an incrementally rising integer ID for each person.
+Additionally the dob column is converted from mm-dd-yyyy format to yyyy-mm-dd format.
 
 ```csv
-id,name,age,isMarried,city,state,country
-1,Michelle Lewis,49,true,San Borja,El Beni,Bolivia
-2,Jack Garrison,36,true,Lakeland North,Washington,United States
-3,Rebecca Hawkins,36,false,Houghton le Spring,Sunderland,United Kingdom
-4,Erik Nelson,53,true,Talagante,Region Metropolitana,Chile
-5,Stephanie Morgan,46,false,Shankou,Guangdong,China
-6,Daniel Prince,26,false,Audubon,Pennsylvania,United States
+id,name,dob,age,isMarried,city,state,country
+1,Michelle Lewis,,49,true,San Borja,El Beni,Bolivia
+2,Jack Garrison,1987-05-01,36,true,Lakeland North,Washington,United States
+3,Rebecca Hawkins,1987-11-21,36,false,Houghton le Spring,Sunderland,United Kingdom
+4,Erik Nelson,1970-03-14,53,true,Talagante,Region Metropolitana,Chile
+5,Stephanie Morgan,1977-12-25,46,false,Shankou,Guangdong,China
+6,Daniel Prince,1997-02-02,26,false,Audubon,Pennsylvania,United States
 ```
 
 ## Setup
@@ -54,6 +56,7 @@ Install dependencies via Cargo. Note that because we perform CSV serialization/d
 ```bash
 cargo add csv
 cargo add serde --features derive
+cargo add chrono
 ```
 
 ## Run project
@@ -105,3 +108,4 @@ running 2 tests
 ..
 test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 ```
+

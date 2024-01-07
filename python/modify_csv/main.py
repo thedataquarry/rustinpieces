@@ -1,5 +1,9 @@
+from __future__ import annotations
+
 import csv
+from datetime import datetime
 from pathlib import Path
+from typing import Any
 
 
 def read_and_modify(filepath: Path):
@@ -7,9 +11,12 @@ def read_and_modify(filepath: Path):
     with open(filepath, "r") as f:
         reader = csv.DictReader(f)
         for i, item in enumerate(reader, 1):
-            new_item = dict()
+            new_item: dict[str, Any] = dict()
             new_item["id"] = i
             new_item["name"] = item["name"]
+            new_item["dob"] = (
+                datetime.strptime(item["dob"], "%m-%d-%Y").date() if item.get("dob") else None
+            )
             new_item["age"] = item["age"]
             new_item["isMarried"] = item["isMarried"]
             new_item["city"] = item["city"]
