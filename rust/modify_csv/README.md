@@ -4,7 +4,32 @@ Read in data from a CSV file and write it back to a new CSV file with modificati
 
 ## Goal
 
-In this project, we will add a new column to a CSV file that contains data on people, their age, marital status and the city, state and country they last visited. The goal is to write an integer `id` for each person, starting from 1 and incrementing by 1 for each person, and store that as a new CSV file.
+In this project, we will add a new column to a CSV file that contains data on people, their age,
+marital status and the city, state and country they last visited. The goal is to write an integer
+`id` for each person, starting from 1 and incrementing by 1 for each person, and store that as a new CSV file,
+and to convert the dob column from mm-dd-yyyy format to yyyy-mm-dd format.
+
+One difference you will notice between the Rust and Python versions in working with dates is in the
+Python version no external packages are required, while in Rust we install the
+[chrono](https://github.com/chronotope/chrono) crate to work with dates. Python is often referred to
+as a "batteries included" langage because it has a large standard library with a lot of functionality
+built in. Rust takes the opposite approach with a small standard library, requiring the use of
+external libraries, known as crates, to handle a lot of the functionality.
+
+Each of these approaches has it's own set of advantages and disadvantages. The Python approach makes
+things simple, you just need to import `datetime` and you are ready to go. The downside to this
+approach is new functioniality can only be added to the standard library modules at the realease of
+of new Python versions, which currently happens yearly. Additionally, older versions of Python will
+not be able to use the new functionality.
+
+Rust's apporach allows for more flexabiltiy and faster adding of features. This however means that
+you need to find external crates to handle a lot of functionality making things less straight forward.
+In this example we chose the chrono crate because it is currently the most popular option, but it
+is not the only option. We could have, for example, used the [time](https://github.com/time-rs/time)
+crate to achieve the same thing.
+
+One approach is not better than the other, it is just something you need to be aware of when moving
+between the two languages.
 
 The dataset is in the following format:
 
@@ -108,4 +133,3 @@ running 2 tests
 ..
 test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 ```
-
