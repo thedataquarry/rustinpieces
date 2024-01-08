@@ -3,6 +3,7 @@ from __future__ import annotations
 import csv
 from enum import Enum
 from pathlib import Path
+from typing import NamedTuple
 
 
 class AgeBracket(Enum):
@@ -10,6 +11,11 @@ class AgeBracket(Enum):
     YOUTH = "youth"
     ADULT = "adult"
     SENIOR = "senior"
+
+
+class DemographicCount(NamedTuple):
+    minors: int
+    adults: int
 
 
 class Person:
@@ -41,6 +47,19 @@ class Person:
         return AgeBracket.SENIOR
 
 
+def calculate_demographcs(persons: list[Person]) -> DemographicCount:
+    minors = 0
+    adults = 0
+
+    for person in persons:
+        if person.age_bracket in (AgeBracket.CHILD, AgeBracket.YOUTH):
+            minors += 1
+        else:
+            adults += 1
+
+    return DemographicCount(minors=minors, adults=adults)
+
+
 def load_csv(file_path: Path = Path("data/persons.csv")) -> list[Person]:
     persons = []
     with open(file_path) as f:
@@ -60,7 +79,8 @@ def load_csv(file_path: Path = Path("data/persons.csv")) -> list[Person]:
 
 def main() -> int:
     persons = load_csv()
-    print(persons[0].__dict__)
+    demographics = calculate_demographcs(persons)
+    print(demographics)
 
     return 0
 

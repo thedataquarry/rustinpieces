@@ -40,6 +40,33 @@ impl Person {
     }
 }
 
+#[derive(Debug)]
+#[allow(dead_code)]
+struct DemographicCount {
+    minors: usize,
+    adults: usize,
+}
+
+impl DemographicCount {
+    pub fn new(persons: &Vec<Person>) -> Self {
+        let mut minors = 0;
+        let mut adults = 0;
+
+        for person in persons {
+            if let Some(bracket) = &person.age_bracket {
+                match bracket {
+                    AgeBracket::Child => minors += 1,
+                    AgeBracket::Youth => minors += 1,
+                    AgeBracket::Adult => adults += 1,
+                    AgeBracket::Senior => adults += 1,
+                }
+            }
+        }
+
+        DemographicCount { minors, adults }
+    }
+}
+
 fn load_csv(file_path: &Path) -> Result<Vec<Person>, Box<dyn std::error::Error>> {
     let contents = fs::read_to_string(file_path).expect("Unable to read from CSV");
     let mut reader = csv::Reader::from_reader(contents.as_bytes());
@@ -55,9 +82,8 @@ fn load_csv(file_path: &Path) -> Result<Vec<Person>, Box<dyn std::error::Error>>
 fn main() {
     let file_path = Path::new("data/persons.csv");
     let persons = load_csv(file_path).expect("Unable to read/open CSV");
-    for person in persons {
-        println!("{:?}", person);
-    }
+    let demographics = DemographicCount::new(&persons);
+    println!("{:?}", demographics);
 }
 
 #[cfg(test)]
@@ -93,107 +119,51 @@ mod tests {
         }
     }
 
-    /* #[test]
-    fn test_age_bracket_none() {
-        let mut person = Person {
-            id: Some(1),
-            age: None,
-            age_bracket: None,
-        };
-        person.set_age_bracket();
-
-        assert_eq!(person.age_bracket, None);
-    }
-
-    #[test]
-    fn test_age_bracket_child_min() {
-        let mut person = Person {
-            id: Some(1),
-            age: Some(1),
-            age_bracket: None,
-        };
-        person.set_age_bracket();
-
-        assert_eq!(person.age_bracket, Some(AgeBracket::Child));
-    }
-
-    #[test]
-    fn test_age_bracket_child_max() {
-        let mut person = Person {
-            id: Some(1),
-            age: Some(12),
-            age_bracket: None,
-        };
-        person.set_age_bracket();
-
-        assert_eq!(person.age_bracket, Some(AgeBracket::Child));
-    }
-
-    #[test]
-    fn test_age_bracket_youth_min() {
-        let mut person = Person {
-            id: Some(1),
-            age: Some(13),
-            age_bracket: None,
-        };
-        person.set_age_bracket();
-
-        assert_eq!(person.age_bracket, Some(AgeBracket::Youth));
-    }
-
-    #[test]
-    fn test_age_bracket_youth_max() {
-        let mut person = Person {
-            id: Some(1),
-            age: Some(17),
-            age_bracket: None,
-        };
-        person.set_age_bracket();
-
-        assert_eq!(person.age_bracket, Some(AgeBracket::Youth));
-    }
-
-    #[test]
-    fn test_age_bracket_adult_min() {
-        let mut person = Person {
-            id: Some(1),
-            age: Some(18),
-            age_bracket: None,
-        };
-        person.set_age_bracket();
-
-        assert_eq!(person.age_bracket, Some(AgeBracket::Adult));
-    }
-
-    #[test]
-    fn test_age_bracket_adult_max() {
-        let mut person = Person {
-            id: Some(1),
-            age: Some(59),
-            age_bracket: None,
-        };
-        person.set_age_bracket();
-
-        assert_eq!(person.age_bracket, Some(AgeBracket::Adult));
-    }
-
-    #[test]
-    fn test_age_bracket_senior() {
-        let mut person = Person {
-            id: Some(1),
-            age: Some(60),
-            age_bracket: None,
-        };
-        person.set_age_bracket();
-
-        assert_eq!(person.age_bracket, Some(AgeBracket::Senior));
-    } */
-
     #[test]
     fn test_construct_person_obj() {
         let file_path = Path::new("data/persons.csv");
         let persons = load_csv(file_path).unwrap();
         assert_eq!(persons.len(), 10);
         assert_eq!(persons[0].id, Some(1));
+    }
+
+    #[test]
+    fn test_calculate_demographics() {
+        let persons = vec![
+            Person {
+                id: Some(1),
+                name: Some("Arthur Dent".to_string()),
+                age: Some(28),
+                age_bracket: Some(AgeBracket::Adult),
+            },
+            Person {
+                id: Some(2),
+                name: Some("Ford Prefect".to_string()),
+                age: Some(72),
+                age_bracket: Some(AgeBracket::Senior),
+            },
+            Person {
+                id: Some(3),
+                name: Some("Trillian".to_string()),
+                age: Some(28),
+                age_bracket: Some(AgeBracket::Adult),
+            },
+            Person {
+                id: Some(4),
+                name: Some("Marvin".to_string()),
+                age: Some(2),
+                age_bracket: Some(AgeBracket::Child),
+            },
+            Person {
+                id: Some(5),
+                name: Some("Mr. Prosser".to_string()),
+                age: Some(14),
+                age_bracket: Some(AgeBracket::Youth),
+            },
+        ];
+        let demographics = DemographicCount::new(&persons);
+
+        assert_eq!(demographics.minors, 2);
+        assert_eq!(demographics.adults, 3);
     }
 }
