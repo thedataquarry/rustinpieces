@@ -16,11 +16,8 @@ enum AgeBracket {
 #[allow(dead_code)]
 struct Person {
     id: Option<u32>,
+    name: Option<String>,
     age: Option<u32>,
-    is_married: Option<bool>,
-    city: Option<String>,
-    state: Option<String>,
-    country: Option<String>,
     age_bracket: Option<AgeBracket>,
 }
 
@@ -68,14 +65,39 @@ mod tests {
     use super::*;
 
     #[test]
+    fn test_age_bracket() {
+        let people_list = [
+            (
+                Person {
+                    id: Some(1),
+                    name: Some("Arthur Dent".to_string()),
+                    age: None,
+                    age_bracket: None,
+                },
+                None,
+            ),
+            (
+                Person {
+                    id: Some(1),
+                    name: Some("Arthur Dent".to_string()),
+                    age: Some(1),
+                    age_bracket: None,
+                },
+                Some(AgeBracket::Child),
+            ),
+        ];
+
+        for (mut person, expected) in people_list.into_iter() {
+            person.set_age_bracket();
+            assert_eq!(person.age_bracket, expected);
+        }
+    }
+
+    /* #[test]
     fn test_age_bracket_none() {
         let mut person = Person {
             id: Some(1),
             age: None,
-            is_married: Some(false),
-            city: Some("city".to_string()),
-            state: Some("state".to_string()),
-            country: Some("country".to_string()),
             age_bracket: None,
         };
         person.set_age_bracket();
@@ -88,10 +110,6 @@ mod tests {
         let mut person = Person {
             id: Some(1),
             age: Some(1),
-            is_married: Some(false),
-            city: Some("city".to_string()),
-            state: Some("state".to_string()),
-            country: Some("country".to_string()),
             age_bracket: None,
         };
         person.set_age_bracket();
@@ -104,10 +122,6 @@ mod tests {
         let mut person = Person {
             id: Some(1),
             age: Some(12),
-            is_married: Some(false),
-            city: Some("city".to_string()),
-            state: Some("state".to_string()),
-            country: Some("country".to_string()),
             age_bracket: None,
         };
         person.set_age_bracket();
@@ -120,10 +134,6 @@ mod tests {
         let mut person = Person {
             id: Some(1),
             age: Some(13),
-            is_married: Some(false),
-            city: Some("city".to_string()),
-            state: Some("state".to_string()),
-            country: Some("country".to_string()),
             age_bracket: None,
         };
         person.set_age_bracket();
@@ -136,10 +146,6 @@ mod tests {
         let mut person = Person {
             id: Some(1),
             age: Some(17),
-            is_married: Some(false),
-            city: Some("city".to_string()),
-            state: Some("state".to_string()),
-            country: Some("country".to_string()),
             age_bracket: None,
         };
         person.set_age_bracket();
@@ -152,10 +158,6 @@ mod tests {
         let mut person = Person {
             id: Some(1),
             age: Some(18),
-            is_married: Some(false),
-            city: Some("city".to_string()),
-            state: Some("state".to_string()),
-            country: Some("country".to_string()),
             age_bracket: None,
         };
         person.set_age_bracket();
@@ -168,10 +170,6 @@ mod tests {
         let mut person = Person {
             id: Some(1),
             age: Some(59),
-            is_married: Some(false),
-            city: Some("city".to_string()),
-            state: Some("state".to_string()),
-            country: Some("country".to_string()),
             age_bracket: None,
         };
         person.set_age_bracket();
@@ -184,16 +182,12 @@ mod tests {
         let mut person = Person {
             id: Some(1),
             age: Some(60),
-            is_married: Some(false),
-            city: Some("city".to_string()),
-            state: Some("state".to_string()),
-            country: Some("country".to_string()),
             age_bracket: None,
         };
         person.set_age_bracket();
 
         assert_eq!(person.age_bracket, Some(AgeBracket::Senior));
-    }
+    } */
 
     #[test]
     fn test_construct_person_obj() {

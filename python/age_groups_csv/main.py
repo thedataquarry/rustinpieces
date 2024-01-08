@@ -16,18 +16,12 @@ class Person:
     def __init__(
         self,
         id: int | None,
+        name: str | None,
         age: int | None,
-        is_married: bool | None,
-        city: str | None,
-        state: str | None,
-        country: str | None,
     ):
         self.id = id
+        self.name = name
         self.age = age
-        self.is_married = is_married
-        self.city = city
-        self.state = state
-        self.country = country
         self.age_bracket = self._set_age_bracket(age)
 
     @staticmethod
@@ -53,19 +47,11 @@ def load_csv(file_path: Path = Path("data/persons.csv")) -> list[Person]:
         reader = csv.DictReader(f)
 
         for person in reader:
-            if not person.get("isMarried"):
-                is_married = None
-            else:
-                is_married = True if person["isMarried"].lower() == "true" else False
-
             persons.append(
                 Person(
                     id=int(person["id"]) if person.get("id") else None,
+                    name=person["name"] if person.get("name") else None,
                     age=int(person["age"]) if person.get("age") else None,
-                    is_married=is_married,
-                    city=person.get("city"),
-                    state=person.get("state"),
-                    country=person.get("country"),
                 )
             )
 

@@ -19,7 +19,7 @@ from main import AgeBracket, Person, load_csv
     ),
 )
 def test_age_bracket(age, expected):
-    person = Person(id=1, age=age, is_married=False, city="city", state="state", country="country")
+    person = Person(id=1, name="Arthur Dent", age=age)
     assert person.age_bracket == expected
 
 
