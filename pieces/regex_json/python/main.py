@@ -11,7 +11,6 @@ hyphenated_pattern = re.compile(r"\$(\d+\.?\d*)([KMB])?-?\$?(\d+\.?\d*)([KMB])?"
 
 
 def get_data() -> list[dict[str, Any]]:
-    data = []
     with open(Path("../data/companies.json"), "r") as f:
         data = json.load(f)
     return data
