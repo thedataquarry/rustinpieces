@@ -1,43 +1,46 @@
-# Categorize with Enums
+# Grouping and aggregation with Enums
 
-Read in data from a CSV file, add people to age categories, then agrigate the data according to groups.
+Read in data from a CSV file, add people to named age groups and calculate the number of minors and
+adults.
 
 ## Goal
 
-In this project, we will add users to age groups using enums. Users that are less than 13 years
-old will be placed in the child group, 13 to 17 year olds will be in the youth group, 18 to 59 will
-be in the adult group, and 60 or greater will be in the senior group. Once all the users are loaded
+In this project, we will organize people in age groups using enums or *enumerations*.
+People who are less than 13 years
+old will be placed in the "child" group, 13 to 17 year olds will be in the "youth" group, 18 to 59 will
+be in the "adult" group, and 60 or greater will be in the "senior" group. Once all the users are loaded
 and categorized, a count of minors (people in the child and youth groups), and adults (people in the
 adult and senior groups) will be calculated.
 
-Enum use in Python is fairly rare, while in Rust is is common to have multiple enums. The Goal
-of this project is to show one of the reasons they are so useful in Rust. Looking at the programs
-the reason will probably not be immediately obvious, in both cases the enums are used to restrict
-the `age_bracket` to specific values. Now lets say we decide to add a new geriatric value to the
-`AgeBracket` enum for people 80 and older, which also changes the senior group to 60 to 79 years
-old.
+Enums exist in Python but aren't as commonly used, while in Rust, their use is ubiquitous. The Goal
+of this project is to showcase some reasons why they are so useful in Rust. Looking at the code,
+the reason will probably not be immediately obvious -- in both cases the enums are used to restrict
+the `age_bracket` to specific values. Now, let's say we decide to add a new "geriatric" group for
+people 80 and older, which also modifies the senior group age range to 60 to 79 years old.
 
-To do this we need to add the new value to the enum, update the setting of the age bracket, and
-update the calculating of the demographics to include the new group. In the example here this update
-seems trivial, everything in is one file so what needs updating is fairly obvious. Let's imaging
-another scenario: you are new to a team working on an application with 100,000 lines of code, split
-into 25 modules, and the `AgeBracket` enum is used in 15 different places. In this real world
-scenario mistakes are much more likely.
+To do this, we need to add the new value to the enum, update the setting of the age bracket, and
+update the calculating of the demographics to include the new group. In the example here, this update
+is rather trivial as everything in is one file, and what needs updating is fairly obvious.Let's imagine
+another scenario in which the issues are much more serious: you are new to a team working on an
+application with 100,000 lines of code, split into 25 modules, and the `AgeBracket` enum is used in
+15 different places. In this real world scenario mistakes are much more likely.
 
-In the Python version imaging you add the geriatric value to the enum, then update all the places
-`AgeBracket` is used, but accidently miss updating `calculate_demographcs`. In this scenario the
-type checker, linter, and tests will all pass with no errors. The problem is `calculate_demographcs`
-will now ignore a whole group of people. The only way to know there is a problem is to notice the
-counts that use the `calculate_demographcs` results are incorrect, but if you knew to check this
-you probably wouldn't have missed the update in the first place.
+In Python, imagine you add the geriatric value to the enum, then update all the places
+`AgeBracket` is used, but accidentally miss updating the `calculate_demographics` function. In this scenario
+the type checker, linter, and tests will all pass with no errors. The problem is: `calculate_demographics`
+will now ignore a whole group of people, **returning incorrect results**. The only way to know there is a
+problem is to notice the counts that use the `calculate_demographics` results are incorrect, but if you
+knew to check this you probably wouldn't have missed the update in the first place.
 
-Now let's consider the same scenario in Rust. The `match` statement requires all values in an enum to
+Now, let's consider the same scenario in Rust. The `match` statement requires all values in an enum to
 be used. This means as soon as the geriatric group is added to the enum, the program will no longer
-compile until the geriactric group is added to the match statement in the calculation. With this,
-it is impossible to have the same problem that we had in the Python program, and the compiler will
-tell you exactly where you need to make updates.
+compile until the geriatric group is added to the match statement in the calculation. With Rust's strict
+type system, it is impossible to have the same problem that we had in the Python program, and the compiler will
+tell you *exactly* where you need to make updates, ensuring correctness in these scenarios.
 
-The dataset is in the following format:
+## Dataset
+
+The dataset is a CSV file in the following format:
 
 ```json
 {
@@ -67,7 +70,7 @@ id,name,age
 
 ## Output
 
-The results of the demographics calcuation will be printed to the screen.
+The results of the demographics calculation will be printed to the screen.
 
 ```console
 DemographicCount(minors=2, adults=8)
