@@ -7,5 +7,6 @@ members = [
     "rust/mock_data",
     "rust/postgres_etl",
     "rust/intro",
+    "rust/age_groups_csv",
 ]
 resolver = "1"
