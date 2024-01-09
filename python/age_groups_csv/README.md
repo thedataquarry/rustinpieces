@@ -5,16 +5,17 @@ Read in data from a CSV file, add people to age categories, then agrigate the da
 ## Goal
 
 In this project, we will add users to age groups using enums. Users that are less than 13 years
-old will be placed in the child group, 13 to 17 year olds will be in the youth group, 18 to 59 into
-the adult group, and 60 or greater will be in the senior group. Once all the users are loaded and
-categorized, a count of minors (people in the child and youth groups), and adults (people in the
+old will be placed in the child group, 13 to 17 year olds will be in the youth group, 18 to 59 will
+be in the adult group, and 60 or greater will be in the senior group. Once all the users are loaded
+and categorized, a count of minors (people in the child and youth groups), and adults (people in the
 adult and senior groups) will be calculated.
 
 Enum use in Python is fairly rare, while in Rust is is common to have multiple enums. The Goal
 of this project is to show one of the reasons they are so useful in Rust. Looking at the programs
-the reason will probably not be obvious, in both cases the enums are used to restrict the `age_bracket`
-to specific values. Now lets say we decide to add a new geriatric value to the `AgeBracket` enum
-for people 80 and older, which also changes the senior group to 60 to 79 years old.
+the reason will probably not be immediately obvious, in both cases the enums are used to restrict
+the `age_bracket` to specific values. Now lets say we decide to add a new geriatric value to the
+`AgeBracket` enum for people 80 and older, which also changes the senior group to 60 to 79 years
+old.
 
 To do this we need to add the new value to the enum, update the setting of the age bracket, and
 update the calculating of the demographics to include the new group. In the example here this update
