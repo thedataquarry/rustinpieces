@@ -1,7 +1,6 @@
 # Categorize with Enums
 
-Read in data from a CSV file, add people to age categories, then agrigate the data according to
-groups.
+Read in data from a CSV file, add people to age categories, then agrigate the data according to groups.
 
 ## Goal
 
@@ -70,67 +69,45 @@ id,name,age
 The results of the demographics calcuation will be printed to the screen.
 
 ```console
-DemographicCount { minors: 2, adults: 8 }
+DemographicCount(minors=2, adults=8)
 ```
 
 ## Setup
 
-Install dependencies via a Cargo. Note that because we perform CSV deserialization via `serde`, we
-need to install it using the features flag.
+Install dependencies via a virtual environment.
 
 ```bash
-cargo add csv
-cargo add serde --features derive
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
 ```
 
-## Run project
-
-The provided `Makefile` runs the formatter, linter, tests and the main file all in sequence.
+## Run script
 
 ```bash
-make all
-
-# Runs the following
-cargo fmt --quiet
-cargo clippy --quiet
-cargo test --quiet
-cargo run --quiet
+python main.py
 ```
 
-To run just the main file, use the following command.
+## Run tests
 
 ```bash
-make run
-# or, simply run via cargo
-cargo run --quiet
-```
+$ pytest -v
+==================================================================================== test session starts =====================================================================================
+platform linux -- Python 3.12.1, pytest-7.4.4, pluggy-1.3.0 -- /home/paul/development/rust/rustinpieces/python/age_groups_csv/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /home/paul/development/rust/rustinpieces/python/age_groups_csv
+collected 10 items
 
-## Run linter and formatter only
+test_main.py::test_age_bracket[1-AgeBracket.CHILD] PASSED                                                                                                                              [ 10%]
+test_main.py::test_age_bracket[12-AgeBracket.CHILD] PASSED                                                                                                                             [ 20%]
+test_main.py::test_age_bracket[13-AgeBracket.YOUTH] PASSED                                                                                                                             [ 30%]
+test_main.py::test_age_bracket[17-AgeBracket.YOUTH] PASSED                                                                                                                             [ 40%]
+test_main.py::test_age_bracket[18-AgeBracket.ADULT] PASSED                                                                                                                             [ 50%]
+test_main.py::test_age_bracket[59-AgeBracket.ADULT] PASSED                                                                                                                             [ 60%]
+test_main.py::test_age_bracket[60-AgeBracket.SENIOR] PASSED                                                                                                                            [ 70%]
+test_main.py::test_age_bracket[None-None] PASSED                                                                                                                                       [ 80%]
+test_main.py::test_construct_person_obj PASSED                                                                                                                                         [ 90%]
+test_main.py::test_calculate_demographcs PASSED                                                                                                                                        [100%]
 
-Cargo provides out-of-the-box for formatting (`cargo fmt`) and linting (`cargo clippy`). The
-following command runs both. It's highly recommended to run both prior to pushing Rust code to a
-repository.
-
-```bash
-make format
-make lint
-# Runs the following
-cargo fmt --quiet
-cargo clippy --quiet
-```
-
-## Run tests only
-
-Using Rust's inbuilt client, tests can either be within `main.rs` or in a separate file
-`test_main.rs` made accessible to `main.rs` via `mod test_main`.
-
-Tests are run using `make test` or `cargo test --quiet`.
-
-```bash
-make test
-cargo test --quiet
-
-running 3 tests
-...
-test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+===================================================================================== 10 passed in 0.01s =====================================================================================
 ```
