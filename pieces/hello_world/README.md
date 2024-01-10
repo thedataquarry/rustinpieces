@@ -35,4 +35,3 @@ make run
 ```console
 Hello, world!
 ```
-
