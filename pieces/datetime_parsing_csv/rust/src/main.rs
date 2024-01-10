@@ -99,7 +99,11 @@ fn write_csv(persons_modified: Vec<PersonFinal>, output_path: &Path) {
     let mut file = fs::File::create(output_path).expect("Unable to create file for writer");
     file.write_all(result.as_slice())
         .expect("Unable to write to output CSV file");
-    println!("Wrote {} records to {}", persons_modified.len(), output_path.display());
+    println!(
+        "Wrote {} records to {}",
+        persons_modified.len(),
+        output_path.display()
+    );
 }
 
 fn main() {

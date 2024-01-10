@@ -1,7 +1,7 @@
 use dotenvy::dotenv;
 use rand::{rngs::StdRng, Rng, SeedableRng};
 use serde::Serialize;
-use sqlx::{PgPool, postgres::PgPoolOptions};
+use sqlx::{postgres::PgPoolOptions, PgPool};
 
 #[derive(Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -52,7 +52,11 @@ async fn main() -> Result<(), sqlx::Error> {
     // Obtain connection
     let pg_uri = dotenvy::var("DATABASE_URL").unwrap();
     // let pool = Arc::new(PgPool::connect(&pg_uri).await.unwrap());
-    let pool = PgPoolOptions::new().min_connections(5).max_connections(5).connect(&pg_uri).await?;
+    let pool = PgPoolOptions::new()
+        .min_connections(5)
+        .max_connections(5)
+        .connect(&pg_uri)
+        .await?;
 
     let ages = get_age_limits().await;
     let mut tasks = Vec::new();
@@ -77,22 +81,22 @@ mod tests {
     pub async fn get_pool() -> PgPool {
         dotenv().ok();
         let pg_uri = dotenvy::var("DATABASE_URL").expect("Invalid DB URI");
-        PgPoolOptions::new().min_connections(5).max_connections(5).connect(&pg_uri)
+        PgPoolOptions::new()
+            .min_connections(5)
+            .max_connections(5)
+            .connect(&pg_uri)
             .await
             .expect("Could not connect to DB")
     }
-    
+
     #[sqlx::test]
     async fn test_summary_query() {
         let pool = get_pool().await;
         let query = sqlx::query!("SELECT COUNT(*) AS count FROM persons");
-        let result = query
-            .fetch_one(&pool)
-            .await
-            .expect("Query did not execute");
+        let result = query.fetch_one(&pool).await.expect("Query did not execute");
         assert!(result.count.unwrap() > 0);
     }
-    
+
     #[sqlx::test]
     async fn test_perf_query() {
         let pool = get_pool().await;
@@ -100,8 +104,7 @@ mod tests {
         let ages: Vec<i16> = (0..1000).map(|_| rng.gen_range(22..65)).collect();
         // This is a template test: in a real situation, we'd measure more meaningful counts
         for age in ages {
-            let result = super::perf_query(pool.clone(), age)
-                .await;
+            let result = super::perf_query(pool.clone(), age).await;
             assert!(result.is_ok());
         }
     }

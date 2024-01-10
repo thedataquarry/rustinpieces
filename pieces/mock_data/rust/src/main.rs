@@ -130,7 +130,7 @@ mod tests {
     #[test]
     fn test_read_cities() {
         let path = Path::new("../data/worldcities.csv");
-        let cities = super::read_cities(&path);
+        let cities = super::read_cities(path);
         assert_eq!(cities.len(), 44691);
     }
 
@@ -139,10 +139,10 @@ mod tests {
         let age_lower = 18;
         let age_upper = 65;
         let path = Path::new("../data/worldcities.csv");
-        let locations = super::read_cities(&path);
+        let locations = super::read_cities(path);
         let person = super::construct_person(&locations, 1);
         assert!(person.id > 0);
-        assert!(person.name.split(" ").count() > 1);
+        assert!(person.name.split(' ').count() > 1);
         assert!(age_lower <= person.age && person.age <= age_upper);
     }
 }
