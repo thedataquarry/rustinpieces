@@ -101,7 +101,7 @@ $ pytest -v
 platform darwin -- Python 3.11.7, pytest-7.4.4, pluggy-1.3.0 -- /Users/prrao/code/rustinpieces/.venv/bin/python3.11
 cachedir: .pytest_cache
 rootdir: /Users/prrao/code/rustinpieces/pieces/datetime_parsing_csv/python
-collected 3 items                                                                                                                                                                                                           
+collected 3 items
 
 test_main.py::test_modify_fields PASSED                                                                                                                                                                               [ 33%]
 test_main.py::test_read_and_modify PASSED                                                                                                                                                                             [ 66%]
@@ -129,8 +129,9 @@ The provided `Makefile` runs the formatter, linter, tests and the main file all 
 make all
 
 # Runs the following
-cargo fmt --quiet
-cargo clippy --quiet
+cargo fmt --all --quiet
+cargo check --all-targets --quiet
+cargo clippy --all-targets --quiet
 cargo test --quiet
 cargo run --quiet
 ```
@@ -145,16 +146,19 @@ cargo run --quiet
 
 ### Run linter and formatter only
 
-Cargo provides out-of-the-box for formatting (`cargo fmt`) and linting (`cargo clippy`). The
-following command runs both. It's highly recommended to run both prior to pushing Rust code to a
+Cargo provides out-of-the-box for formatting (`cargo fmt --all`), compile checks (`cargo check --all-targets`),
+and linting (`cargo clippy --all-targets`). The following command runs both. It's highly recommended
+to run both prior to pushing Rust code to a
 repository.
 
 ```bash
 make format
+make check
 make lint
 # Runs the following
-cargo fmt --quiet
-cargo clippy --quiet
+cargo fmt --all --quiet
+cargo check --all-targets --quiet
+cargo clippy --all-targets --quiet
 ```
 
 ## Run tests only

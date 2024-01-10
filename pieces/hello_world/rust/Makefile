@@ -1,8 +1,11 @@
 format:
-	cargo fmt --quiet
+	cargo fmt --all --quiet
+
+check:
+	cargo check --all-targets --quiet
 
 lint:
-	cargo clippy --quiet
+	cargo clippy --all-targets --quiet
 
 test:
 	cargo test --quiet
@@ -10,4 +13,4 @@ test:
 run:
 	cargo run --quiet
 
-all: format lint test run
+all: format check lint test run

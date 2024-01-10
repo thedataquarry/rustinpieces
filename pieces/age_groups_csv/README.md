@@ -134,8 +134,9 @@ The provided `Makefile` runs the formatter, linter, tests and the main file all 
 make all
 
 # Runs the following
-cargo fmt --quiet
-cargo clippy --quiet
+cargo fmt --all --quiet
+cargo check --all-targets --quiet
+cargo clippy --all-targets --quiet
 cargo test --quiet
 cargo run --quiet
 ```
@@ -158,16 +159,18 @@ DemographicCount { minors: 2, adults: 8 }
 
 ### Run linter and formatter only
 
-Cargo provides out-of-the-box for formatting (`cargo fmt`) and linting (`cargo clippy`). The
-following command runs both. It's highly recommended to run both prior to pushing Rust code to a
-repository.
+Cargo provides out-of-the-box for formatting (`cargo fmt --all`), compile checks (`cargo check --all-targets`),
+and linting (`cargo clippy --all-targets`). The following command runs all. It's highly recommended
+to run both prior to pushing Rust code to a repository.
 
 ```bash
 make format
+make check
 make lint
 # Runs the following
-cargo fmt --quiet
-cargo clippy --quiet
+cargo fmt --all --quiet
+cargo check --all-targets --quiet
+cargo clippy --all-targets --quiet
 ```
 
 ### Run tests only

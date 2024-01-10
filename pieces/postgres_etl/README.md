@@ -128,8 +128,9 @@ The provided `Makefile` runs the formatter, linter, tests for `main.rs` file all
 make all
 
 # Runs the following
-cargo fmt --quiet
-cargo clippy --quiet
+cargo fmt --all --quiet
+cargo check --all-targets --quiet
+cargo clippy --all-targets --quiet
 cargo test --quiet
 cargo run --quiet
 ```
