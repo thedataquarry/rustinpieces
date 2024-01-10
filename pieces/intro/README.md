@@ -7,14 +7,16 @@ to those in Rust.
 
 The following basic concepts (with their rough equivalents in Rust) are illustrated in this code:
 
-Python | Rust
-:--- | :---
-Protocols/special methods | Traits
-Enumerate | Enumerate
-Zip | Zip
-Tuple | Tuples
-Lambdas | Closures
-List comprehensions | Map/filter
+| Python                    | Rust       |
+| :------------------------ | :--------- |
+| Protocols/special methods | Traits     |
+| Enumerate                 | Enumerate  |
+| Zip                       | Zip        |
+| Tuple                     | Tuples     |
+| Lambdas                   | Closures   |
+| List comprehensions       | Map/filter |
+| dict                      | HashMap    |
+| set                       | HashSet    |
 
 We start with defining a simple data structure, `Person` (a `class` in Python and a `struct` in Rust with an `impl` block). The `Person` has a name and an age. We then
 define a list of `Person` objects, and use the above constructs to illustrate how to work with
@@ -73,3 +75,23 @@ cargo run
 
 Once you read the Python code, take a look at the equivalent Rust code and hopefully, you'll start
 appreciating some of the similarities!
+
+### Differences to be aware of
+
+In Python dictionaries and sets you can have a mix of types, however in Rust all of the types have
+to be the same. Using dictionaries as an example:
+
+#### Python
+
+```py
+example = {"first": "a value", "second": 1}  # This is fine in Python
+```
+
+#### Rust
+
+```rs
+let mut example = HashMap::new();
+example.insert("first", "a value");
+// This will cause a compiler error because the first value entered set the type as HashMap<&str, &str>
+example.insert("second", 1);
+```

@@ -89,7 +89,9 @@ def run5() -> None:
     persons = [Person("Aiko", 41), Person("Rohan", 18)]
     sorted_by_age = sorted(persons, key=lambda person: person.age)
     youngest_person = sorted_by_age[0]
-    print(f"{youngest_person.name} is the youngest person at {youngest_person.age} years old")
+    print(
+        f"{youngest_person.name} is the youngest person at {youngest_person.age} years old"
+    )
     """
     Rohan is the youngest person at 18 years old
     """
@@ -117,11 +119,42 @@ def run7() -> None:
     """
     persons = [Person("Issa", 39), Person("Ibrahim", 26)]
     persons_born_after_1995 = [
-        (person.name, person.age) for person in persons if approx_year_of_birth(person) > 1995
+        (person.name, person.age)
+        for person in persons
+        if approx_year_of_birth(person) > 1995
     ]
     print(f"Persons born after 1995: {persons_born_after_1995}")
     """
     Persons born after 1995: [('Ibrahim', 26)]
+    """
+
+
+def run8() -> None:
+    """
+    8. dicts
+    """
+    persons = {
+        "youngest": Person("Samantha", 19),
+        "middle": Person("Wade", 20),
+        "oldest": Person("James", 65),
+    }
+
+    print(f"All people: {persons}")
+    print(f"Youngest person: {persons['youngest']}")
+    """
+    All people: {'youngest': Person: Samantha, 19, 'middle': Person: Wade, 20, 'oldest': Person: James, 65}
+    Youngest person: Samantha is 19 years old
+    """
+
+
+def run9() -> None:
+    names = {"Jack", "Rasalom", "Gia"}
+    names.add("Rasalom")
+    names.add("Gia")
+
+    print(names)
+    """
+    {'Jack', 'Rasalom', 'Gia'}
     """
 
 
@@ -133,6 +166,8 @@ def main() -> None:
     run5()
     run6()
     run7()
+    run8()
+    run9()
 
 
 if __name__ == "__main__":

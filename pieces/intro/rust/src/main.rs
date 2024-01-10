@@ -1,4 +1,5 @@
 use chrono::prelude::*;
+use std::collections::{HashMap, HashSet};
 use std::fmt;
 
 // --- Structs and implementations ---
@@ -139,6 +140,36 @@ fn run7() {
     */
 }
 
+// 8. HashMap
+fn run8() {
+    let mut persons = HashMap::new();
+    persons.insert("youngest", Person::new("Samantha", 19));
+    persons.insert("middle", Person::new("Wade", 20));
+    persons.insert("oldest", Person::new("James", 65));
+
+    println!("All people: {:?}", persons);
+    println!("Youngest person: {:?}", persons.get("youngest"));
+    /*
+    All people: {"youngest": Person: Samantha, 19, "middle": Person: Wade, 20, "oldest": Person: James, 65}
+    Youngest person: Some(Person: Samantha, 19)
+    */
+}
+
+// 9. HashSet
+fn run9() {
+    let mut names = HashSet::new();
+    names.insert("Jack");
+    names.insert("Rasalom");
+    names.insert("Gia");
+    names.insert("Rasalom");
+    names.insert("Gia");
+
+    println!("{:?}", names);
+    /*
+    {"Gia", "Jack", "Rasalom"}
+    */
+}
+
 fn main() {
     run1();
     run2();
@@ -147,4 +178,6 @@ fn main() {
     run5();
     run6();
     run7();
+    run8();
+    run9();
 }
