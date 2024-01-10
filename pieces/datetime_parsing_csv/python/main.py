@@ -49,6 +49,7 @@ def main() -> None:
     persons_modified = read_and_modify(file_path)
     output_path = Path("../data/persons_modified.csv")
     write_csv(persons_modified, output_path)
+    print(f"Wrote {len(persons_modified)} records to {str(output_path)}")
 
 
 if __name__ == "__main__":
