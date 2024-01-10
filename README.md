@@ -19,7 +19,7 @@ Each *piece* is a small project that's implemented in both Python and Rust. The 
 - [x] Data structures and constructs
 
 ### File handling
-- [ ] Simple CSV
+- [x] Simple CSV
 - [x] Regex JSON
 - [x] Mock data generation CSV
 - [x] Age groups CSV
