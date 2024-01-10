@@ -105,7 +105,8 @@ are subject to floating point errors, so approximate comparisons are required).
 ```bash
 cargo add csv
 cargo add serde --features derive
-cargo add approx
+# Only add the approx crate for testing with the --dev flag
+cargo add --dev approx
 ```
 
 ### Run project
