@@ -142,31 +142,57 @@ fn run7() {
 
 // 8. HashMap
 fn run8() {
-    let mut persons = HashMap::new();
-    persons.insert("youngest", Person::new("Samantha", 19));
-    persons.insert("middle", Person::new("Wade", 20));
-    persons.insert("oldest", Person::new("James", 65));
+    let mut processors = HashMap::new();
+    processors.insert("13900KS", "Intel Core i9");
+    processors.insert("13700K", "Intel Core i7");
+    processors.insert("13600K", "Intel Core i5");
+    processors.insert("1800X", "AMD Ryzen 7");
+    processors.insert("1600X", "AMD Ryzen 5");
+    processors.insert("1300X", "AMD Ryzen 3");
 
-    println!("All people: {:?}", persons);
-    println!("Youngest person: {:?}", persons.get("youngest"));
+    println!("All processors {:?}", processors);
+    println!(
+        "Processor 13600K information by key: {:?}",
+        processors.get("13600K")
+    );
+    for (k, v) in processors {
+        if v.to_lowercase() == "amd ryzen 3" {
+            println!("Processor AMD Ryzen 3 information by value: {}: {}", k, v);
+            break;
+        }
+    }
+
+    /*for k, v in processors.items():
+    if v.lower() == "amd ryzen 3":
+        print(f"Processor AMD Ryzen 3 information by value: {k}: {v}")
+        break*/
     /*
-    All people: {"youngest": Person: Samantha, 19, "middle": Person: Wade, 20, "oldest": Person: James, 65}
-    Youngest person: Some(Person: Samantha, 19)
+    All processors {"13900KS": "Intel Core i9", "13600K": "Intel Core i5", "13700K": "Intel Core i7", "1600X": "AMD Ryzen 5", "1300X": "AMD Ryzen 3", "1800X": "AMD Ryzen 7"}
+    Processor 13600K information by key: Some("Intel Core i5")
+    Processor AMD Ryzen 3 information by value: 1300X: AMD Ryzen 3
     */
 }
 
 // 9. HashSet
 fn run9() {
-    let mut names = HashSet::new();
-    names.insert("Jack");
-    names.insert("Rasalom");
-    names.insert("Gia");
-    names.insert("Rasalom");
-    names.insert("Gia");
+    let mut processors = HashSet::new();
+    processors.insert("Intel Core i9");
+    processors.insert("Intel Core i7");
+    processors.insert("Intel Core i5");
+    processors.insert("AMD Ryzen 7");
+    processors.insert("AMD Ryzen 5");
+    processors.insert("AMD Ryzen 3");
 
-    println!("{:?}", names);
+    println!("{:?}", processors);
+    for processor in processors {
+        if processor.to_lowercase() == "amd ryzen 3" {
+            println!("{:?}", processor);
+            break;
+        }
+    }
     /*
-    {"Gia", "Jack", "Rasalom"}
+    {"AMD Ryzen 7", "Intel Core i5", "AMD Ryzen 5", "AMD Ryzen 3", "Intel Core i9", "Intel Core i7"}
+    "AMD Ryzen 3"
     */
 }
 

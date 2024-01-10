@@ -133,28 +133,48 @@ def run8() -> None:
     """
     8. dicts
     """
-    persons = {
-        "youngest": Person("Samantha", 19),
-        "middle": Person("Wade", 20),
-        "oldest": Person("James", 65),
+    processors = {
+        "13900KS": "Intel Core i9",
+        "13700K": "Intel Core i7",
+        "13600K": "Intel Core i5",
+        "1800X": "AMD Ryzen 7",
+        "1600X": "AMD Ryzen 5",
+        "1300X": "AMD Ryzen 3",
     }
 
-    print(f"All people: {persons}")
-    print(f"Youngest person: {persons['youngest']}")
+    print(f"All processors: {processors}")
+    print(f"Processor 13600K information by key: {processors['13600K']}")
+    for k, v in processors.items():
+        if v.lower() == "amd ryzen 3":
+            print(f"Processor AMD Ryzen 3 information by value: {k}: {v}")
+            break
     """
-    All people: {'youngest': Person: Samantha, 19, 'middle': Person: Wade, 20, 'oldest': Person: James, 65}
-    Youngest person: Samantha is 19 years old
+    All processors: {'13900KS': 'Intel Core i9', '13700K': 'Intel Core i7', '13600K': 'Intel Core i5', '1800X': 'AMD Ryzen 7', '1600X': 'AMD Ryzen 5', '1300X': 'AMD Ryzen 3'}
+    Processor 13600K information by key: Intel Core i5
+    Processor AMD Ryzen 3 information by value: 1300X: AMD Ryzen 3
     """
 
 
 def run9() -> None:
-    names = {"Jack", "Rasalom", "Gia"}
-    names.add("Rasalom")
-    names.add("Gia")
+    processors = {
+        "Intel Core i9",
+        "Intel Core i7",
+        "Intel Core i5",
+        "AMD Ryzen 7",
+        "AMD Ryzen 5",
+        "AMD Ryzen 3",
+    }
+    processors.add("Intel Core i7")
+    processors.add("AMD Ryzen 5")
 
-    print(names)
+    print(processors)
+    for processor in processors:
+        if processor.lower() == "amd ryzen 3":
+            print(processor)
+            break
     """
-    {'Jack', 'Rasalom', 'Gia'}
+    {'Intel Core i5', 'AMD Ryzen 3', 'Intel Core i7', 'AMD Ryzen 5', 'Intel Core i9', 'AMD Ryzen 7'}
+    AMD Ryzen 3
     """
 
 
