@@ -1,12 +1,12 @@
 [workspace]
 
 members = [
-    "rust/hello_world",
-    "rust/regex_json",
-    "rust/datetime_parsing_csv",
-    "rust/mock_data",
-    "rust/postgres_etl",
-    "rust/intro",
-    "rust/age_groups_csv",
+  "pieces/age_groups_csv/rust",
+  "pieces/datetime_parsing_csv/rust",
+  "pieces/hello_world/rust",
+  "pieces/intro/rust",
+  "pieces/mock_data/rust",
+  "pieces/postgres_etl/rust",
+  "pieces/regex_json/rust",
 ]
-resolver = "1"
+resolver = "2"
