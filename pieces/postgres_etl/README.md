@@ -4,7 +4,7 @@ Insert data into a Postgres table and measure the performance of the async clien
 
 ## Goal
 
-In this project, we will use `asyncpg` in Python and the `sqlx` crate in Rust to load a tabular
+In this piece, we will use `asyncpg` in Python and the `sqlx` crate in Rust to load a tabular
 dataset containing a million people, their age, marital status and the city, state and country they
 last visited into a Postgres table. We will then measure the throughput of up to 1000 async queries
 to the table.
@@ -158,8 +158,7 @@ cargo run -- 1000
 
 ### Run tests
 
-Using Rust's inbuilt client, tests can either be within `main.rs` or in a separate file
-`test_main.rs` made accessible to `main.rs` via `mod test_main`.
+The Rust in-built test client allows tests to be defined within the same file as the code being tested. Because Rust is a compiled language, the compiler will know to ignore the tests when building the final binary for runtime.
 
 Tests are run using `make test` or `cargo test --quiet`.
 

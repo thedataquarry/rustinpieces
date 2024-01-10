@@ -1,6 +1,6 @@
 # Modify a CSV file
 
-Read in data from a CSV file and write it back to a new CSV file with modifications.
+Read in data from a CSV file with datetimes and write it back to a new CSV file with modified datetimes.
 
 ## Goal
 
@@ -97,17 +97,17 @@ python main.py
 
 ```bash
 $ pytest -v
-================================================================== test session starts ===================================================================
-platform darwin -- Python 3.11.6, pytest-7.4.3, pluggy-1.3.0 -- /Users/prrao/.pyenv/versions/3.11.6/bin/python3.11
+==================================================================================================== test session starts ====================================================================================================
+platform darwin -- Python 3.11.7, pytest-7.4.4, pluggy-1.3.0 -- /Users/prrao/code/rustinpieces/.venv/bin/python3.11
 cachedir: .pytest_cache
-rootdir: /code/rustinpieces/python/modify_csv
-plugins: anyio-4.0.0, Faker-21.0.0
-collected 2 items
+rootdir: /Users/prrao/code/rustinpieces/pieces/datetime_parsing_csv/python
+collected 3 items                                                                                                                                                                                                           
 
-test_main.py::test_read_and_modify PASSED                                                                                                          [ 50%]
-test_main.py::test_write_csv PASSED                                                                                                                [100%]
+test_main.py::test_modify_fields PASSED                                                                                                                                                                               [ 33%]
+test_main.py::test_read_and_modify PASSED                                                                                                                                                                             [ 66%]
+test_main.py::test_write_csv PASSED                                                                                                                                                                                   [100%]
 
-=================================================================== 2 passed in 0.02s ====================================================================
+===================================================================================================== 3 passed in 0.01s =====================================================================================================
 ```
 
 ## Rust Setup
@@ -159,8 +159,7 @@ cargo clippy --quiet
 
 ## Run tests only
 
-Using Rust's inbuilt client, tests can either be within `main.rs` or in a separate file
-`test_main.rs` made accessible to `main.rs` via `mod test_main`.
+The Rust in-built test client allows tests to be defined within the same file as the code being tested. Because Rust is a compiled language, the compiler will know to ignore the tests when building the final binary for runtime.
 
 Tests are run using `make test` or `cargo test --quiet`.
 
@@ -169,7 +168,7 @@ make test
 cargo test --quiet
 
 
-running 2 tests
-..
-test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+running 3 tests
+...
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 ```

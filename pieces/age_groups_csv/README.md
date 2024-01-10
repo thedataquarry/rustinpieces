@@ -12,7 +12,7 @@ be in the "adult" group, and 60 or greater will be in the "senior" group. Once a
 and categorized, a count of minors (people in the child and youth groups), and adults (people in the
 adult and senior groups) will be calculated.
 
-Enums exist in Python but aren't as commonly used, while in Rust, their use is ubiquitous. The Goal
+Enums exist in Python but aren't as commonly used, while in Rust, their use is ubiquitous. The goal
 of this project is to showcase some reasons why they are so useful in Rust. Looking at the code,
 the reason will probably not be immediately obvious -- in both cases the enums are used to restrict
 the `age_bracket` to specific values. Now, let's say we decide to add a new "geriatric" group for
@@ -172,8 +172,7 @@ cargo clippy --quiet
 
 ### Run tests only
 
-Using Rust's inbuilt client, tests can either be within `main.rs` or in a separate file
-`test_main.rs` made accessible to `main.rs` via `mod test_main`.
+The Rust in-built test client allows tests to be defined within the same file as the code being tested. Because Rust is a compiled language, the compiler will know to ignore the tests when building the final binary for runtime.
 
 Tests are run using `make test` or `cargo test --quiet`.
 
@@ -182,6 +181,9 @@ make test
 cargo test --quiet
 
 running 3 tests
-...
+test tests::test_age_bracket ... ok
+test tests::test_calculate_demographics ... ok
+test tests::test_construct_person_obj ... ok
+
 test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 ```

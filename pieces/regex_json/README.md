@@ -1,11 +1,15 @@
 # Regex parsing from JSON
 
-Converting string values of annual revenue into floats via regex patterns.
+Read in data from a JSON file, and convert the string values of annual revenue into
+floats via captured regex patterns.
 
 ## Goal
 
 The aim of this project is to convert a dataset of JSON blobs containing string values of companies'
 annual revenue in dollars to their float ranges of lower/upper bounds using regex pattern matching.
+
+An example scenario where this might be useful is to convert a dataset of companies and
+their annual revenues into a form that can be queried easily in a SQL or NoSQL database downstream (the original data in raw string format cannot be easily queried).
 
 ## Sample input
 
@@ -40,7 +44,7 @@ or NoSQL database downstream.
 > [!NOTE]
 > It's assumed that the annual revenue field from the incoming data is always in the format of
 > `$<lower><unit>-$<upper><unit>` where `<lower>` and `<upper>` are numbers and `<unit>` is a
-> multiplier that's one of `K`, `M`, or `B`, representing a thousand, million or billion respectively.
+> multiplier that's one of `K`, `M`, or `B`, representing a thousand, million or billion respectively. For simplicity, we do not deal with missing values in this example.
 
 ## Python Setup
 
@@ -185,8 +189,7 @@ cargo clippy --quiet
 
 ### Run tests only
 
-Using Rust's inbuilt client, tests can either be within `main.rs` or in a separate file
-`test_main.rs` made accessible to `main.rs` via `mod test_main`.
+The Rust in-built test client allows tests to be defined within the same file as the code being tested. Because Rust is a compiled language, the compiler will know to ignore the tests when building the final binary for runtime.
 
 Tests are run using `make test` or `cargo test --quiet`.
 
@@ -195,6 +198,8 @@ make test
 cargo test --quiet
 
 running 2 tests
-..
+test tests::test_revenue_range ... ok
+test tests::test_run ... ok
+
 test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
 ```

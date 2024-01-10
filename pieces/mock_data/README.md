@@ -5,7 +5,7 @@ Python, and the [`fake-rs`](https://github.com/cksac/fake-rs) crate in Rust.
 
 ## Goal
 
-In this project, we will generate a fake tabular dataset of people, their age, marital status and
+In this project, we will generate a mock tabular dataset of people, their age, marital status and
 the city, state and country they last visited. The dataset should be in the following format:
 
 ```json
@@ -98,24 +98,6 @@ test_main.py::test_write_persons_to_csv PASSED                                  
 ============================================================== 9 passed in 0.32s ==============================================================
 ```
 
-### Performance
-
-Because the number of persons generated via this script is configurable, we can generate datasets
-of different sizes.
-
-> [!NOTE]
-> The timing numbers shown below are the run times from a 2022 M2 Macbook Pro with 16GB of RAM.
-> The Python version used was `3.11.6`.
-
-| numPersons | Python    |
-| ---------- | --------- |
-| 10         | 0.21 sec  |
-| 100        | 0.22 sec  |
-| 1000       | 0.29 sec  |
-| 10000      | 0.91 sec  |
-| 100000     | 7.28 sec  |
-| 1000000    | 69.91 sec |
-
 ## Rust Setup
 
 Install dependencies via Cargo. Note that because we perform CSV serialization/deserialization via
@@ -175,8 +157,7 @@ cargo clippy --quiet
 
 ### Run tests only
 
-Using Rust's inbuilt client, tests can either be within `main.rs` or in a separate file
-`test_main.rs` made accessible to `main.rs` via `mod test_main`.
+The Rust in-built test client allows tests to be defined within the same file as the code being tested. Because Rust is a compiled language, the compiler will know to ignore the tests when building the final binary for runtime.
 
 Tests are run using `make test` or `cargo test --quiet`.
 
@@ -185,12 +166,16 @@ make test
 cargo test --quiet
 
 
-running 2 tests
-..
-test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
-```
+running 3 tests
+test tests::test_convert_unicode_to_ascii ... ok
+test tests::test_read_cities ... ok
+test tests::test_construct_person ... ok
 
-### Performance
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s
+```
+---
+
+## Performance
 
 Because the number of persons generated via this script is configurable, we can generate datasets
 of different sizes. And because it's Rust, we can expect the performance to be better than Python
@@ -210,6 +195,4 @@ of different sizes. And because it's Rust, we can expect the performance to be b
 | 100000     | 7.28 sec  | 2.34 sec (**3.1x**)  | 0.27 sec (**27.0x**) |
 | 1000000    | 69.91 sec | 20.29 sec (**3.4x**) | 1.16 sec (**60.3x**) |
 
-Even the unoptimized Rust code is multiple times faster than the Python code, the more data we're
-dealing with the bigger this difference will be.
-
+Even the unoptimized Rust code is multiple times faster than the Python code. The more data we're dealing with the bigger this difference will be.
