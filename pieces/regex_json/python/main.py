@@ -11,7 +11,7 @@ hyphenated_pattern = re.compile(r"\$(\d+\.?\d*)([KMB])?-?\$?(\d+\.?\d*)([KMB])?"
 
 
 def get_data() -> list[dict[str, Any]]:
-    with open(Path("../data/companies.json"), "r") as f:
+    with open(Path("../data/companies.json")) as f:
         data = json.load(f)
     return data
 
@@ -42,9 +42,7 @@ def run() -> list[dict[str, Any]]:
         raise ValueError("No data found")
 
     for company in data:
-        annual_revenue_lower, annual_revenue_upper = calculate_range(
-            company["annual_revenue"]
-        )
+        annual_revenue_lower, annual_revenue_upper = calculate_range(company["annual_revenue"])
         # Append to existing dict
         company["annual_revenue_lower"] = annual_revenue_lower
         company["annual_revenue_upper"] = annual_revenue_upper

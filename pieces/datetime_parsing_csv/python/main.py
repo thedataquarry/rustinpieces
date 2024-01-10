@@ -13,9 +13,7 @@ def modify_fields(item: dict, i: int) -> dict:
     new_item: dict[str, Any] = dict()
     new_item["id"] = i
     new_item["name"] = item["name"]
-    new_item["dob"] = (
-        datetime.strptime(item["dob"], "%m-%d-%Y").date() if item.get("dob") else None
-    )
+    new_item["dob"] = datetime.strptime(item["dob"], "%m-%d-%Y").date() if item.get("dob") else None
     new_item["age"] = item["age"]
     new_item["isMarried"] = item["isMarried"]
     new_item["city"] = item["city"]
@@ -26,7 +24,7 @@ def modify_fields(item: dict, i: int) -> dict:
 
 def read_and_modify(filepath: Path) -> list[dict[str, Any]]:
     persons = []
-    with open(filepath, "r") as f:
+    with open(filepath) as f:
         reader = csv.DictReader(f)
         for i, item in enumerate(reader, 1):
             new_item = modify_fields(item, i)
