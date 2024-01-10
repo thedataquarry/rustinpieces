@@ -14,16 +14,6 @@ the same precision as the input data. We will also test the results of the conve
 to be within 0.05 of the expected value. This is because numerical operations with floats
 are always subject to [floating point errors](https://docs.python.org/3/tutorial/floatingpoint.html).
 
-The input dataset is in the following format:
-
-```json
-{
-  "city": "string",
-  "country": "string",
-  "avg_temp_jan_f": "float",
-}
-```
-
 ## Inputs
 
 The input CSV file is `./data/city_temps.csv` with the following data.
@@ -43,7 +33,7 @@ Yakutsk,Russia,-37.5
 ```
 
 We have a combination of positive and negative temperatures for these places in Fahrenheit. 
-In the northern hemisphere, certain cities go *brrr* 🥶.
+In the northern hemisphere in January, certain cities go *brrr* 🥶.
 
 ## Output
 
