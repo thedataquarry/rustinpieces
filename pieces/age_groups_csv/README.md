@@ -5,7 +5,7 @@ adults.
 
 ## Goal
 
-In this project, we will organize people in age groups using enums or *enumerations*.
+In this project, we will organize people in age groups using enums or _enumerations_.
 People who are less than 13 years
 old will be placed in the "child" group, 13 to 17 year olds will be in the "youth" group, 18 to 59 will
 be in the "adult" group, and 60 or greater will be in the "senior" group. Once all the users are loaded
@@ -36,7 +36,7 @@ Now, let's consider the same scenario in Rust. The `match` statement requires al
 be used. This means as soon as the geriatric group is added to the enum, the program will no longer
 compile until the geriatric group is added to the match statement in the calculation. With Rust's strict
 type system, it is impossible to have the same problem that we had in the Python program, and the compiler will
-tell you *exactly* where you need to make updates, ensuring correctness in these scenarios.
+tell you _exactly_ where you need to make updates, ensuring correctness in these scenarios.
 
 ## Dataset
 
@@ -68,15 +68,7 @@ id,name,age
 10,Tammy Woods,56
 ```
 
-## Output
-
-The results of the demographics calculation will be printed to the screen.
-
-```console
-DemographicCount(minors=2, adults=8)
-```
-
-## Setup
+### Python Setup
 
 Install dependencies via a virtual environment.
 
@@ -86,13 +78,21 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## Run script
+### Run script
 
 ```bash
 python main.py
 ```
 
-## Run tests
+#### Output
+
+The results of the demographics calculation will be printed to the screen.
+
+```console
+DemographicCount(minors=2, adults=8)
+```
+
+### Run tests
 
 ```bash
 $ pytest -v
@@ -114,4 +114,74 @@ test_main.py::test_construct_person_obj PASSED                                  
 test_main.py::test_calculate_demographcs PASSED                                                                                                                                        [100%]
 
 ===================================================================================== 10 passed in 0.01s =====================================================================================
+```
+
+## Rust Setup
+
+Install dependencies via a Cargo. Note that because we perform CSV deserialization via `serde`, we
+need to install it using the features flag.
+
+```bash
+cargo add csv
+cargo add serde --features derive
+```
+
+### Run project
+
+The provided `Makefile` runs the formatter, linter, tests and the main file all in sequence.
+
+```bash
+make all
+
+# Runs the following
+cargo fmt --quiet
+cargo clippy --quiet
+cargo test --quiet
+cargo run --quiet
+```
+
+To run just the main file, use the following command.
+
+```bash
+make run
+# or, simply run via cargo
+cargo run --quiet
+```
+
+#### Output
+
+The results of the demographics calculation will be printed to the screen.
+
+```console
+DemographicCount { minors: 2, adults: 8 }
+```
+
+### Run linter and formatter only
+
+Cargo provides out-of-the-box for formatting (`cargo fmt`) and linting (`cargo clippy`). The
+following command runs both. It's highly recommended to run both prior to pushing Rust code to a
+repository.
+
+```bash
+make format
+make lint
+# Runs the following
+cargo fmt --quiet
+cargo clippy --quiet
+```
+
+### Run tests only
+
+Using Rust's inbuilt client, tests can either be within `main.rs` or in a separate file
+`test_main.rs` made accessible to `main.rs` via `mod test_main`.
+
+Tests are run using `make test` or `cargo test --quiet`.
+
+```bash
+make test
+cargo test --quiet
+
+running 3 tests
+...
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 ```

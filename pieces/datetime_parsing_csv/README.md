@@ -14,7 +14,7 @@ Python version, no external packages are required, while in Rust we install the
 [chrono](https://github.com/chronotope/chrono) crate to work with datetimes. Python is often referred to
 as a "batteries included" language because it has a large standard library with a lot of functionality
 built in. Rust takes the opposite approach with a small standard library, requiring the use of
-external libraries, known as *crates*, to handle a lot of the functionality.
+external libraries, known as _crates_, to handle a lot of the functionality.
 
 Each of these approaches has its own set of advantages and disadvantages. The Python approach focuses on
 simplicity and productivity: you just need to import `datetime` from the standard library and you are
@@ -23,8 +23,8 @@ modules during the release of new Python versions, which currently happens yearl
 versions of Python will not be able to use the new functionality.
 
 Rust's philosophy allows for more flexibility on the developer's end and faster adding of features to existing
-projects based on the ever-growing crates ecosystem. This however means that
-you need to know about which external crates to to use to handle specific functionality, making things less straightforward
+projects based on the ever-growing crates ecosystem. This however means that you need to know about
+which external crates to to use to handle specific functionality, making things less straightforward
 if you're new to Rust. In this example we choose the chrono crate because it is currently the most popular option based on
 the [number of downloads on crates.io](https://crates.io/search?q=chrono), but it's improtant to remember that it's
 not the only option. We could have, for example, used the [time](https://github.com/time-rs/time)
@@ -77,7 +77,7 @@ id,name,dob,age,isMarried,city,state,country
 6,Daniel Prince,1997-02-02,26,false,Audubon,Pennsylvania,United States
 ```
 
-## Setup
+## Python Setup
 
 Install dependencies via a virtual environment.
 
@@ -87,13 +87,13 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## Run script
+### Run script
 
 ```bash
 python main.py
 ```
 
-## Run tests
+### Run tests
 
 ```bash
 $ pytest -v
@@ -108,4 +108,68 @@ test_main.py::test_read_and_modify PASSED                                       
 test_main.py::test_write_csv PASSED                                                                                                                [100%]
 
 =================================================================== 2 passed in 0.02s ====================================================================
+```
+
+## Rust Setup
+
+Install dependencies via Cargo. Note that because we perform CSV serialization/deserialization via
+`serde`, we need to install it using the features flag.
+
+```bash
+cargo add csv
+cargo add serde --features derive
+cargo add chrono
+```
+
+### Run project
+
+The provided `Makefile` runs the formatter, linter, tests and the main file all in sequence.
+
+```bash
+make all
+
+# Runs the following
+cargo fmt --quiet
+cargo clippy --quiet
+cargo test --quiet
+cargo run --quiet
+```
+
+To run just the main file, use the following command.
+
+```bash
+make run
+# or, simply run via cargo
+cargo run --quiet
+```
+
+### Run linter and formatter only
+
+Cargo provides out-of-the-box for formatting (`cargo fmt`) and linting (`cargo clippy`). The
+following command runs both. It's highly recommended to run both prior to pushing Rust code to a
+repository.
+
+```bash
+make format
+make lint
+# Runs the following
+cargo fmt --quiet
+cargo clippy --quiet
+```
+
+## Run tests only
+
+Using Rust's inbuilt client, tests can either be within `main.rs` or in a separate file
+`test_main.rs` made accessible to `main.rs` via `mod test_main`.
+
+Tests are run using `make test` or `cargo test --quiet`.
+
+```bash
+make test
+cargo test --quiet
+
+
+running 2 tests
+..
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 ```
