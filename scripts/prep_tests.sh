@@ -3,4 +3,4 @@
 cp pieces/postgres_etl/data/persons.csv scripts/data
 docker compose -f scripts/docker-compose.yml up -d
 docker ps
-docker compose logs database
+docker compose -f scripts/docker-compose.yml logs database
