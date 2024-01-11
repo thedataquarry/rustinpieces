@@ -1,4 +1,5 @@
 use chrono::prelude::*;
+use std::collections::{HashMap, HashSet};
 use std::fmt;
 
 // --- Structs and implementations ---
@@ -139,6 +140,50 @@ fn run7() {
     */
 }
 
+// 8. HashMap
+fn run8() {
+    let mut processors = HashMap::new();
+    processors.insert("13900KS", "Intel Core i9");
+    processors.insert("13700K", "Intel Core i7");
+    processors.insert("13600K", "Intel Core i5");
+    processors.insert("1800X", "AMD Ryzen 7");
+    processors.insert("1600X", "AMD Ryzen 5");
+    processors.insert("1300X", "AMD Ryzen 3");
+
+    // Check for presence of value
+    let value = "AMD Ryzen 3";
+    let mut values = processors.values();
+    println!("Is \"AMD Ryzen 3\" in the hashmap of processors?: {}", values.any(|v| v == &value));
+    // Lookup by key
+    let key = "13900KS";
+    let lookup_by_key = processors.get(key);
+    println!("Key \"{}\" has the value \"{}\"", key, lookup_by_key.unwrap());
+    /*
+    Is "AMD Ryzen 3" in the hashmap of processors?: true
+    Key "13900KS" has the value "Intel Core i9"
+    */
+}
+
+// 9. HashSet
+fn run9() {
+    let mut processors = HashSet::new();
+    processors.insert("Intel Core i9");
+    processors.insert("Intel Core i7");
+    processors.insert("Intel Core i5");
+    processors.insert("AMD Ryzen 7");
+    processors.insert("AMD Ryzen 5");
+    processors.insert("AMD Ryzen 3");
+    // Duplicate values are ignored
+    processors.insert("Intel Core i7");
+    processors.insert("AMD Ryzen 5");
+    // Check for presence of value
+    let value = "AMD Ryzen 3";
+    println!("Is \"AMD Ryzen 3\" in the hashset of processors?: {}", processors.contains(&value));
+    /*
+    Is "AMD Ryzen 3" in the hashset of processors?: true
+    */
+}
+
 fn main() {
     run1();
     run2();
@@ -147,4 +192,6 @@ fn main() {
     run5();
     run6();
     run7();
+    run8();
+    run9();
 }
