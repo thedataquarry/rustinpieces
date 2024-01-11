@@ -43,9 +43,7 @@ def test_convert_f_to_c(temp_f, temp_c):
     assert convert_f_to_c(temp_f) == pytest.approx(temp_c, abs=ABS_TOLERANCE)
 
 
-def test_write_csv(city_temps):
-    output_path = Path("../data/test_city_temps.csv")
+def test_write_csv(city_temps, tmp_path):
+    output_path = tmp_path / "test_city_temps.csv"
     write_csv(city_temps, output_path)
     assert output_path.exists()
-    # Delete the file
-    Path("../data/test_city_temps.csv").unlink()
