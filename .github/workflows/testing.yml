@@ -10,6 +10,7 @@ env:
   RUST_BACKTRACE: 1
   RUSTFLAGS: "-D warnings"
   POSTGRES_PASSWORD: "test_password"
+  DATABASE_URL: "postgresql://postgres:test_password@localhost:5432/etl"
 jobs:
   clippy:
     name: Clippy
