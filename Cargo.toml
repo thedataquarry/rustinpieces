@@ -1,6 +1,7 @@
 [workspace]
 
 members = [
+  "pieces/simple_csv/rust",
   "pieces/age_groups_csv/rust",
   "pieces/datetime_parsing_csv/rust",
   "pieces/hello_world/rust",
