@@ -83,6 +83,8 @@ fn main() {
 mod tests {
     use super::*;
     use approx::assert_abs_diff_eq;
+    use std::fs::create_dir_all;
+    use tempfile::tempdir;
 
     #[test]
     fn test_read_csv() {
@@ -114,8 +116,10 @@ mod tests {
         let input_path = Path::new("../data/city_temps.csv");
         let city_temps = read_csv(input_path).expect("Unable to read/open CSV");
         let city_temps_modified = construct_city_temps_obj(city_temps);
-        let output_path = Path::new("../data/city_temps_modified.csv");
-        write_csv(city_temps_modified, output_path);
+        let dir = tempdir().unwrap().path().to_path_buf();
+        let output_path = dir.join("city_temps_modified.csv");
+        create_dir_all(&dir).unwrap();
+        write_csv(city_temps_modified, &output_path);
         assert!(output_path.exists());
     }
 }

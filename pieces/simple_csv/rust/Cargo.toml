@@ -11,3 +11,4 @@ serde = { version = "1.0.195", features = ["derive"] }
 
 [dev-dependencies]
 approx = "0.5.1"
+tempfile = "3.9.0"
