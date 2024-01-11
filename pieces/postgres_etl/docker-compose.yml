@@ -12,7 +12,7 @@ services:
     volumes:
       - ./data/pg/:/var/lib/postgresql/data/
       - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
-  
+
   pgadmin:
     image: dpage/pgadmin4
     ports:
@@ -26,6 +26,6 @@ services:
     volumes:
       - ./data/pgadmin/:/var/lib/pgadmin/
 
-networks: 
+networks:
   postgres-network:
     driver: bridge

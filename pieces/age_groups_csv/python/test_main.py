@@ -1,7 +1,6 @@
 from pathlib import Path
 
 import pytest
-
 from main import AgeBracket, Person, calculate_demographcs, load_csv
 
 
