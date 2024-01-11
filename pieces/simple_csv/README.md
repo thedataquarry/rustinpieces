@@ -37,7 +37,7 @@ In the northern hemisphere in January, certain cities go *brrr* 🥶.
 
 ## Output
 
-The output is also a CSV file `./data/city_temps-modified.csv` with an additional column `avg_temp_jan_f`
+The output is also a CSV file `./data/city_temps-modified.csv` with an additional column `avg_temp_jan_c`
 that has the converted temperature value in Celsius.
 
 ```csv
