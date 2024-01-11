@@ -1,7 +1,7 @@
 from pathlib import Path
-import pytest
 
-from main import modify_fields, read_and_modify, convert_f_to_c, write_csv
+import pytest
+from main import convert_f_to_c, modify_fields, read_and_modify, write_csv
 
 ABS_TOLERANCE = 0.05
 

@@ -32,7 +32,7 @@ Nuuk,Greenland,18.7
 Yakutsk,Russia,-37.5
 ```
 
-We have a combination of positive and negative temperatures for these places in Fahrenheit. 
+We have a combination of positive and negative temperatures for these places in Fahrenheit.
 In the northern hemisphere in January, certain cities go *brrr* 🥶.
 
 ## Output
@@ -79,7 +79,7 @@ platform darwin -- Python 3.11.7, pytest-7.4.4, pluggy-1.3.0 -- /Users/prrao/cod
 cachedir: .pytest_cache
 rootdir: /Users/prrao/code/rustinpieces/pieces/simple_csv/python
 plugins: Faker-21.0.1
-collected 10 items                                                                                                                                                                                                  
+collected 10 items
 
 test_main.py::test_read_and_modify PASSED                                                                                                                                                                     [ 10%]
 test_main.py::test_modify_fields PASSED                                                                                                                                                                       [ 20%]

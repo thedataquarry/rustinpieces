@@ -26,7 +26,7 @@ def modify_fields(item: dict) -> dict:
 
 def read_and_modify(filepath: Path) -> list[dict[str, Any]]:
     cities = []
-    with open(filepath, "r") as f:
+    with open(filepath) as f:
         reader = csv.DictReader(f)
         cities = [modify_fields(item) for item in reader]
     print(f"Read {len(cities)} records from {str(filepath)}")
