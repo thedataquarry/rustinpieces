@@ -1,0 +1,54 @@
+name: Testing
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+env:
+  CARGO_TERM_COLOR: always
+  RUST_BACKTRACE: 1
+  RUSTFLAGS: "-D warnings"
+  POSTGRES_PASSWORD: "test_password"
+  DATABASE_URL: "postgresql://postgres:test_password@127.0.0.1:5432/etl"
+jobs:
+  clippy:
+    name: Clippy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Rust
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+      - name: Cache dependencies
+        uses: Swatinem/rust-cache@v2.7.2
+      - name: Prep data and sqlx # This prevents sqlx errors if the database isn't running
+        run: sh ./scripts/prep_tests.sh
+      - name: Run cargo clippy
+        run: cargo clippy --all-targets -- --deny warnings
+  fmt:
+    name: Rustfmt
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Rust
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+      - name: Cache dependencies
+        uses: Swatinem/rust-cache@v2.7.2
+      - name: Run cargo fmt
+        run: cargo fmt --all -- --check
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Rust
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+      - name: Cache dependencies
+        uses: Swatinem/rust-cache@v2.7.2
+      - name: Prep data and sqlx # This prevents sqlx errors if the database isn't running
+        run: sh ./scripts/prep_tests.sh
+      - name: Run cargo test
+        run: cargo test

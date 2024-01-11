@@ -51,7 +51,6 @@ async fn main() -> Result<(), sqlx::Error> {
     dotenv().ok();
     // Obtain connection
     let pg_uri = dotenvy::var("DATABASE_URL").unwrap();
-    // let pool = Arc::new(PgPool::connect(&pg_uri).await.unwrap());
     let pool = PgPoolOptions::new()
         .min_connections(5)
         .max_connections(5)

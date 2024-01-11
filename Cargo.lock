@@ -1332,6 +1332,7 @@ dependencies = [
  "approx",
  "csv",
  "serde",
+ "tempfile",
 ]
 
 [[package]]

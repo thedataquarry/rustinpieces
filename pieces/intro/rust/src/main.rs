@@ -153,11 +153,18 @@ fn run8() {
     // Check for presence of value
     let value = "AMD Ryzen 3";
     let mut values = processors.values();
-    println!("Is \"AMD Ryzen 3\" in the hashmap of processors?: {}", values.any(|v| v == &value));
+    println!(
+        "Is \"AMD Ryzen 3\" in the hashmap of processors?: {}",
+        values.any(|v| v == &value)
+    );
     // Lookup by key
     let key = "13900KS";
     let lookup_by_key = processors.get(key);
-    println!("Key \"{}\" has the value \"{}\"", key, lookup_by_key.unwrap());
+    println!(
+        "Key \"{}\" has the value \"{}\"",
+        key,
+        lookup_by_key.unwrap()
+    );
     /*
     Is "AMD Ryzen 3" in the hashmap of processors?: true
     Key "13900KS" has the value "Intel Core i9"
@@ -178,7 +185,10 @@ fn run9() {
     processors.insert("AMD Ryzen 5");
     // Check for presence of value
     let value = "AMD Ryzen 3";
-    println!("Is \"AMD Ryzen 3\" in the hashset of processors?: {}", processors.contains(&value));
+    println!(
+        "Is \"AMD Ryzen 3\" in the hashset of processors?: {}",
+        processors.contains(&value)
+    );
     /*
     Is "AMD Ryzen 3" in the hashset of processors?: true
     */
