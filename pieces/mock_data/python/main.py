@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import argparse
 import csv
 import random
@@ -13,7 +15,6 @@ class Person(TypedDict):
     name: str
     age: int
     isMarried: bool
-    company: str
     city: str
     state: str
     country: str
@@ -34,34 +35,33 @@ def convert_unicode_to_ascii(text: str) -> str:
 def get_locations(filename: Path) -> list[Location]:
     # Read city, state and country names from csv file
     locations = []
-    with open(filename, "r") as f:
+    with open(filename) as f:
         reader = csv.DictReader(f)
         for loc in reader:
             locations.append(
-                {
-                    "city": loc["city_ascii"],
-                    "state": convert_unicode_to_ascii(loc["admin_name"]),
-                    "country": loc["country"],
-                }
+                Location(
+                    city=loc["city_ascii"],
+                    state=convert_unicode_to_ascii(loc["admin_name"]),
+                    country=loc["country"],
+                )
             )
     return locations
 
 
-def generate_fake_persons(
-    faker: Faker, locations: list[Location], num: int
-) -> list[Person]:
+def generate_fake_persons(faker: Faker, locations: list[Location], num: int) -> list[Person]:
     # Generate fake persons with the desired structure and return a list of mappings
     profiles = []
     for i in range(1, num + 1):
         location = random.choice(locations)
-        profile = dict()
-        profile["id"] = i
-        profile["name"] = f"{faker.first_name()} {faker.last_name()}"
-        profile["age"] = random.randint(22, 65)
-        profile["isMarried"] = faker.random_element(elements=("true", "false"))
-        profile["city"] = location["city"]
-        profile["state"] = location["state"]
-        profile["country"] = location["country"]
+        profile = Person(
+            id=i,
+            name=f"{faker.first_name()} {faker.last_name()}",
+            age=random.randint(22, 65),
+            isMarried=faker.random_element(elements=("true", "false")),
+            city=location["city"],
+            state=location["state"],
+            country=location["country"],
+        )
         profiles.append(profile)
     print(f"""Generated {num} fake profiles.""")
     return profiles

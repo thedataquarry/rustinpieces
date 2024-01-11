@@ -7,6 +7,10 @@ plugins = ["pydantic.mypy"]
 module = ["tests.*"]
 disallow_untyped_defs = false
 
+[[tool.mypy.overrides]]
+module = ["asyncpg.*"]
+ignore_missing_imports = true
+
 [tool.ruff]
 select=["E", "F", "UP", "I001"]
 ignore=[
@@ -30,6 +34,3 @@ ignore=[
 line-length = 100
 target-version = "py38"
 fix = true
-
-[tool.pytest.ini_options]
-asyncio_mode = "auto"
