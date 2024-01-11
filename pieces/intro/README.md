@@ -32,15 +32,18 @@ by the data structures within.
 ```console
 Megan is 28 years old
 Person: Megan, 28
-0: James is 33 years old
-1: Salima is 31 years old
+Person 0: James is 33 years old
+Person 1: Salima is 31 years old
 [Person: Alice, 24, Person: Charlie, 45]
 Youngest age: 18, oldest age: 65
 Middle age: 41
 Rohan is the youngest person at 18 years old
-Josephine is 20 years old. Born in a leap year?: True
-Wesley is 31 years old. Born in a leap year?: False
-Persons born after 1995: [('Ibrahim', 26)]
+Josephine is 20 years old. Born in a leap year?: true
+Wesley is 31 years old. Born in a leap year?: false
+Persons born after 1995: [("Ibrahim", 26)]
+Is "AMD Ryzen 3" in the hashmap of processors?: true
+Key "13900KS" has the value "Intel Core i9"
+Is "AMD Ryzen 3" in the hashset of processors?: true
 ```
 
 ## Python
@@ -78,20 +81,26 @@ appreciating some of the similarities!
 
 ### Differences to be aware of
 
-In Python dictionaries and sets you can have a mix of types, however in Rust all of the types have
-to be the same. Using dictionaries as an example:
+In Python dictionaries and sets, you can have a mix of types. However, in Rust all of the types have
+to be the same.
+
+Below is an example for `dict` in Python and `HashMap` in Rust.
 
 #### Python
 
 ```py
-example = {"first": "a value", "second": 1}  # This is fine in Python
+# This is fine in Python
+example = {"first": "a value", "second": 1}
 ```
 
 #### Rust
 
 ```rs
 let mut example = HashMap::new();
+// This is fine in Rust
 example.insert("first", "a value");
-// This will cause a compiler error because the first value entered set the type as HashMap<&str, &str>
+// The following will fail to compile because the first value entered set the type as HashMap<&str, &str>
 example.insert("second", 1);
 ```
+
+The same is also true for `set` in Python and `HashSet` in Rust.
