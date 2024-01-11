@@ -24,8 +24,11 @@ jobs:
         uses: Swatinem/rust-cache@v2.7.2
       - name: Prep data # This prevents sqlx errors if the database isn't running
         run: sh ./scripts/prep_tests.sh
+      - name: Create .env file
+        run: |
+          echo DATABASE_URL=${{ env.DATABASE_URL }} >> .env
       - name: Run cargo clippy
-        run: DATABASE_URL=${{ env.DATABASE_URL }} cargo clippy --all-targets -- --deny warnings
+        run: cargo clippy --all-targets -- --deny warnings
   fmt:
     name: Rustfmt
     runs-on: ubuntu-latest
@@ -36,10 +39,8 @@ jobs:
           curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
       - name: Cache dependencies
         uses: Swatinem/rust-cache@v2.7.2
-      - name: Prep data # This prevents sqlx errors if the database isn't running
-        run: sh ./scripts/prep_tests.sh
       - name: Run cargo fmt
-        run: DATABASE_URL=${{ env.DATABASE_URL }} cargo fmt --all -- --check
+        run: cargo fmt --all -- --check
   test:
     name: Tests
     runs-on: ubuntu-latest
@@ -52,5 +53,8 @@ jobs:
         uses: Swatinem/rust-cache@v2.7.2
       - name: Prep data
         run: sh ./scripts/prep_tests.sh
-      - name: DATABASE_URL=${{ env.DATABASE_URL }} Run cargo test
+      - name: Create .env file
+        run: |
+          echo DATABASE_URL=${{ env.DATABASE_URL }} >> .env
+      - name: Run cargo test
         run: cargo test
