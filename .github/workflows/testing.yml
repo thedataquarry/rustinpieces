@@ -25,9 +25,8 @@ jobs:
       - name: Prep data and sqlx # This prevents sqlx errors if the database isn't running
         run: |
           sh ./scripts/prep_tests.sh
-          echo DATABASE_URL=${{ env.DATABASE_URL }} >> ${{ github.workspace}}/pieces/postgres_etl/rust/.env
           cargo install sqlx-cli
-          cargo sqlx prepare
+          cargo sqlx prepare --database-url=${{ env.DATABASE_URL }}
       - name: Run cargo clippy
         run: cargo clippy --all-targets -- --deny warnings
   fmt:
@@ -55,8 +54,7 @@ jobs:
       - name: Prep data and sqlx # This prevents sqlx errors if the database isn't running
         run: |
           sh ./scripts/prep_tests.sh
-          echo DATABASE_URL=${{ env.DATABASE_URL }} >> ${{ github.workspace}}/pieces/postgres_etl/rust/.env
           cargo install sqlx-cli
-          cargo sqlx prepare
+          cargo sqlx prepare --database-url=${{ env.DATABASE_URL }}
       - name: Run cargo test
         run: cargo test
