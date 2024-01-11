@@ -26,6 +26,7 @@ jobs:
         run: sh ./scripts/prep_tests.sh
       - name: Create .env file
         run: |
+          echo DATABASE_URL=${{ env.DATABASE_URL }}
           echo DATABASE_URL=${{ env.DATABASE_URL }} >> pieces/postgres_etl/rust/.env
       - name: Run cargo clippy
         run: cargo clippy --all-targets -- --deny warnings
