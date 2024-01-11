@@ -25,7 +25,10 @@ jobs:
       - name: Prep data # This prevents sqlx errors if the database isn't running
         run: sh ./scripts/prep_tests.sh
       - name: Run cargo clippy
-        run: cargo clippy --all-targets -- --deny warnings
+        run: |
+          cargo clippy --all-targets -- --deny warnings
+          echo "Loading data"
+          sleep 5
   fmt:
     name: Rustfmt
     runs-on: ubuntu-latest
@@ -39,6 +42,7 @@ jobs:
       - name: Prep data # This prevents sqlx errors if the database isn't running
         run: |
           sh ./scripts/prep_tests.sh
+          echo "Loading data"
           sleep 5
       - name: Run cargo fmt
         run: cargo fmt --all -- --check
@@ -53,6 +57,9 @@ jobs:
       - name: Cache dependencies
         uses: Swatinem/rust-cache@v2.7.2
       - name: Prep data
-        run: sh ./scripts/prep_tests.sh
+        run: |
+          sh ./scripts/prep_tests.sh
+          echo "Loading data"
+          sleep 5
       - name: Run cargo test
         run: cargo test
