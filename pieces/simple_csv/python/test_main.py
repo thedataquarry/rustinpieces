@@ -17,7 +17,7 @@ def test_read_and_modify(city_temps):
     assert len(city_temps) == 10
 
 
-def test_modify_fields(city_temps):
+def test_modify_fields():
     item = {
         "city": "New York City",
         "country": "United States",
