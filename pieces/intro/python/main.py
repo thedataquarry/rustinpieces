@@ -138,11 +138,16 @@ def run8() -> None:
         "1300X": "AMD Ryzen 3",
     }
 
-    print(f"All processors: {processors}")
-    assert "13600K" in processors
-    assert processors["13700K"] == "Intel Core i7"
+    # Check for presence of value
+    is_item_in_dict = "AMD Ryzen 3" in processors.values()
+    print(f'Is "AMD Ryzen 3" in the dict of processors?: {is_item_in_dict}')
+    # Lookup by key
+    key = "13900KS"
+    lookup_by_key = processors[key]
+    print(f'Key "{key}" has the value "{lookup_by_key}"')
     """
-    All processors: {'13900KS': 'Intel Core i9', '13700K': 'Intel Core i7', '13600K': 'Intel Core i5', '1800X': 'AMD Ryzen 7', '1600X': 'AMD Ryzen 5', '1300X': 'AMD Ryzen 3'}
+    Is "AMD Ryzen 3" in the dict of processors?: True
+    Key "13900KS" has the value "Intel Core i9"
     """
 
 
@@ -155,13 +160,14 @@ def run9() -> None:
         "AMD Ryzen 5",
         "AMD Ryzen 3",
     }
+    # Duplicate values are ignored
     processors.add("Intel Core i7")
     processors.add("AMD Ryzen 5")
-
-    print(processors)
-    assert "AMD Ryzen 3" in processors
+    # Check for presence of value
+    is_item_in_set = "AMD Ryzen 3" in processors
+    print(f'Is "AMD Ryzen 3" in the set of processors?: {is_item_in_set}')
     """
-    {'Intel Core i5', 'AMD Ryzen 3', 'Intel Core i7', 'AMD Ryzen 5', 'Intel Core i9', 'AMD Ryzen 7'}
+    Is "AMD Ryzen 3" in the set of processors?: True
     """
 
 

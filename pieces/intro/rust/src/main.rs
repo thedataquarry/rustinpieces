@@ -150,11 +150,17 @@ fn run8() {
     processors.insert("1600X", "AMD Ryzen 5");
     processors.insert("1300X", "AMD Ryzen 3");
 
-    println!("All processors {:?}", processors);
-    assert!(processors.contains_key("13600K"));
-    assert_eq!(processors.get("13700K"), Some(&"Intel Core i7"));
+    // Check for presence of value
+    let value = "AMD Ryzen 3";
+    let mut values = processors.values();
+    println!("Is \"AMD Ryzen 3\" in the hashmap of processors?: {}", values.any(|v| v == &value));
+    // Lookup by key
+    let key = "13900KS";
+    let lookup_by_key = processors.get(key);
+    println!("Key \"{}\" has the value \"{}\"", key, lookup_by_key.unwrap());
     /*
-    All processors {"13900KS": "Intel Core i9", "13600K": "Intel Core i5", "13700K": "Intel Core i7", "1600X": "AMD Ryzen 5", "1300X": "AMD Ryzen 3", "1800X": "AMD Ryzen 7"}
+    Is "AMD Ryzen 3" in the hashmap of processors?: true
+    Key "13900KS" has the value "Intel Core i9"
     */
 }
 
@@ -167,13 +173,14 @@ fn run9() {
     processors.insert("AMD Ryzen 7");
     processors.insert("AMD Ryzen 5");
     processors.insert("AMD Ryzen 3");
+    // Duplicate values are ignored
     processors.insert("Intel Core i7");
     processors.insert("AMD Ryzen 5");
-
-    println!("{:?}", processors);
-    assert!(processors.contains("AMD Ryzen 3"));
+    // Check for presence of value
+    let value = "AMD Ryzen 3";
+    println!("Is \"AMD Ryzen 3\" in the hashset of processors?: {}", processors.contains(&value));
     /*
-    {"AMD Ryzen 7", "Intel Core i5", "AMD Ryzen 5", "AMD Ryzen 3", "Intel Core i9", "Intel Core i7"}
+    Is "AMD Ryzen 3" in the hashset of processors?: true
     */
 }
 
