@@ -22,11 +22,11 @@ jobs:
           curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
       - name: Cache dependencies
         uses: Swatinem/rust-cache@v2.7.2
-      - name: Prep data # This prevents sqlx errors if the database isn't running
-        run: sh ./scripts/prep_tests.sh
-      - name: Create .env file
+      - name: Prep data and sqlx # This prevents sqlx errors if the database isn't running
         run: |
-          echo DATABASE_URL=${{ env.DATABASE_URL }} >> ${{ github.workspace}}/pieces/postgres_etl/rust/.env
+          sh ./scripts/prep_tests.sh
+          cargo install sqlx-cli
+          cargo sqlx prepare
       - name: Run cargo clippy
         run: cargo clippy --all-targets -- --deny warnings
   fmt:
@@ -51,10 +51,10 @@ jobs:
           curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
       - name: Cache dependencies
         uses: Swatinem/rust-cache@v2.7.2
-      - name: Prep data
-        run: sh ./scripts/prep_tests.sh
-      - name: Create .env file
+      - name: Prep data and sqlx # This prevents sqlx errors if the database isn't running
         run: |
-          echo DATABASE_URL=${{ env.DATABASE_URL }} >> ${{ github.workspace}}/pieces/postgres_etl/rust/.env
+          sh ./scripts/prep_tests.sh
+          cargo install sqlx-cli
+          cargo sqlx prepare
       - name: Run cargo test
         run: cargo test
