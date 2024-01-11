@@ -151,25 +151,10 @@ fn run8() {
     processors.insert("1300X", "AMD Ryzen 3");
 
     println!("All processors {:?}", processors);
-    println!(
-        "Processor 13600K information by key: {:?}",
-        processors.get("13600K")
-    );
-    for (k, v) in processors {
-        if v.to_lowercase() == "amd ryzen 3" {
-            println!("Processor AMD Ryzen 3 information by value: {}: {}", k, v);
-            break;
-        }
-    }
-
-    /*for k, v in processors.items():
-    if v.lower() == "amd ryzen 3":
-        print(f"Processor AMD Ryzen 3 information by value: {k}: {v}")
-        break*/
+    assert!(processors.contains_key("13600K"));
+    assert_eq!(processors.get("13700K"), Some(&"Intel Core i7"));
     /*
     All processors {"13900KS": "Intel Core i9", "13600K": "Intel Core i5", "13700K": "Intel Core i7", "1600X": "AMD Ryzen 5", "1300X": "AMD Ryzen 3", "1800X": "AMD Ryzen 7"}
-    Processor 13600K information by key: Some("Intel Core i5")
-    Processor AMD Ryzen 3 information by value: 1300X: AMD Ryzen 3
     */
 }
 
@@ -182,17 +167,13 @@ fn run9() {
     processors.insert("AMD Ryzen 7");
     processors.insert("AMD Ryzen 5");
     processors.insert("AMD Ryzen 3");
+    processors.insert("Intel Core i7");
+    processors.insert("AMD Ryzen 5");
 
     println!("{:?}", processors);
-    for processor in processors {
-        if processor.to_lowercase() == "amd ryzen 3" {
-            println!("{:?}", processor);
-            break;
-        }
-    }
+    assert!(processors.contains("AMD Ryzen 3"));
     /*
     {"AMD Ryzen 7", "Intel Core i5", "AMD Ryzen 5", "AMD Ryzen 3", "Intel Core i9", "Intel Core i7"}
-    "AMD Ryzen 3"
     */
 }
 

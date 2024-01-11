@@ -15,8 +15,8 @@ The following basic concepts (with their rough equivalents in Rust) are illustra
 | Tuple                     | Tuples     |
 | Lambdas                   | Closures   |
 | List comprehensions       | Map/filter |
-| dict                      | HashMap    |
-| set                       | HashSet    |
+| Dictionary                | HashMap    |
+| Set                       | HashSet    |
 
 We start with defining a simple data structure, `Person` (a `class` in Python and a `struct` in Rust with an `impl` block). The `Person` has a name and an age. We then
 define a list of `Person` objects, and use the above constructs to illustrate how to work with
