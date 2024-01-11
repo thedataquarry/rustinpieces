@@ -57,12 +57,16 @@ id,name,age,isMarried,city,state,country
 
 ## Python Setup
 
-Install dependencies via a virtual environment.
+Install the dependencies in a virtual environment via `requirements.txt`.
 
 ```bash
+# First time setup
 python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
+
+# For subsequent runs, simply activate the environment
+source venv/bin/activate
 ```
 
 ### Run script

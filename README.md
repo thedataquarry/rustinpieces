@@ -14,29 +14,43 @@ The larger goal of the book is to help developers become proficient enough with 
 
 Each *piece* is a small project that's implemented in both Python and Rust. The goal is to make it as easy as possible for Python developers to understand the Rust implementation, and vice versa.
 
+The roadmap for the pieces is shown below. It makes sense to go through the pieces in order, as the later ones have slightly higher complexity. However, each piece is self-contained and can be read on its own.
+
 ### Intro
 - [x] Hello World
 - [x] Data structures and constructs
 
 ### File handling
-- [ ] Simple CSV
+- [x] Simple CSV
 - [x] Regex JSON
 - [x] Mock data generation CSV
 - [x] Age groups CSV
 - [x] Datetime parsing CSV
 
+### Data analysis
+- [ ] Polars datetime handling
+- [ ] Polars exploratory data analysis
+
 ### Databases
+
+Relational DBs:
 - [x] Postgres ETL
+- [ ] DuckDB
+
+Search engines:
 - [ ] Meilisearch
 - [ ] Qdrant
 
-### APIs
-- [ ] REST API on top of Postgres
-- [ ] More to come...
+Graph DBs:
+- [ ] KùzuDB
 
-### Data analysis
-- [ ] Polars datetime handling
-- [ ] Polars analysis
+### APIs
+- [ ] REST endpoints to Postgres
+- [ ] REST endpoints to locally running LLM (e.g., Mistral)
 
 ### Unification
-- [ ] Blending 🐍 + 🦀 worlds via PyO3
+
+PyO3 allows us to unify 🐍 + 🦀 codebases from either language.
+
+- [ ] Generate mock data in Rust from Python
+- [ ] Query LLM from Python via a Rust API

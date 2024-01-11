@@ -125,6 +125,52 @@ def run7() -> None:
     """
 
 
+def run8() -> None:
+    """
+    8. dicts
+    """
+    processors = {
+        "13900KS": "Intel Core i9",
+        "13700K": "Intel Core i7",
+        "13600K": "Intel Core i5",
+        "1800X": "AMD Ryzen 7",
+        "1600X": "AMD Ryzen 5",
+        "1300X": "AMD Ryzen 3",
+    }
+
+    # Check for presence of value
+    is_item_in_dict = "AMD Ryzen 3" in processors.values()
+    print(f'Is "AMD Ryzen 3" in the dict of processors?: {is_item_in_dict}')
+    # Lookup by key
+    key = "13900KS"
+    lookup_by_key = processors[key]
+    print(f'Key "{key}" has the value "{lookup_by_key}"')
+    """
+    Is "AMD Ryzen 3" in the dict of processors?: True
+    Key "13900KS" has the value "Intel Core i9"
+    """
+
+
+def run9() -> None:
+    processors = {
+        "Intel Core i9",
+        "Intel Core i7",
+        "Intel Core i5",
+        "AMD Ryzen 7",
+        "AMD Ryzen 5",
+        "AMD Ryzen 3",
+    }
+    # Duplicate values are ignored
+    processors.add("Intel Core i7")
+    processors.add("AMD Ryzen 5")
+    # Check for presence of value
+    is_item_in_set = "AMD Ryzen 3" in processors
+    print(f'Is "AMD Ryzen 3" in the set of processors?: {is_item_in_set}')
+    """
+    Is "AMD Ryzen 3" in the set of processors?: True
+    """
+
+
 def main() -> None:
     run1()
     run2()
@@ -133,6 +179,8 @@ def main() -> None:
     run5()
     run6()
     run7()
+    run8()
+    run9()
 
 
 if __name__ == "__main__":
