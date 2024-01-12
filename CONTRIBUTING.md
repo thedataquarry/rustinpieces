@@ -35,7 +35,7 @@ pre-commit run --all-files
 ```
 
 If committing Rust code, make sure to run Cargo's clippy and fmt on the `piece` so that linting is
-respected. You can do this by eiter using the `Makefile` provided in each `piece`, or by running
+respected. You can do this by either using the `Makefile` provided in each `piece`, or by running
 the Cargo commands individually.
 
 ```sh
