@@ -34,6 +34,21 @@ before commiting you can do so manually:
 pre-commit run --all-files
 ```
 
+If committing Rust code, make sure to run Cargo's clippy and fmt on the `piece` so that linting is
+respected. You can do this by eiter using the `Makefile` provided in each `piece`, or by running
+the Cargo commands individually.
+
+```sh
+make all
+
+# Runs the following
+cargo fmt --all --quiet
+cargo check --all-targets --quiet
+cargo clippy --all-targets --quiet
+cargo test --quiet
+cargo run --quiet
+```
+
 ## Critiquing the documentation and/or code
 
 This is the easiest way to contribute. Basically, as you read the documentation or experiment with
