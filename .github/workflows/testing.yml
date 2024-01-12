@@ -1,4 +1,4 @@
-name: Testing
+name: Linting and Testing
 
 on:
   push:
@@ -23,7 +23,7 @@ jobs:
       - name: Cache dependencies
         uses: Swatinem/rust-cache@v2.7.2
       - name: Prep data and sqlx # This prevents sqlx errors if the database isn't running
-        run: sh ./scripts/prep_tests.sh
+        run: sh ./ci/prep_tests.sh
       - name: Run cargo clippy
         run: cargo clippy --all-targets -- --deny warnings
   fmt:
@@ -49,6 +49,6 @@ jobs:
       - name: Cache dependencies
         uses: Swatinem/rust-cache@v2.7.2
       - name: Prep data and sqlx # This prevents sqlx errors if the database isn't running
-        run: sh ./scripts/prep_tests.sh
+        run: sh ./ci/prep_tests.sh
       - name: Run cargo test
         run: cargo test
