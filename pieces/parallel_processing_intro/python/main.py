@@ -92,7 +92,7 @@ def write_persons_to_csv(profiles: list[Person], output_path: Path) -> None:
 
 
 def spinner(message_queue: Queue) -> None:
-    rate = 0.2
+    rate = 0.1
     while True:
         try:
             message = message_queue.get_nowait()

@@ -8,7 +8,10 @@ In this project, we will build on the [mock data generation](../mock_data/) exam
 a spinner while the data is being generated in parallel. This will make it clear that the program
 is still running and not frozen while generating large amounts of data.
 
-This exercise is meant as a simple introduction to parallel processing and message passing. If you want to add spinners or progress bars to you application we recommend a purpose built library such as [TQDM](https://github.com/tqdm/tqdm) or [Rich](https://github.com/Textualize/rich) in Python, and [Indicatif](https://github.com/console-rs/indicatif) in Rust.
+This exercise is meant as a simple introduction to parallel processing and message passing. If you
+want to add spinners or progress bars to you application we recommend a purpose built library such
+as [TQDM](https://github.com/tqdm/tqdm) or [Rich](https://github.com/Textualize/rich) in Python,
+and [Indicatif](https://github.com/console-rs/indicatif) in Rust.
 
 ## Inputs
 

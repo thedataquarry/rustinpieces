@@ -7,6 +7,7 @@ members = [
   "pieces/hello_world/rust",
   "pieces/intro/rust",
   "pieces/mock_data/rust",
+  "pieces/parallel_processing_intro/rust",
   "pieces/postgres_etl/rust",
   "pieces/regex_json/rust",
 ]
