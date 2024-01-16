@@ -33,7 +33,7 @@ Yakutsk,Russia,-37.5
 ```
 
 We have a combination of positive and negative temperatures for these places in Fahrenheit.
-In the northern hemisphere in January, certain cities go *brrr* 🥶.
+In the northern hemisphere in January, certain cities go _brrr_ 🥶.
 
 ## Output
 
@@ -171,3 +171,23 @@ test tests::test_write_csv ... ok
 
 test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 ```
+
+## Takeaways
+
+Notice that in `read_csv` in the Rust file the return type is `Result<Vec<CityTemps>, Box<dyn std::error::Error>>`.
+In Python, exceptions can be raised either explicitly or silently at any time. However, this is not
+the case in Rust. If a function can error it, _must_ return the `Result` type, specifying the type
+for success, the `Ok` value, and the type for errors, the `Err`. Any time a function is called
+that returns a `Result` both the `Ok` and the `Err` possiblities have to be handled. The `?` operator
+can be used when a function returns a `Result`, and specfifies that if the result of the function
+call is an error that error should be returned, otherwise use the `Ok` value.
+
+You will also notice that `expect` and `unwrap` are used. These are similiar to using `?`, but can
+be used in functions that don't return a `Result`. The difference between `expect` and `unwrap` is
+`expect` allows you to provide a specific message when a panic, while `unwrap` uses a generaic message.
+Because `expect` allows a custom message, it can make it easier to understand where an error is happening
+since you will be to compare the error message to the messages you have provided. `expect` and `unwrap`
+are good for prototyping and tests, but are almost never what you want to use in the final application
+or library. If the result of the `expect`/`unwrap` is an error, the program will panic, meaning it
+exits without the possiblity of recovering, so it's considered a best practice to clean up your code
+with proper error handling using `Result` prior to running any code in production.

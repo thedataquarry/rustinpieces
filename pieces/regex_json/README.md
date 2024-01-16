@@ -118,6 +118,7 @@ in `serde_json` via `serde`, we need to install it using the features flag.
 cargo add regex
 cargo add serde --features derive
 cargo add serde_json
+cargo add anyhow
 ```
 
 ### Run project
@@ -210,3 +211,23 @@ test tests::test_run ... ok
 
 test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
 ```
+
+## Takeaways
+
+In this example the [anyhow](https://github.com/dtolnay/anyhow) crate is used. This crate simplifies
+error handling with the use of `anyhow::Result`, allowing the `?` operator to be used on all error
+types. When using the standard library `Result`, the error type that will be returned is specified
+in the return signature. For example `Result<T, std::io::Error>`. In this case `?` can only be used
+if the resulting error would be of type `std::io::Error`. Using `anyhow::Result` also simplifies the
+return signature because the error type does not need to be provided, it is instead understood to be
+`anyhow::Error`. This means instead of returning `Result<T, Box<dyn std::error::Error>>`, you can
+return `Result<T>`.
+
+In this example, the `bail!` macro is also used. This is a convenience macro that lets you exit the
+function early returning the error in the `Result` containing the specified message. This is similar
+to using `raise` in Python. The big difference between `bail!` and something like `panic!` is `panic!`
+exits the program with an error, while `bail!` returns the error to the caller. To put this difference
+in context, if the `get_data` function was called as part of a web app and we used `panic!` the app
+would crash at this point and the server would have to be restarted to bring it back up. By using
+`bail!` a message could instead be sent back to the user that an error occurred and the server can
+keep running without issue.
