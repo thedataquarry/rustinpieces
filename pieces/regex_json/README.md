@@ -224,5 +224,10 @@ return signature because the error type does not need to be provided, it is inst
 return `Result<T>`.
 
 In this example, the `bail!` macro is also used. This is a convenience macro that lets you exit the
-function early returning an error containing the specified message. This is similar to using
-`raise` in Python.
+function early returning the error in the `Result` containing the specified message. This is similar
+to using `raise` in Python. The big difference between `bail!` and something like `panic!` is `panic!`
+exits the program with an error, while `bail!` returns the error to the caller. To put this difference
+in context, if the `get_data` function was called as part of a web app and we used `panic!` the app
+would crash at this point and the server would have to be restarted to bring it back up. By using
+`bail!` a message could instead be sent back to the user that an error occurred and the server can
+keep running without issue.
