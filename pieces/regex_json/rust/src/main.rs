@@ -1,5 +1,6 @@
 use std::path::Path;
 
+use anyhow::{bail, Result};
 use regex::Regex;
 use serde::{Deserialize, Serialize};
 use std::fs;
@@ -20,13 +21,13 @@ struct CompanyFinal {
     annual_revenue_upper: f64,
 }
 
-fn get_data(path: &Path) -> Vec<Company> {
+fn get_data(path: &Path) -> Result<Vec<Company>> {
     if !path.exists() {
-        panic!("File {:?} not found", path);
+        bail!("File {:?} not found", path);
     }
     let contents = fs::read_to_string(path).expect("Could not load from file");
     let data: Vec<Company> = serde_json::from_str(&contents).expect("Could not parse JSON");
-    data
+    Ok(data)
 }
 
 fn get_revenue_multiplier(multiplier: &str) -> f64 {
@@ -38,32 +39,28 @@ fn get_revenue_multiplier(multiplier: &str) -> f64 {
     }
 }
 
-fn calculate_range(revenue_string: &str) -> (f64, f64) {
-    let re = Regex::new(r"\$(\d+\.?\d*)([KMB])?-?\$?(\d+\.?\d*)([KMB])?")
-        .expect("Could not compile regex");
-    let captures = re
-        .captures(revenue_string)
-        .expect("Could not parse revenue string");
-    let left_match_num = captures[1]
-        .parse::<f64>()
-        .expect("Could not parse left match");
-    let right_match_num = captures[3]
-        .parse::<f64>()
-        .expect("Could not parse right match");
+fn calculate_range(revenue_string: &str) -> Result<(f64, f64)> {
+    let re = Regex::new(r"\$(\d+\.?\d*)([KMB])?-?\$?(\d+\.?\d*)([KMB])?")?;
+    let captures = match re.captures(revenue_string) {
+        Some(c) => c,
+        None => bail!("Could not parse revenue string"),
+    };
+    let left_match_num = captures[1].parse::<f64>()?;
+    let right_match_num = captures[3].parse::<f64>()?;
 
     let revenue_lower_multiplier = get_revenue_multiplier(&captures[2]);
     let revenue_upper_multiplier = get_revenue_multiplier(&captures[4]);
     let annual_revenue_lower = left_match_num * revenue_lower_multiplier;
     let annual_revenue_upper = right_match_num * revenue_upper_multiplier;
 
-    (annual_revenue_lower, annual_revenue_upper)
+    Ok((annual_revenue_lower, annual_revenue_upper))
 }
 
 fn construct_company_final(
     company: &Company,
     annual_revenue_lower: f64,
     annual_revenue_upper: f64,
-) -> CompanyFinal {
+) -> Result<CompanyFinal> {
     let value: serde_json::Value = serde_json::json!({
         "company": company.company,
         "industry": company.industry,
@@ -71,27 +68,33 @@ fn construct_company_final(
         "annual_revenue_lower": annual_revenue_lower,
         "annual_revenue_upper": annual_revenue_upper,
     });
-    serde_json::from_value(value).expect("Could not parse JSON from value")
+    let company = serde_json::from_value(value)?;
+
+    Ok(company)
 }
 
-fn run() -> Vec<CompanyFinal> {
-    let data: Vec<Company> = get_data(Path::new("../data/companies.json"));
+fn run() -> Result<Vec<CompanyFinal>> {
+    let data: Vec<Company> = get_data(Path::new("../data/companies.json"))?;
     let mut companies: Vec<CompanyFinal> = Vec::new();
     for company in data {
-        let (annual_revenue_lower, annual_revenue_upper) = calculate_range(&company.annual_revenue);
+        let (annual_revenue_lower, annual_revenue_upper) =
+            calculate_range(&company.annual_revenue)?;
         let company_final =
-            construct_company_final(&company, annual_revenue_lower, annual_revenue_upper);
+            construct_company_final(&company, annual_revenue_lower, annual_revenue_upper)?;
         companies.push(company_final);
     }
-    let result =
-        serde_json::to_string_pretty(&companies).expect("Could not serialize JSON from string");
+    let result = serde_json::to_string_pretty(&companies)?;
     println!("{}", result);
     // Return the result as an object so it can be tested
-    serde_json::from_str(&result).expect("Could not parse JSON")
+    let company = serde_json::from_str(&result)?;
+
+    Ok(company)
 }
 
 fn main() {
-    run();
+    if let Err(e) = run() {
+        eprintln!("Error loading data: {e}");
+    }
 }
 
 #[cfg(test)]
@@ -100,14 +103,14 @@ mod tests {
 
     #[test]
     fn test_revenue_range() {
-        let (revenue_lower, revenue_upper) = calculate_range("$1.5M-$2.5M");
+        let (revenue_lower, revenue_upper) = calculate_range("$1.5M-$2.5M").unwrap();
         assert!(revenue_lower > 0.0);
         assert!(revenue_lower < revenue_upper);
     }
 
     #[test]
     fn test_run() {
-        let result = run();
+        let result = run().unwrap();
         assert_eq!(result[0].annual_revenue_lower, 10000000.0);
         assert_eq!(result[0].annual_revenue_upper, 20000000.0);
         assert_eq!(result[1].annual_revenue_lower, 7500000.0);

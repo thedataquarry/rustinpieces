@@ -118,6 +118,7 @@ in `serde_json` via `serde`, we need to install it using the features flag.
 cargo add regex
 cargo add serde --features derive
 cargo add serde_json
+cargo add anyhow
 ```
 
 ### Run project
@@ -210,3 +211,14 @@ test tests::test_run ... ok
 
 test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
 ```
+
+## Takeaways
+
+In this eample the [anyhow](https://github.com/dtolnay/anyhow) crate is used. This crate simplifes
+error handling with the use of `anyhow::Result`, allowing the `?` operator to be used on all error
+types. Additionally the return signature is simplified because the error is implied. This means instead
+of returning `Result<T, Box<dyn std::error::Error>>`, you can return `Result<T>`.
+
+In this example, the `bail!` macro is also used. This is a convience macro that lets you exit the
+function early returning with an error containing the specified message. This is similar to using
+`raise` in Python.
