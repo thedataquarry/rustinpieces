@@ -216,8 +216,12 @@ test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 
 In this example the [anyhow](https://github.com/dtolnay/anyhow) crate is used. This crate simplifies
 error handling with the use of `anyhow::Result`, allowing the `?` operator to be used on all error
-types. Additionally the return signature is simplified because the error is implied. This means instead
-of returning `Result<T, Box<dyn std::error::Error>>`, you can return `Result<T>`.
+types. When using the standard library `Result`, the error type that will be returned is specified
+in the return signature. For example `Result<T, std::io::Error>`. In this case `?` can only be used
+if the resulting error would be of type `std::io::Error`. Using `anyhow::Result` also simplifies the
+return signature because the error type does not need to be provided, it is instead understood to be
+`anyhow::Error`. This means instead of returning `Result<T, Box<dyn std::error::Error>>`, you can
+return `Result<T>`.
 
 In this example, the `bail!` macro is also used. This is a convenience macro that lets you exit the
 function early returning an error containing the specified message. This is similar to using
