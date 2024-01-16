@@ -174,9 +174,9 @@ test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 
 ## Takeaways
 
-Notice in `read_csv` in the Rust file the return type is `Result<Vec<CityTemps>, Box<dyn std::error::Error>>`.
-In Python exceptions can be raised either explicitly or silently at any time, however this is not
-the case in Rust. If a function can error it has to return the `Result` type, specifying the type
+Notice that in `read_csv` in the Rust file the return type is `Result<Vec<CityTemps>, Box<dyn std::error::Error>>`.
+In Python, exceptions can be raised either explicitly or silently at any time. However, this is not
+the case in Rust. If a function can error it, _must_ return the `Result` type, specifying the type
 for success, the `Ok` value, and the type for errors, the `Err`. Any time a function is called
 that returns a `Result` both the `Ok` and the `Err` possiblities have to be handled. The `?` operator
 can be used when a function returns a `Result`, and specfifies that if the result of the function
@@ -186,4 +186,5 @@ You will also notice that `expect` and `unwrap` are used. These are similiar to 
 be used in functions that don't return a `Result`. These are good for prototyping and tests, but
 are almost never what you want to use in the final application or library. If the result of the
 `expect`/`unwrap` is an error, the program will panic, meaning it exits without the possiblity of
-recovering.
+recovering, so it's considered a best practice to clean up your code with proper error handling using
+`Result` prior to running any code in production.

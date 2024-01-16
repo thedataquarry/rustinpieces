@@ -214,11 +214,11 @@ test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 
 ## Takeaways
 
-In this eample the [anyhow](https://github.com/dtolnay/anyhow) crate is used. This crate simplifes
+In this example the [anyhow](https://github.com/dtolnay/anyhow) crate is used. This crate simplifies
 error handling with the use of `anyhow::Result`, allowing the `?` operator to be used on all error
 types. Additionally the return signature is simplified because the error is implied. This means instead
 of returning `Result<T, Box<dyn std::error::Error>>`, you can return `Result<T>`.
 
-In this example, the `bail!` macro is also used. This is a convience macro that lets you exit the
-function early returning with an error containing the specified message. This is similar to using
+In this example, the `bail!` macro is also used. This is a convenience macro that lets you exit the
+function early returning an error containing the specified message. This is similar to using
 `raise` in Python.
