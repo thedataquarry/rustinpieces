@@ -20,11 +20,12 @@ python main.py
 
 ## Rust
 
-The file `main.rs` has just one line of code:
+The file `main.rs` has just three lines of code:
 
-```rust
-println!("Hello, world!");
-```
+```rs
+fn main() {
+    println!("Hello, world!");
+}
 
 The program is run via `cargo`:
 

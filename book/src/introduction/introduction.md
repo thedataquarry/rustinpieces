@@ -32,7 +32,7 @@ Rust's learning curve is considerably steeper than Python's, so the table below 
 | Polars EDA | DataFrames | TBD
 | Postgres | Databases | async, sqlx, tokio
 | DuckDB | Databases | arrow, in-memory DB
-| Meilisearch | Databases| async, futures
+| Meilisearch | Databases | async, async-std |
 | Qdrant | Databases | async, tokio, gRPC
 | KùzuDB | Databases | async, graph
 | REST API to Postgres | APIs | axum, async, tokio
