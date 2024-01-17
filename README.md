@@ -14,43 +14,32 @@ The larger goal of the book is to help developers become proficient enough with 
 
 Each *piece* is a small project that's implemented in both Python and Rust. The goal is to make it as easy as possible for Python developers to understand the Rust implementation, and vice versa.
 
-The roadmap for the pieces is shown below. It makes sense to go through the pieces in order, as the later ones have slightly higher complexity. However, each piece is self-contained and can be read on its own.
+The code for the pieces is in the [pieces](./pieces) directory. Each piece is accompanied by a README that explains the problem statement, and how to run the code in both languages.
 
-### Intro
-- [x] Hello World
-- [x] Data structures and constructs
+One of the challenges with learning (and teaching) Rust, is that certain concepts such as ownership, borrowing, traits and lifetimes can be quite challenging to grasp for a new learner, but these concepts are ubiquitous in the language, such that they appear all at once. But, because the learning approach provided here is top-down, the best way to get familiar with these concepts is to try and apply them to your own projects, as done in each piece listed below.
 
-### File handling
-- [x] Simple CSV
-- [x] Regex JSON
-- [x] Mock data generation CSV
-- [x] Age groups CSV
-- [x] Datetime parsing CSV
+As such, the concepts are introduced in a way that's as gradual as possible, though it's still possible that you may find yourself having to refer to the [Rust book](https://doc.rust-lang.org/book/) or other resources to understand certain concepts from the bottom-up as you go along.
 
-### Data analysis
-- [ ] Polars datetime handling
-- [ ] Polars exploratory data analysis
+A roadmap for upcoming pieces is shown below. Stay tuned!
 
-### Databases
-
-Relational DBs:
-- [x] Postgres ETL
-- [ ] DuckDB
-
-Search engines:
-- [ ] Meilisearch
-- [ ] Qdrant
-
-Graph DBs:
-- [ ] KùzuDB
-
-### APIs
-- [ ] REST endpoints to Postgres
-- [ ] REST endpoints to locally running LLM (e.g., Mistral)
-
-### Unification
-
-PyO3 allows us to unify 🐍 + 🦀 codebases from either language.
-
-- [ ] Generate mock data in Rust from Python
-- [ ] Query LLM from Python via a Rust API
+| Piece | Category | New Rust concepts
+| --- | --- | --- |
+| Hello world | Intro | macros
+| Data structures & constructs | Intro | crates, structs, traits, implementations
+| Simple CSV parsing | File-handling | serde, vec
+| Regex JSON | File-handling | match, regex
+| Mock data generation | File-handling | RNG, sampling
+| Age grouping | File-handling | enums
+| Datetime parsing | File-handling | chrono, lifetimes
+| Preprocessing data for NLP | Parallelism | rayon, parallelism
+| Polars datetimes | DataFrames | datetimes
+| Polars EDA | DataFrames | TBD
+| Postgres | Databases | async, sqlx, tokio
+| DuckDB | Databases | arrow, in-memory DB
+| Meilisearch | Databases| async, async-std
+| Qdrant | Databases | async, tokio, gRPC
+| KùzuDB | Databases | async, graph
+| REST API to Postgres | APIs | axum, async, tokio
+| REST API to local LLM | APIs | axum, LLMs
+| PyO3 mock data generation | Unification | TBD
+| PyO3 query local LLM | Unification | TBD
