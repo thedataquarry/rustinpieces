@@ -1,7 +1,5 @@
 # Contributors
 
-
-
 ## Authors
 
 *Rust in Pieces* is co-authored by [Prashanth Rao](https://github.com/prrao87) and [Paul Sanders](https://github.com/sanders41).
