@@ -13,7 +13,7 @@ Windows users can use [pyenv-win](https://github.com/pyenv-win/pyenv-win), a for
 
 ### Python version
 
-This book uses Python 3.11.x. You can install the latest minor version using `pyenv`:
+This book uses Python 3.11.x, though code run from Python 3.8+ should also work without issues. You can install the latest minor version using `pyenv`:
 
 ```bash
 pyenv install 3.11.7
@@ -25,13 +25,20 @@ It's recommended to use [virtual environments](https://docs.python.org/3/tutoria
 
 The `venv` module is included in the Python standard library, so you don't need to install anything extra to use it.
 
-To create a virtual environment, run the following command:
+To create a virtual environment on Unix systems, run the following command:
 
 ```bash
 # Setup a new environment for the first time
 python -m venv venv
 # Activate the environment
 source venv/bin/activate
+```
+
+On Windows, it's more or less the same:
+
+```cmd
+py -m venv .venv
+.venv\Scripts\activate
 ```
 
 You can deactivate the environment by running `deactivate` in your shell.
