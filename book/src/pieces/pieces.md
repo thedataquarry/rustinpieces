@@ -6,7 +6,7 @@ A piece is a self-contained project with Python and Rust implementations that ea
 
 A piece's directory structure is organized as follows:
 
-```
+```bash
 pieces
 ├── piece-1
 │   ├── python
