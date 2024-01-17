@@ -1,0 +1,10 @@
+[book]
+title = "Rust in Pieces"
+authors = ["prrao87", "sanders41"]
+language = "en"
+multilingual = false
+src = "src"
+
+[output.html]
+site-url = "/rustinpieces"
+additional-css = ["theme/extra.css"]
