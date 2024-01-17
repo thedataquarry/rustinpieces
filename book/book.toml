@@ -8,7 +8,3 @@ title = "Rust in Pieces"
 [output.html]
 site-url = "/book/"
 additional-css = ["theme/extra.css"]
-
-# [output.html.fold]
-# enable = true
-# level = 2
