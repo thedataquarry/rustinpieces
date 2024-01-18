@@ -14,7 +14,7 @@ indexing, and preform searaches all through a CLI.
 For data we will use the [wine reviews dataset from Kaggle](https://www.kaggle.com/datasets/zynicide/wine-reviews).
 The dataset is in the following format:
 
-```json
+```
   id: number | null,
   title: string,
   description: string,
