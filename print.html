@@ -1,0 +1,404 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Rust in Pieces</title>
+        <meta name="robots" content="noindex">
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/extra.css">
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction/introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="introduction/why-rust.html"><strong aria-hidden="true">1.1.</strong> Why use Rust with Python?</a></li><li class="chapter-item expanded "><a href="introduction/learning.html"><strong aria-hidden="true">1.2.</strong> How to learn new language</a></li><li class="chapter-item expanded "><a href="introduction/how-to-read.html"><strong aria-hidden="true">1.3.</strong> How to read this book</a></li></ol></li><li class="chapter-item expanded "><a href="setup.html"><strong aria-hidden="true">2.</strong> Setup & installation</a></li><li class="chapter-item expanded "><a href="pieces/pieces.html"><strong aria-hidden="true">3.</strong> Pieces</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="pieces/hello-world.html"><strong aria-hidden="true">3.1.</strong> Hello world!</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><a href="CONTRIBUTORS.html"><strong aria-hidden="true">4.</strong> Contributors</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust in Pieces</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="rust-in-pieces"><a class="header" href="#rust-in-pieces">Rust in Pieces</a></h1>
+<p>A top-down approach to learning Rust coming from Python (and vice-versa).</p>
+<h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
+<p>This book's goal is to bring the Python and Rust developer communities closer together, and to help more developers from one language learn how to leverage the benefits of the other.</p>
+<p>The book and accompanying <a href="https://github.com/thedataquarry/rustinpieces">code</a> are organized into a collection of small projects, termed <em>pieces</em>. Each piece is a self-contained task with Python and Rust implementations that each perform the same task. The aim is to help Python developers gain familiarity with Rust, and vice-versa, by comparing and contrasting the two languages in a top-down manner.</p>
+<p>Importantly, the pieces in this book build towards <strong>unifying Python and Rust code bases</strong> via <a href="https://github.com/PyO3/pyo3">PyO3</a>, a highly popular open source library that allows you to call Rust bindings from Python or the Python interpreter from Rust. <em>Using one language does not preclude using the other!</em></p>
+<p>As you go through the pieces, you'll find yourself becoming proficient in writing clean, tested, production-worthy code using engineering best practices in either language, moving between them at will. Over time, you can make a more informed choice regarding when to use one or the other language for parts of a larger project.</p>
+<p>We believe that Rust 🦀 is the among the most approachable lower-level programming languages for Python developers, and that Python is one of the most valuable high-level languages for Rust developers who are looking to build tooling for the burgeoning data, AI and ML ecosystems. The arrival of tools like PyO3 has made it highly feasible for a developer to straddle both worlds, combining their best parts, thus helping build more efficient and scalable software.</p>
+<h2 id="whats-covered-in-this-book"><a class="header" href="#whats-covered-in-this-book">What's covered in this book?</a></h2>
+<p>Rust's learning curve is considerably steeper than Python's, so the table below is provided to show a mapping between each piece and its corresponding concept in Rust. As can be seen, structs, serialization, deserialization, vectors and traits are ubiquitous concepts in Rust.</p>
+<div class="table-wrapper"><table><thead><tr><th>Piece</th><th>Category</th><th>New Rust concepts</th></tr></thead><tbody>
+<tr><td>Hello world</td><td>Intro</td><td>macros</td></tr>
+<tr><td>Data structures &amp; constructs</td><td>Intro</td><td>crates, structs, traits, implementations</td></tr>
+<tr><td>Simple CSV parsing</td><td>File-handling</td><td>serde, vec</td></tr>
+<tr><td>Regex JSON</td><td>File-handling</td><td>match, regex</td></tr>
+<tr><td>Mock data generation</td><td>File-handling</td><td>RNG, sampling</td></tr>
+<tr><td>Age grouping</td><td>File-handling</td><td>enums</td></tr>
+<tr><td>Datetime parsing</td><td>File-handling</td><td>chrono, lifetimes</td></tr>
+<tr><td>Preprocessing data for NLP</td><td>Parallelism</td><td>rayon, parallelism</td></tr>
+<tr><td>Polars datetimes</td><td>DataFrames</td><td>datetimes</td></tr>
+<tr><td>Polars EDA</td><td>DataFrames</td><td>TBD</td></tr>
+<tr><td>Postgres</td><td>Databases</td><td>async, sqlx, tokio</td></tr>
+<tr><td>DuckDB</td><td>Databases</td><td>arrow, in-memory DB</td></tr>
+<tr><td>Meilisearch</td><td>Databases</td><td>async, async-std</td></tr>
+<tr><td>Qdrant</td><td>Databases</td><td>async, tokio, gRPC</td></tr>
+<tr><td>KùzuDB</td><td>Databases</td><td>async, graph</td></tr>
+<tr><td>REST API to Postgres</td><td>APIs</td><td>axum, async, tokio</td></tr>
+<tr><td>REST API to local LLM</td><td>APIs</td><td>axum, LLMs</td></tr>
+<tr><td>PyO3 mock data generation</td><td>Unification</td><td>TBD</td></tr>
+<tr><td>PyO3 query local LLM</td><td>Unification</td><td>TBD</td></tr>
+</tbody></table>
+</div><div style="break-before: page; page-break-before: always;"></div><h1 id="why-use-rust-with-python"><a class="header" href="#why-use-rust-with-python">Why use Rust with Python?</a></h1>
+<p><a href="https://www.python.org/">Python</a> is a dynamically typed, interpreted programming language that's known for its flexibility, ease of use and low barrier to entry. It's by far the most popular language for AI, ML and data science, and has been the go-to language for researchers and innovators in these fields for quite a while now.</p>
+<p>It's possible to write relatively high-performance code in Python these days by leveraging its rich library ecosystem (which are typically wrappers around C/C++/Cython runtimes). However, performance and concurrency are <em>not</em> Python's strong suits, and this requires performance-critical code to be implemented in lower-level languages. For many Python developers, using languages like C, C++ and Cython is a daunting prospect.</p>
+<p><a href="https://www.rust-lang.org/">Rust</a> is a statically typed, compiled programming language that's known for its relatively steep learning curve. Its design philosophy is centered around three core functions: performance, safety, and fearless concurrency. It offers a modern, high-level syntax and a rich type system that makes it possible to write code that runs really fast without the need for manual memory management, eliminating entire classes of bugs.</p>
+<p>Although it's possible to write all sorts of complex tools and applications in Rust, it's not the best option for <em>every</em> situation. In cases like research and prototyping, where speed of iteration is important, Rust's strict compiler can slow down development, and Python is still the better choice.</p>
+<p>We believe that Python 🐍 and Rust 🦀 form a near-perfect pair to address either side of the so-called &quot;two-world problem&quot;, explained below.</p>
+<h2 id="the-two-world-problem"><a class="header" href="#the-two-world-problem">The two-world problem</a></h2>
+<p>The programming world often finds itself divided in two: those who prefer high-level, dynamically typed languages, and those who prefer low-level, statically typed languages.</p>
+<p>Many high-level languages are interpreted (i.e., they execute each line as it's read, sequentially). These languages are generally easier to learn because they abstract away the details of memory management, allowing for rapid prototyping and development.</p>
+<p>Lower-level languages, on the other hand, tend to be ahead-of-time (AOT) compiled. They offer the programmer more control over memory management, resulting in much more performant code at the cost of a steeper learning curve.</p>
+<p>It's for these reasons that scientists, researchers, data scientists, data analysts, quants, etc. have traditionally preferred high-level languages like Python, R and Julia. On the other hand, systems programmers, OS developers, embedded systems engineers, game developers and software engineers tend to prefer lower-level languages like C, C++ and Rust.</p>
+<p><img src="introduction//image/two-world-problem.png" alt="" /></p>
+<p>The image above is a figurative representation of two distributions of people, typically disparate individuals from either background (with the languages listed in no specific order).</p>
+<h2 id="has-the-two-world-problem-been-solved-before"><a class="header" href="#has-the-two-world-problem-been-solved-before">Has the two-world problem been solved before?</a></h2>
+<p>A lot of readers will have heard of Julia, a dynamically typed, just-in-time (JIT) compiled alternative to Python and is often touted as a &quot;high-level language with the performance of C&quot;. While Julia is no doubt a great language, it's popularity is largely limited to the scientific community and its library ecosystem and user community haven't yet matured to the extent that Python's has. As such, the &quot;two-language problem&quot; that Julia <a href="https://julialang.org/blog/2012/02/why-we-created-julia/">attempts to solve</a>, is still largely unsolved.</p>
+<p>Other languages like Mojo explain in <a href="https://docs.modular.com/mojo/why-mojo.html">their vision</a> how they aim to solve the two-world problem by providing a single unified language (acting like a superset of Python) that can be compiled to run on any hardware. However, Mojo is still very much in its infancy as a language and hasn't gained widespread adoption, and its user community is non-existent.</p>
+<h2 id="rust-and-pyo3"><a class="header" href="#rust-and-pyo3">Rust and PyO3</a></h2>
+<p>The most interesting aspect about PyO3 in combination with Rust is that they offer a new way to think the two-world problem. Rather than trying to <em>solve</em> the problem by creating a new language that offers the best of many worlds, Rust and PyO3 <em>embrace</em> the problem by allowing a developer to move between the worlds and choose the best tool for parts of a larger task.</p>
+<p>Rust's design philosophy and features make it an ideal candidate to bring people from these worlds (high-level and low-level languages) closer together. Rust's strict compiler, rich type system and ownership principles eliminate the need to manually manage memory without requiring a garbage collector, making it possible for a larger community of analytical and scientifically-minded developers to write high-performance code <em>without</em> sacrificing safety.</p>
+<p><img src="introduction//image/two-world-problem-embraced.png" alt="" /></p>
+<p>The image above shows a distribution of the same potential set of developers who can straddle both worlds. Those who are already proficient in Python and require fast iteration for prototyping can choose to write only very specific, performance-critical parts of their code in Rust. Conversely, those who are already proficient in Rust and require high-performance, safe code for their workflows can choose to interface with Python for only very specific parts that need access to the Python ecosystem.</p>
+<p>In our view, the interface that PyO3 provides is <strong>fundamentally different</strong> from earlier approaches to interoperability with Python (such as pybind11, SWIG or Cython), because unlike the earlier tools, PyO3 and Rust are far more accessible to Python developers. We hope this becomes clearer and clearer as you progress through the book.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="how-to-approach-learning-a-new-language"><a class="header" href="#how-to-approach-learning-a-new-language">How to approach learning a new language</a></h1>
+<p>Typically, the first steps in learning a programming language involve understanding its syntax, data structures and control flow expressions before tackling a specific problem. This is termed as <em>bottom-up</em> learning, and it's essential to understand the terminology of the language and its ecosystem.</p>
+<p>Bottom-up learning resources typically include:</p>
+<ul>
+<li>Books</li>
+<li>Documentation</li>
+<li>Tutorials</li>
+<li>Interactive exercises</li>
+</ul>
+<p>Although necessary to master a topic, bottom-up learning has the issue that learners often get stuck in <em>tutorial hell</em>, where they're constantly being exposed to new concepts without actually building anything end-to-end. In addition, bottom-up learning can leave learners frustrated because they're not able to see the bigger picture and how the different parts come together as a whole.</p>
+<p>In contrast, top-down learning follows a more pragmatic approach that's grounded in the real-world. For this, a more abstract way of thinking is required. The learner identifies a problem statement in their domain and they learn <em>just enough</em> of the language to solve the problem at hand, going deeper only as needed.</p>
+<p>Top-down learning resources typically include learning by example, using any of the following resources:</p>
+<ul>
+<li>Existing codebases</li>
+<li>Blogs</li>
+<li>Podcasts</li>
+<li>Videos</li>
+</ul>
+<div class="warning">
+<p>Top-down learning is not a replacement for bottom-up learning. The best way to become proficient and productive in a language is to <em>combine</em> both approaches and do them <em>together</em>.</p>
+</div>
+<h2 id="dont-reinvent-the-wheel"><a class="header" href="#dont-reinvent-the-wheel">Don't reinvent the wheel</a></h2>
+<p>When learning a new language, it's tempting to start from scratch and build everything that's required to solve a problem from the ground up. This is a slow, sometimes painful process if you're just starting off, and can result in inefficient, unidiomatic code.</p>
+<p>Both Rust and Python have rich package ecosystems, and this book leverages them to the fullest extent possible. After all, most great software is built on the shoulders of giants. Reading through existing codebases for libraries, tools and frameworks is a great way to learn how to write idiomatic code in a language, and to understand the performance implications of your code.</p>
+<h2 id="prior-reading"><a class="header" href="#prior-reading">Prior reading</a></h2>
+<p>It's recommended to have a basic understanding of Python and Rust before reading this book. If you're new to either language, consider reading the following resources. It's <strong>okay</strong> if you don't absorb everything in the first pass -- the goal is to get a high-level understanding of either language and their ecosystems.</p>
+<ul>
+<li><a href="https://nostarch.com/pythoncrashcourse2e">Python Crash Course</a> for hands-on Python concepts</li>
+<li><a href="https://doc.rust-lang.org/book/">The Rust Book</a> and <a href="https://doc.rust-lang.org/rust-by-example/">Rust by Example</a> for an introduction to terminology and concepts in Rust</li>
+<li><a href="https://github.com/rust-lang/rustlings">Rustlings</a> for a gentle introduction to compiling and running Rust code</li>
+</ul>
+<p>Once you have a handle on the terminology, you can start by getting your hands dirty with the pieces provided in this book. Or better yet, use this framework to create your own pieces for your domain of interest and start writing some code!</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="how-to-read-this-book"><a class="header" href="#how-to-read-this-book">How to read this book</a></h1>
+<p>The pieces are not meant to be read in a specific order. However, they are roughly organized in order of increasing complexity, and each piece, by and large, utilizes concepts that may have been introduced in an earlier piece.</p>
+<p>One of the challenges with learning (and teaching) Rust, is that certain concepts such as ownership, borrowing, traits and lifetimes can be quite challenging to grasp for a new learner, but these concepts are ubiquitous in the language, such that they appear all at once. But, because the learning approach provided here is top-down, the best way to get familiar with these concepts is to try and apply them to your own projects, as done in each piece.</p>
+<p>As such, we've tried to introduce these concepts in a way that's as gradual as possible, though it's still possible that you may find yourself having to refer to the <a href="https://doc.rust-lang.org/book/">Rust book</a> or other resources to understand certain concepts from the bottom-up as you go along.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="setup--installation"><a class="header" href="#setup--installation">Setup &amp; installation</a></h1>
+<p>This section provides an opinionated guide to setting up your development environment for working with Rust and Python.
+If you're an experienced developer in either language, feel free to skip this section.</p>
+<h2 id="python"><a class="header" href="#python">Python</a></h2>
+<p>For macOS/Linux users, it's recommended to manage Python versions using <a href="https://github.com/pyenv/pyenv">pyenv</a>. <code>pyenv</code> lets you easily switch between multiple versions of Python. It's simple, unobtrusive, and follows the UNIX tradition of single-purpose tools that do one thing well.</p>
+<p>Follow the instructions from the <a href="https://github.com/pyenv/pyenv?tab=readme-ov-file#installation">installation steps</a> section of the README to install <code>pyenv</code> on your system.</p>
+<p>Windows users can use <a href="https://github.com/pyenv-win/pyenv-win">pyenv-win</a>, a fork of <code>pyenv</code> that allows you to install and manage Windows-native Python versions.</p>
+<h3 id="python-version"><a class="header" href="#python-version">Python version</a></h3>
+<p>This book uses Python 3.11.x, though code run from Python 3.8+ should also work without issues. You can install the latest minor version using <code>pyenv</code>:</p>
+<pre><code class="language-bash">pyenv install 3.11.7
+</code></pre>
+<h3 id="virtual-environments"><a class="header" href="#virtual-environments">Virtual environments</a></h3>
+<p>It's recommended to use <a href="https://docs.python.org/3/tutorial/venv.html">virtual environments</a> to manage your Python dependencies. This allows you to create isolated environments for each project, and avoid dependency conflicts between projects.</p>
+<p>The <code>venv</code> module is included in the Python standard library, so you don't need to install anything extra to use it.</p>
+<p>To create a virtual environment on Unix systems, run the following command:</p>
+<pre><code class="language-bash"># Setup a new environment for the first time
+python -m venv venv
+# Activate the environment
+source venv/bin/activate
+</code></pre>
+<p>On Windows, it's more or less the same:</p>
+<pre><code class="language-cmd">py -m venv .venv
+.venv\Scripts\activate
+</code></pre>
+<p>You can deactivate the environment by running <code>deactivate</code> in your shell.</p>
+<h2 id="rust"><a class="header" href="#rust">Rust</a></h2>
+<p>For macOS/Linux users, <a href="https://doc.rust-lang.org/book/ch01-01-installation.html#installing-rustup-on-linux-or-macos">rustup</a> is the recommended to manage Rust versions. Using this tool, you can easily switch between multiple versions of Rust, and it also ships with the <code>cargo</code> package manager.</p>
+<p>See the <a href="https://doc.rust-lang.org/book/ch01-01-installation.html#installing-rustup-on-windows">Rust Book</a> for instructions on how to install <code>rustup</code> on Windows.</p>
+<h3 id="rust-version"><a class="header" href="#rust-version">Rust version</a></h3>
+<p>This book uses Rust 1.75.x. You can install the latest minor version using <code>rustup</code>:</p>
+<pre><code class="language-bash">rustup install 1.75.0
+</code></pre>
+<p>You can start a new Rust project in your local directory by running <code>cargo new &lt;project-name&gt;</code>, and you're ready to go!</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="pieces"><a class="header" href="#pieces">Pieces</a></h1>
+<h2 id="what-is-the-purpose-of-each-piece"><a class="header" href="#what-is-the-purpose-of-each-piece">What is the purpose of each piece?</a></h2>
+<p>A piece is a self-contained project with Python and Rust implementations that each perform the same tasks. The purpose of each piece is to help Python developers gain familiarity with Rust, and vice-versa, by comparing and contrasting the two languages in a top-down manner.</p>
+<p>A piece's directory structure is organized as follows:</p>
+<pre><code class="language-bash">pieces
+├── piece-1
+│   ├── python
+│   │   ├── main.py
+│   │   └── test_main.py
+│   └── rust
+│       ├── Cargo.toml
+│       └── src
+│           └── main.rs
+├── piece-2
+├── piece-3
+└── ...
+</code></pre>
+<p>Each piece comes with Python and Rust source code, and their associated tests. When using Rust's test client, test code is placed in the same file as the code it's testing, and is marked with the <code>#[cfg(test)]</code> attribute. When using Python's test client, test code is placed in a separate file, and is marked with the <code>test_</code> prefix.</p>
+<p>For Python, <code>pip</code> is the package manager of choice, and <code>pytest</code> is the test client used throughout the code. For Rust, <code>cargo</code> is the package manager of choice, and Rust's inbuilt test client, invoked by <code>cargo test</code>, is used throughout.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="hello-world"><a class="header" href="#hello-world">Hello world!</a></h1>
+<p>This is the conventional first program that you write when learning a new programming language. It's a simple program that prints the text <code>Hello, world!</code> to the console.</p>
+<p>Navigate to the <code>pieces/hello_world</code> directory in the repo to get started.</p>
+<h2 id="python-1"><a class="header" href="#python-1">Python</a></h2>
+<p>The file <code>main.py</code> has just one line of code:</p>
+<pre><code class="language-python">print(&quot;Hello, world!&quot;)
+</code></pre>
+<p>The program is run as follows:</p>
+<pre><code class="language-bash">python main.py
+</code></pre>
+<h2 id="rust-1"><a class="header" href="#rust-1">Rust</a></h2>
+<p>The file <code>main.rs</code> has just three lines of code:</p>
+<pre><code class="language-rs">fn main() {
+    println!(&quot;Hello, world!&quot;);
+}
+
+The program is run via `cargo`:
+
+```bash
+cargo run
+</code></pre>
+<h2 id="output"><a class="header" href="#output">Output</a></h2>
+<pre><code class="language-bash">Hello, world!
+</code></pre>
+<h2 id="takeaways"><a class="header" href="#takeaways">Takeaways</a></h2>
+<p>Rust's <code>println!</code> macro is similar to Python's <code>print</code> function, but it's a macro, not a function. It simply prints the standard output to the console followed by a newline character.</p>
+<p>Macros are a powerful Rust feature that allow you to write code that writes other code. We'll see more examples of macros in later pieces, but for now, it's enough to know that in Rust, macros are invoked with a <code>!</code> at the end of their name.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="contributors"><a class="header" href="#contributors">Contributors</a></h1>
+<h2 id="authors"><a class="header" href="#authors">Authors</a></h2>
+<p><em>Rust in Pieces</em> is co-authored by <a href="https://github.com/prrao87">Prashanth Rao</a> and <a href="https://github.com/sanders41">Paul Sanders</a>.</p>
+<h3 id="about-the-authors"><a class="header" href="#about-the-authors">About the authors</a></h3>
+<ul>
+<li>
+<p><strong>Prashanth Rao</strong> is an A.I. engineer with a background in scientific computing, machine learning, NLP and database systems. He's passionate about making complex topics accessible to a larger audience. In his spare time, Prashanth actively experiments with open source tools, frameworks and databases, and writes about them <a href="https://thedataquarry.com/">on his blog</a>.</p>
+</li>
+<li>
+<p><strong>Paul Sanders</strong> is a software engineer and consultant having spent decades doing data management and application development in healthcare, pharmaceuticals and biologic drug development. In his spare time, Paul loves contributing to open source software and is actively <a href="https://paulsanders.dev/">maintaining several OSS projects</a>.</p>
+</li>
+</ul>
+<h2 id="additional-contributors"><a class="header" href="#additional-contributors">Additional contributors</a></h2>
+<p>Contributions and improvements from the community are welcome! Please see the <a href="https://github.com/thedataquarry/rustinpieces/blob/main/CONTRIBUTING.md">contributing guidelines</a>.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+        <script>
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+
+    </div>
+    </body>
+</html>
