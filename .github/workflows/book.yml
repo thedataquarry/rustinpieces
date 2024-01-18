@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   deploy:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
     steps:
@@ -20,9 +20,10 @@ jobs:
       - name: Setup mdBook
         uses: peaceiris/actions-mdbook@v1
         with:
-          mdbook-version: 'latest'
+          mdbook-version: latest
 
       - run: |
+          touch book/.nojekyll
           cd book
           mdbook test
           mdbook build
