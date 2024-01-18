@@ -5,7 +5,6 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0
     hooks:
-      - id: check-added-large-files
       - id: check-toml
       - id: check-yaml
       - id: end-of-file-fixer
@@ -15,7 +14,16 @@ repos:
     hooks:
       - id: mypy
         additional_dependencies:
-          [asyncpg, python-dotenv, faker, pydantic, pytest]
+          [
+            asyncpg,
+            faker,
+            meilisearch-python-sdk,
+            pydantic,
+            python-dotenv,
+            rich,
+            srsly,
+            typer,
+          ]
         exclude: ".*/test_.*\\.py"
         args: [--explicit-package-bases] # This is because of the mono repo type setup
   - repo: https://github.com/astral-sh/ruff-pre-commit

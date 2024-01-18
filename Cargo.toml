@@ -6,6 +6,7 @@ members = [
   "pieces/datetime_parsing_csv/rust",
   "pieces/hello_world/rust",
   "pieces/intro/rust",
+  "pieces/meilisearch_with_cli/rust",
   "pieces/mock_data/rust",
   "pieces/postgres_etl/rust",
   "pieces/regex_json/rust",
