@@ -382,3 +382,22 @@ where the tests are run syncronously, the Rust test runner runs tests in paralle
 use of uuids here more important in Rust. Without using unique names for the indexes we would end up
 with race conditions in the tests. Sometimes they would pass and sometimes they would fail without an
 obvious reason for why. This is because one test could be using the index from another test by chance.
+
+## Performance
+
+One big performance advantage Rust has over Python in CLIs, as a compiled language, is startup time.
+With Python there is overhead associated with starting the Python interperter which causes a noticable
+delay in startup time, while Rust is almost instant. An informal test using the `time` command illustrates
+this well. For `create-index`, the Rust program runs in an average of 184ms while the Python program
+average is 796ms on a System76 Lemur Pro with a 13th Gen Intel Core i7-1355U processor and 40GB of
+RAM.
+
+To further illustrate this, for `index-data` the average run time for Rust is 3.41s of which 3.29s is
+spent doing the actual indexing. The average run time for Python is 3.03s of which 1.19s is spent on
+the indexing. Because of the async batch indexing optimizations in `meilisearch-python-async` the Python
+example is significatnly faster than the Rust example at indexing, however almost all of this advantage
+is lost to the startup time of Python.
+
+The `search_benchmark.sh` script runs the same 10 searches in Rust and Python, each time running a
+new search through the CLI. The total runtime for the 10 searches in Rust was 0.143s while in Python
+it was 5.945s. This is 42 times faster attributed almost entirely to startup time!
