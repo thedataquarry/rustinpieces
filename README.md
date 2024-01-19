@@ -12,7 +12,7 @@ The larger goal of the book is to help developers become proficient enough with 
 
 ## Pieces
 
-Each *piece* is a small project that's implemented in both Python and Rust. The goal is to make it as easy as possible for Python developers to understand the Rust implementation, and vice versa.
+Each _piece_ is a small project that's implemented in both Python and Rust. The goal is to make it as easy as possible for Python developers to understand the Rust implementation, and vice versa.
 
 The code for the pieces is in the [pieces](./pieces) directory. Each piece is accompanied by a README that explains the problem statement, and how to run the code in both languages.
 
@@ -22,24 +22,24 @@ As such, the concepts are introduced in a way that's as gradual as possible, tho
 
 A roadmap for upcoming pieces is shown below. Stay tuned!
 
-| Piece | Category | New Rust concepts
-| --- | --- | --- |
-| Hello world | Intro | macros
-| Data structures & constructs | Intro | crates, structs, traits, implementations
-| Simple CSV parsing | File-handling | serde, vec
-| Regex JSON | File-handling | match, regex
-| Mock data generation | File-handling | RNG, sampling
-| Age grouping | File-handling | enums
-| Datetime parsing | File-handling | chrono, lifetimes
-| Preprocessing data for NLP | Parallelism | rayon, parallelism
-| Polars datetimes | DataFrames | datetimes
-| Polars EDA | DataFrames | TBD
-| Postgres | Databases | async, sqlx, tokio
-| DuckDB | Databases | arrow, in-memory DB
-| Meilisearch | Databases| async, async-std
-| Qdrant | Databases | async, tokio, gRPC
-| KùzuDB | Databases | async, graph
-| REST API to Postgres | APIs | axum, async, tokio
-| REST API to local LLM | APIs | axum, LLMs
-| PyO3 mock data generation | Unification | TBD
-| PyO3 query local LLM | Unification | TBD
+| Piece                        | Category      | New Rust concepts                        |
+| ---------------------------- | ------------- | ---------------------------------------- |
+| Hello world                  | Intro         | macros                                   |
+| Data structures & constructs | Intro         | crates, structs, traits, implementations |
+| Simple CSV parsing           | File-handling | serde, vec                               |
+| Regex JSON                   | File-handling | match, regex                             |
+| Mock data generation         | File-handling | RNG, sampling                            |
+| Age grouping                 | File-handling | enums                                    |
+| Datetime parsing             | File-handling | chrono, lifetimes                        |
+| Preprocessing data for NLP   | Parallelism   | rayon, parallelism                       |
+| Polars datetimes             | DataFrames    | datetimes                                |
+| Polars EDA                   | DataFrames    | TBD                                      |
+| Postgres                     | Databases     | async, sqlx, tokio                       |
+| DuckDB                       | Databases     | arrow, in-memory DB                      |
+| Meilisearch                  | Databases     | async, async-std, clap                   |
+| Qdrant                       | Databases     | async, tokio, gRPC                       |
+| KùzuDB                       | Databases     | async, graph                             |
+| REST API to Postgres         | APIs          | axum, async, tokio                       |
+| REST API to local LLM        | APIs          | axum, LLMs                               |
+| PyO3 mock data generation    | Unification   | TBD                                      |
+| PyO3 query local LLM         | Unification   | TBD                                      |
