@@ -2,7 +2,7 @@
 
 - [Introduction](./introduction/introduction.md)
   - [Why use Rust with Python?](./introduction/why-rust.md)
-  - [How to learn new language](./introduction/learning.md)
+  - [How to learn a new language](./introduction/learning.md)
   - [How to read this book](./introduction/how-to-read.md)
 - [Setup & installation](setup.md)
 - [Pieces](./pieces/pieces.md)
