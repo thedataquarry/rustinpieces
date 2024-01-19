@@ -4,17 +4,19 @@ Update settings, index data, and search using [Meilisearch](https://www.meilisea
 
 ## Goal
 
-Meilisearch is a fast, typo-tolerate search engine with a focus on being easy to setup and use. In
-Meilisearch, indexes are created to store documents and their associated settings. These indexes are
-simlilar to tables in relational databases or collections in document databases.
+[Meilisearch](https://github.com/meilisearch/meilisearch) is a fast, open source, typo-tolerant search
+engine with a focus on being easy to setup and use. In Meilisearch, indexes are created to store
+documents and their associated settings. These indexes are similar to tables in relational databases
+or collections in document databases.
 
 In this example we will create and update the settings for an index, send documents to the server for
-indexing, and preform searaches all through a CLI.
+indexing, and perform searches all through a CLI.
 
 For data we will use the [wine reviews dataset from Kaggle](https://www.kaggle.com/datasets/zynicide/wine-reviews).
 The dataset is in the following format:
 
 ```
+{
   id: number | null,
   title: string,
   description: string,
@@ -39,7 +41,7 @@ faster because we don't need to waste time indexing fields that aren't going to 
 Additionally we will make `title` and `country` sortable files. The results in Meilisearch are ordered
 based on ranking rules with the default rules being: `["words", "typo", "proximity", "attribute", "sort", "exactness"]`.
 The result of this is records are only sorted if `words`, `typo`, `proximity`, and `attribute` all
-match for multiple records. Because we want sort to take precidence we will update the ranking rules
+match for multiple records. Because we want sort to take precedence we will update the ranking rules
 to `["sort", "words", "typo", "proximity", "attribute", "exactness"]` in addition to adding `title`
 and `country` as sortable fields.
 
@@ -181,11 +183,11 @@ Usage: meilisearch-cli search [OPTIONS] QUERY
 ### Takeaways
 
 Typically in a CLI like this asyncio will not provide any benefits, and may actually be slower
-because of the need to create an event loop. An exception to that in this case is `meilisearch-python-sdk`
-has an optomization that sends documents for indexing concurrently when adding them in batches,
+because of the need to create an event loop. An exception in this case is that `meilisearch-python-sdk`
+has an optimization that sends documents for indexing concurrently when adding them in batches,
 as we are here, if asyncio is used. Because of this we take advantage of `meilisearch-python-sdk`
 providing both and `AsyncClient` and a `Client` to use asyncio when indexing the documents, while
-preforming the index creation and searches syncronously.
+performing the index creation and searches synchronously.
 
 In the tests you will notice that the index name is created using a uuid. `pytest-meilisearch` is
 set to clear all indexes between test runs so there should be no name clashes. However, because our
@@ -373,8 +375,8 @@ Options:
 In Rust asyncio is run using crates, of which you have options to chose from. `meilisearch-rust` was
 designed to let the user pick which async crate to use rather than dictating one. In this example we
 use async-std, but we could have just as easily used tokio or some other crate. It is possilbe to make
-the program syncronous `meilisearch-rust` using the [futures](https://github.com/rust-lang/futures-rs)
-crate `block_on`, however it is not as simple to mix asyncio and syncronous calls as we have done in
+the program synchronous in `meilisearch-rust` using the [futures](https://github.com/rust-lang/futures-rs)
+crate `block_on`, however it is not as simple to mix asyncio and synchronous calls as we have done in
 the Python example. Because of this we choose to make everything async in the Rust examples.
 
 As with the Python example, we create indexes using uuids for the names in the tests. Unlike in Python
@@ -386,7 +388,7 @@ obvious reason for why. This is because one test could be using the index from a
 ## Performance
 
 One big performance advantage Rust has over Python in CLIs, as a compiled language, is startup time.
-With Python there is overhead associated with starting the Python interperter which causes a noticable
+With Python, there is overhead associated with starting the Python interpreter which causes a noticeable
 delay in startup time, while Rust is almost instant. An informal test using the `time` command illustrates
 this well. For `create-index`, the Rust program runs in an average of 184ms while the Python program
 average is 796ms on a System76 Lemur Pro with a 13th Gen Intel Core i7-1355U processor and 40GB of
@@ -395,9 +397,13 @@ RAM.
 To further illustrate this, for `index-data` the average run time for Rust is 3.41s of which 3.29s is
 spent doing the actual indexing. The average run time for Python is 3.03s of which 1.19s is spent on
 the indexing. Because of the async batch indexing optimizations in `meilisearch-python-async` the Python
-example is significatnly faster than the Rust example at indexing, however almost all of this advantage
+example is significantly faster than the Rust example at indexing, however almost all of this advantage
 is lost to the startup time of Python.
 
 The `search_benchmark.sh` script runs the same 10 searches in Rust and Python, each time running a
 new search through the CLI. The total runtime for the 10 searches in Rust was 0.143s while in Python
-it was 5.945s. This is 42 times faster attributed almost entirely to startup time!
+it was 5.945s. This is 42 times faster attributed almost entirely to startup time! The point of this
+example is not to show that running rapid commands through the CLI like this is faster. Instead, it
+illustrates that each run of the CLI is significantly faster which adds up over time. If you are taking
+the time to write a CLI it is likely that it will be run many times. In this situation the speed advantage
+adds up over time.
