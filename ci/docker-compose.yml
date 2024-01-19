@@ -11,3 +11,11 @@ services:
       - ./pg/:/var/lib/postgresql/data/
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
       - ./data:/data
+
+  meilisearch:
+    image: getmeili/meilisearch:v1.6
+    ports:
+      - "7700:7700"
+    environment:
+      - MEILI_MASTER_KEY=apiKey
+      - MEILI_NO_ANALYTICS=true

@@ -8,7 +8,7 @@ module = ["tests.*"]
 disallow_untyped_defs = false
 
 [[tool.mypy.overrides]]
-module = ["asyncpg.*"]
+module = ["asyncpg.*", "srsly.*"]
 ignore_missing_imports = true
 
 [tool.ruff]
