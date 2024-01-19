@@ -9,6 +9,9 @@ on:
 permissions:
   contents: write
 
+env:
+  CUSTOM_DOMAIN: rustinpieces.dev
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -28,9 +31,14 @@ jobs:
           mdbook test
           mdbook build
 
+      - name: Create CNAME file
+        run: |
+          echo "$CUSTOM_DOMAIN" > ./book/CNAME
+          echo "Created CNAME in ./book/CNAME: $CUSTOM_DOMAIN"
+
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         if: ${{ github.ref == 'refs/heads/main' }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: './book/book'
+          publish_dir: "./book/book"
