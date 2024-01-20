@@ -8,7 +8,7 @@ A piece's directory structure is organized as follows:
 
 ```bash
 pieces
-├── piece-1
+├── intro
 │   ├── python
 │   │   ├── main.py
 │   │   └── test_main.py
@@ -16,8 +16,8 @@ pieces
 │       ├── Cargo.toml
 │       └── src
 │           └── main.rs
-├── piece-2
-├── piece-3
+├── hello_world
+├── simple_csv
 └── ...
 ```
 
