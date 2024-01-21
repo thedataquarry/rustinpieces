@@ -43,3 +43,7 @@ A roadmap for upcoming pieces is shown below. Stay tuned!
 | REST API to local LLM        | APIs          | axum, LLMs                               |
 | PyO3 mock data generation    | Unification   | TBD                                      |
 | PyO3 query local LLM         | Unification   | TBD                                      |
+
+## Contributing
+
+Contributions and improvements from the community are welcome! Please see the [contributing guidelines](./CONTRIBUTING.md).
