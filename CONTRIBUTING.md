@@ -1,9 +1,11 @@
+# Contributing guide
+
 Thank you for your interest in contributing to the _Rust In Pieces_ project!
 
 There are a few ways of helping: critiquing the documentation and/or code examples, fixing
 incorrect information, fixing bugs, and fixing errors in the book.
 
-Contributions can me made in two places: the _code_ and the _book_.
+Contributions can be made in two places: the _code_ and the _book_.
 
 ## Code
 
