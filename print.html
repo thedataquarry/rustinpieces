@@ -318,7 +318,7 @@ source venv/bin/activate
 <p>For Python, <code>pip</code> is the package manager of choice, and <code>pytest</code> is the test client used throughout the code. For Rust, <code>cargo</code> is the package manager of choice, and Rust's inbuilt test client, invoked by <code>cargo test</code>, is used throughout.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="hello-world"><a class="header" href="#hello-world">Hello world!</a></h1>
 <p>This is the conventional first program that you write when learning a new programming language. It's a simple program that prints the text <code>Hello, world!</code> to the console.</p>
-<p>Navigate to the <code>pieces/hello_world</code> directory in the repo to get started.</p>
+<p>Navigate to the <code>pieces/hello_world</code> directory in the <a href="https://github.com/thedataquarry/rustinpieces/tree/main/pieces/hello_world">repo</a> to get started.</p>
 <h2 id="python-1"><a class="header" href="#python-1">Python</a></h2>
 <p>The file <code>main.py</code> has just one line of code:</p>
 <pre><code class="language-python">print(&quot;Hello, world!&quot;)
@@ -331,18 +331,16 @@ source venv/bin/activate
 <pre><code class="language-rs">fn main() {
     println!(&quot;Hello, world!&quot;);
 }
-
-The program is run via `cargo`:
-
-```bash
-cargo run
+</code></pre>
+<p>The program is run via <code>cargo</code>:</p>
+<pre><code class="language-bash">cargo run
 </code></pre>
 <h2 id="output"><a class="header" href="#output">Output</a></h2>
 <pre><code class="language-bash">Hello, world!
 </code></pre>
 <h2 id="takeaways"><a class="header" href="#takeaways">Takeaways</a></h2>
-<p>Rust's <code>println!</code> macro is similar to Python's <code>print</code> function, but it's a macro, not a function. It simply prints the standard output to the console followed by a newline character.</p>
-<p>Macros are a powerful Rust feature that allow you to write code that writes other code. We'll see more examples of macros in later pieces, but for now, it's enough to know that in Rust, macros are invoked with a <code>!</code> at the end of their name.</p>
+<p>Rust's <code>println!</code> is similar to Python's <code>print</code> function, but it's a <strong>macro</strong>, not a function. It simply prints the standard output to the console followed by a newline character.</p>
+<p>Macros are a powerful Rust feature that allow you to write code that writes other code. We'll see more examples of macros in later pieces, but for now, it's enough to know that in Rust, macros are invoked with an exclamation mark <code>!</code> at the end of their name.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="contributors"><a class="header" href="#contributors">Contributors</a></h1>
 <h2 id="authors"><a class="header" href="#authors">Authors</a></h2>
 <p><em>Rust in Pieces</em> is co-authored by <a href="https://github.com/prrao87">Prashanth Rao</a> and <a href="https://github.com/sanders41">Paul Sanders</a>.</p>
