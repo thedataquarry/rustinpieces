@@ -1,6 +1,6 @@
 # Summary
 
-- [Introduction](./introduction/introduction.md)
+- [Introduction](./introduction/_index.md)
   - [Why use Rust with Python?](./introduction/why-rust.md)
   - [How to learn a new language](./introduction/learning.md)
   - [How to read this book](./introduction/how-to-read.md)
