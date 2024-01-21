@@ -8,3 +8,7 @@ src = "src"
 [output.html]
 site-url = "/rustinpieces/"
 additional-css = ["theme/extra.css"]
+
+[output.html.fold]
+enable = true  # Fold deep headers in sidebar
+level = 1      # Start folding below level 1 headers, e.g., 1.1.1 and beyond
