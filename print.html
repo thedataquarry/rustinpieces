@@ -90,7 +90,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction/_index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="introduction/why-rust.html"><strong aria-hidden="true">1.1.</strong> Why use Rust with Python?</a></li><li class="chapter-item expanded "><a href="introduction/learning.html"><strong aria-hidden="true">1.2.</strong> How to learn a new language</a></li><li class="chapter-item expanded "><a href="introduction/how-to-read.html"><strong aria-hidden="true">1.3.</strong> How to read this book</a></li></ol></li><li class="chapter-item expanded "><a href="setup.html"><strong aria-hidden="true">2.</strong> Setup & installation</a></li><li class="chapter-item expanded "><a href="pieces/pieces.html"><strong aria-hidden="true">3.</strong> Pieces</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="pieces/hello-world.html"><strong aria-hidden="true">3.1.</strong> Hello world!</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><a href="CONTRIBUTORS.html"><strong aria-hidden="true">4.</strong> Contributors</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction/_index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="introduction/why-rust.html"><strong aria-hidden="true">1.1.</strong> Why use Rust with Python?</a></li><li class="chapter-item expanded "><a href="introduction/learning.html"><strong aria-hidden="true">1.2.</strong> Learning a new language</a></li><li class="chapter-item expanded "><a href="introduction/how-to-read.html"><strong aria-hidden="true">1.3.</strong> How to read this book</a></li></ol></li><li class="chapter-item expanded "><a href="setup.html"><strong aria-hidden="true">2.</strong> Setup & installation</a></li><li class="chapter-item expanded "><a href="pieces/_index.html"><strong aria-hidden="true">3.</strong> Pieces</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="pieces/hello-world.html"><strong aria-hidden="true">3.1.</strong> Hello world!</a></li><li class="chapter-item expanded "><a href="pieces/intro/_index.html"><strong aria-hidden="true">3.2.</strong> Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="pieces/intro/protocols_traits.html"><strong aria-hidden="true">3.2.1.</strong> Protocols vs. traits</a></li><li class="chapter-item expanded "><a href="pieces/intro/enumerate.html"><strong aria-hidden="true">3.2.2.</strong> Enumerate</a></li><li class="chapter-item expanded "><a href="pieces/intro/zip.html"><strong aria-hidden="true">3.2.3.</strong> Zip</a></li><li class="chapter-item expanded "><a href="pieces/intro/tuple_unpacking.html"><strong aria-hidden="true">3.2.4.</strong> Tuple unpacking</a></li><li class="spacer"></li></ol></li></ol></li><li class="chapter-item expanded "><a href="CONTRIBUTORS.html"><strong aria-hidden="true">4.</strong> Contributors</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -301,24 +301,6 @@ source venv/bin/activate
 </code></pre>
 <p>You can start a new Rust project in your local directory by running <code>cargo new &lt;project-name&gt;</code>, and you're ready to go!</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="pieces"><a class="header" href="#pieces">Pieces</a></h1>
-<h2 id="what-is-the-purpose-of-each-piece"><a class="header" href="#what-is-the-purpose-of-each-piece">What is the purpose of each piece?</a></h2>
-<p>A piece is a self-contained project with Python and Rust implementations that each perform the same tasks. The purpose of each piece is to help Python developers gain familiarity with Rust, and vice-versa, by comparing and contrasting the two languages in a top-down manner.</p>
-<p>A piece's directory structure is organized as follows:</p>
-<pre><code class="language-bash">pieces
-├── piece-1
-│   ├── python
-│   │   ├── main.py
-│   │   └── test_main.py
-│   └── rust
-│       ├── Cargo.toml
-│       └── src
-│           └── main.rs
-├── piece-2
-├── piece-3
-└── ...
-</code></pre>
-<p>Each piece comes with Python and Rust source code, and their associated tests. When using Rust's test client, test code is placed in the same file as the code it's testing, and is marked with the <code>#[cfg(test)]</code> attribute. When using Python's test client, test code is placed in a separate file, and is marked with the <code>test_</code> prefix.</p>
-<p>For Python, <code>pip</code> is the package manager of choice, and <code>pytest</code> is the test client used throughout the code. For Rust, <code>cargo</code> is the package manager of choice, and Rust's inbuilt test client, invoked by <code>cargo test</code>, is used throughout.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="hello-world"><a class="header" href="#hello-world">Hello world!</a></h1>
 <p>This is the conventional first program that you write when learning a new programming language. It's a simple program that prints the text <code>Hello, world!</code> to the console.</p>
 <p>Navigate to the <code>pieces/hello_world</code> directory in the <a href="https://github.com/thedataquarry/rustinpieces/tree/main/pieces/hello_world">repo</a> to get started.</p>
@@ -344,6 +326,278 @@ source venv/bin/activate
 <h2 id="takeaways"><a class="header" href="#takeaways">Takeaways</a></h2>
 <p>Rust's <code>println!</code> is similar to Python's <code>print</code> function, but it's a <strong>macro</strong>, not a function. It simply prints the standard output to the console followed by a newline character.</p>
 <p>Macros are a powerful Rust feature that allow you to write code that writes other code. We'll see more examples of macros in later pieces, but for now, it's enough to know that in Rust, macros are invoked with an exclamation mark <code>!</code> at the end of their name.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="introduction-1"><a class="header" href="#introduction-1">Introduction</a></h1>
+<p>This piece is meant to be a quick introduction to simple constructs that are more or less similar between Python and Rust.</p>
+<p>The following constructs are covered:</p>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">Python</th><th style="text-align: left">Rust</th></tr></thead><tbody>
+<tr><td style="text-align: left">Protocols/special methods</td><td style="text-align: left">Traits</td></tr>
+<tr><td style="text-align: left">Enumerate</td><td style="text-align: left">Enumerate</td></tr>
+<tr><td style="text-align: left">Zip</td><td style="text-align: left">Zip</td></tr>
+<tr><td style="text-align: left">Tuple</td><td style="text-align: left">Tuples</td></tr>
+<tr><td style="text-align: left">Lambdas</td><td style="text-align: left">Closures</td></tr>
+<tr><td style="text-align: left">List comprehensions</td><td style="text-align: left">Map/filter</td></tr>
+<tr><td style="text-align: left">Dictionary</td><td style="text-align: left">HashMap</td></tr>
+<tr><td style="text-align: left">Set</td><td style="text-align: left">HashSet</td></tr>
+</tbody></table>
+</div>
+<p>The code is available in the <code>pieces/intro</code> directory of the <a href="https://github.com/thedataquarry/rustinpieces/tree/main/pieces/intro">repo</a>.</p>
+<p>Rust's traits don't have a direct equivalent in Python, but they are similar enough to protocols or special methods in that they
+allow us to define a set of methods that a type must implement, allowing us to customize the behavior of the type.</p>
+<p>Rust embraces functional programming more than Python does, so it has a number of functional constructs that are commonly used.
+Where Python prefers list comprehensions, Rust prefers map/filter. Rust's closures, are, at the surface level, similar
+enough to Python's lambda functions, but they are also a lot more complex and can be viewed as a superset of anonymous functions.</p>
+<p>Hopefully, as you read through the examples, you'll see that Rust and Python are not as different as they may seem at first glance!</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="protocols-vs-traits"><a class="header" href="#protocols-vs-traits">Protocols vs. Traits</a></h1>
+<p>Python has a concept called protocols, sometimes referred to as special methods, or &quot;dunder methods&quot; implemented on
+<a href="https://docs.python.org/3/library/stdtypes.html">built-in types</a> in the standard library.
+For example, the <code>__str__</code> method is used to implement the <code>str()</code> function, which returns the string representation of an object.
+Th <code>__repr__</code> method is used to implement the <code>repr()</code> function, which returns a string containing a <em>printable representation</em> of an object.</p>
+<h2 id="python-protocols"><a class="header" href="#python-protocols">Python: Protocols</a></h2>
+<p>In Python, we start by defining a simple <code>Person</code> class that has a name and an age attribute.
+To make the output of the <code>print</code> statement more interesting, we implement the following <code>__str__</code> and <code>__repr__</code> methods
+that are translated to the <code>str()</code> and <code>repr()</code> functions respectively.</p>
+<pre><code class="language-python">class Person:
+    def __init__(self, name: str, age: int) -&gt; None:
+        self.name = name
+        if age &gt; 0 and isinstance(age, int):
+            self.age = age
+        else:
+            raise ValueError(&quot;Age must be a positive integer&quot;)
+
+    def __str__(self) -&gt; str:
+        return f&quot;{self.name} is {self.age} years old&quot;
+
+    def __repr__(self) -&gt; str:
+        return f&quot;Person: {self.name}, {self.age}&quot;
+</code></pre>
+<p>One limitation of Python's type system that's worth noting is that it treats <em>all</em> integers as <code>int</code> types, even if they
+are unsigned. In this case, the age of a person should be a positive integer, so we need to check for this by using
+an <code>if</code> statement in the class constructor defined in the <code>__init__</code> block. Rust's type system, as we'll see, is
+more powerful, while also being stricter than Python's.</p>
+<p>We can now create a <code>Person</code> object via a function and print it to the console by running the code via <code>main.py</code>.</p>
+<pre><code class="language-python">def run1() -&gt; None:
+    person = Person(&quot;Megan&quot;, 28)
+    print(person)
+    print(repr(person))
+    &quot;&quot;&quot;
+    Megan is 28 years old
+    Person: Megan, 28
+    &quot;&quot;&quot;
+</code></pre>
+<p>When we print the <code>person</code> object, the <code>__str__</code> method is called, and when we print the <code>repr</code> object,
+the <code>__repr__</code> method is called, thus producing slightly different outputs depending on what we want to display.
+Generally, <code>repr()</code> is used for debugging a stack trace, and <code>str()</code> is used for displaying something to the user.</p>
+<h2 id="rust-traits"><a class="header" href="#rust-traits">Rust: Traits</a></h2>
+<p>In Rust, we start by defining a <code>Person</code> struct with a name and an age attribute, in a similar way to the Python example.</p>
+<pre><code class="language-rs">struct Person {
+    name: String,
+    age: u8,
+}
+</code></pre>
+<p>Unlike a Python class which always provides <code>__init__</code>, Rust doesn't provide constructors on structs, so we
+need to define an implementation block (shown below) for the <code>Person</code> struct via the <code>impl</code> keyword.</p>
+<p>As noted earlier, Rust allows us to declare the <code>age</code> variable as an unsigned integer, which is more
+appropriate for this use case, eliminating the need to check for positive integers in the constructor.
+This makes the code more concise and easier to read in this case.</p>
+<pre><code class="language-rs">impl Person {
+    fn new(name: &amp;str, age: u8) -&gt; Self {
+        Self {
+            name: name.to_string(),
+            age,
+        }
+    }
+}
+</code></pre>
+<p>Two things stand out in the <code>impl</code> block defined. We provide an argument <code>&amp;str</code>, which represents a string <em>slice</em>,
+and we use the <code>to_string()</code> method to convert the string slice to a <code>String</code> type.</p>
+<p>Because Rust is a statically typed language, it needs to know the type and allocation of all variables at compile time.
+When we input a person's name during initialization, we don't know how long the name will be. However, arguments to
+functions and methods in Rust are passed by reference, so we'd typically use a string slice to represent the name. The
+compiler keeps a track of all this, so if you forget to call the <code>to_string()</code> method, you'll get a nice compiler error!</p>
+<p>Rust has its own versions of Python's <code>__str__</code> and <code>__repr__</code> methods, but they're called <code>Display</code> and <code>Debug</code> traits.
+A trait is similar to an interface in other languages, and vaguely similar to a protocol in Python, because it describes
+an object's <em>behavior</em>.</p>
+<pre><code class="language-rs">impl fmt::Display for Person {
+    fn fmt(&amp;self, f: &amp;mut fmt::Formatter) -&gt; fmt::Result {
+        write!(f, &quot;{} is {} years old&quot;, self.name, self.age)
+    }
+}
+
+impl fmt::Debug for Person {
+    fn fmt(&amp;self, f: &amp;mut fmt::Formatter) -&gt; fmt::Result {
+        write!(f, &quot;Person: {}, {}&quot;, self.name, self.age)
+    }
+}
+</code></pre>
+<p><code>Display</code> and <code>Debug</code> traits are typically not automatically defined on every object type in Rust, because its
+strict type system needs to know upfront what the user wants to do with the object's types prior to displaying them.</p>
+<p>With these bits in place, we can now create a <code>Person</code> object via a function and print it to the console by running the code via <code>main.rs</code>.</p>
+<pre><code class="language-rs">fn run1() {
+    let p = Person::new(&quot;Megan&quot;, 28);
+    println!(&quot;{}&quot;, p);
+    println!(&quot;{:?}&quot;, p);
+    /*
+    Megan is 28 years old
+    Person: Megan, 28
+    */
+}
+</code></pre>
+<p>Note that in Rust, for printing <code>Debug</code> traits, we use the <code>{:?}</code> format specifier, whereas for <code>Display</code> traits, we can just use <code>{}</code>.</p>
+<p>The above output is identical to the Python output!</p>
+<h2 id="takeaways-1"><a class="header" href="#takeaways-1">Takeaways</a></h2>
+<ul>
+<li>Rust's type system is stricter and more powerful than Python's, allowing us to define unsigned integers and other types
+that are not available in Python's standard library.</li>
+<li>Python is object-oriented, so it uses classes in many cases to keep related data and methods together</li>
+<li>Rust isn't an object-oriented language and doesn't use classes, but it does have the concept of traits and implementations</li>
+<li>In Rust, constructors aren't defined on custom structs, so we need to define the struct's constructor via an implementation
+block using the <code>impl</code> keyword.</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="enumerate"><a class="header" href="#enumerate">Enumerate</a></h1>
+<p>In both Python and Rust, the <code>enumerate</code> function exists to
+iterate over a list while keeping track of the index of the current item.</p>
+<h2 id="python-2"><a class="header" href="#python-2">Python</a></h2>
+<p>Recall from the <a href="pieces/intro/../intro/protocols_traits.html#python-protocols">first example</a> that we defined a
+<code>Person</code> class with a name and an age attribute.</p>
+<p>We can instantiate a list of <code>Person</code> objects and iterate over them using <code>enumerate</code>.</p>
+<pre><code class="language-py">def run2() -&gt; None:
+    persons = [Person(&quot;James&quot;, 33), Person(&quot;Salima&quot;, 31)]
+    for i, person in enumerate(persons):
+        print(f&quot;Person {i}: {str(person)}&quot;)
+</code></pre>
+<p>Running the above function via <code>main.py</code> gives us the same output as in Rust:</p>
+<pre><code class="language-bash">Person 0: James is 33 years old
+Person 1: Salima is 31 years old
+</code></pre>
+<p>The <code>enumerate</code> method returns a tuple of <code>(index, item)</code> for each item in the list,
+allowing us to access the index of the current item as we iterate over the list in a <code>for</code> loop.</p>
+<h2 id="rust-2"><a class="header" href="#rust-2">Rust</a></h2>
+<p>Recall from the <a href="pieces/intro/../intro/protocols_traits.html#rust-traits">first example</a> that we defined a <code>Person</code> struct with a
+name and an age attribute, in a similar way to the Python example.</p>
+<p>We can instantiate a vector of <code>Person</code> objects and iterate over them using <code>enumerate</code>. In Rust, a vector is a
+dynamic array allocated on the heap, provided by the standard library. It performs a similar function to a Python list.
+However, unlike in Python, a vector can only contain objects of the same type, in this case, <code>Person</code>.</p>
+<pre><code class="language-rs">fn run2() {
+    let persons = vec![Person::new(&quot;James&quot;, 33), Person::new(&quot;Salima&quot;, 31)];
+    for (i, p) in persons.iter().enumerate() {
+        println!(&quot;Person {}: {}&quot;, i, p)
+    }
+}
+</code></pre>
+<p>The <code>vec!</code> macro is syntactic sugar for <code>Vec::new()</code>, which creates a new vector of <code>Person</code> objects.
+Additionally, the <code>iter</code> method returns an iterator over the vector, which is required before we can
+call the <code>enumerate</code> method on it.</p>
+<p>Running the above function via <code>main.rs</code> gives us the same output as in Python:</p>
+<pre><code class="language-bash">Person 0: James is 33 years old
+Person 1: Salima is 31 years old
+</code></pre>
+<h2 id="takeaways-2"><a class="header" href="#takeaways-2">Takeaways</a></h2>
+<ul>
+<li>Both Python and Rust contain a convenience method called <code>enumerate</code> to iterate over a list while keeping
+track of the index of the current item.</li>
+<li>Python lists are dynamic arrays that can contain objects of <em>any</em> type.</li>
+<li>Rust vectors are heap-allocated dynamic arrays that can only contain objects of the <em>same</em> type.</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="zip"><a class="header" href="#zip">Zip</a></h1>
+<p>In both Python and Rust, the <code>zip</code> function exists to construct an iterator over two or more iterables.</p>
+<h2 id="python-3"><a class="header" href="#python-3">Python</a></h2>
+<p>Recall from the <a href="pieces/intro/../intro/protocols_traits.html#python-protocols">first example</a> that we defined a
+<code>Person</code> class with a name and an age attribute.</p>
+<p>If we have two lists, one containing names and one containing ages. <code>zip</code> conveniently allows us
+to iterate over both lists.</p>
+<pre><code class="language-py">def run3() -&gt; None:
+    names = [&quot;Alice&quot;, &quot;Charlie&quot;]
+    ages = [24, 45]
+    persons = []
+    for name, age in zip(names, ages):
+        person = Person(name, age)
+        persons.append(person)
+    print(f&quot;{repr(persons)}&quot;)
+</code></pre>
+<p>The <code>append</code> method is used to add a new item to the end of the list, similar to <code>push</code> in Rust.</p>
+<p>Running the above function via <code>main.py</code> gives us the following output:</p>
+<pre><code class="language-bash">[Person('Alice', 24), Person('Charlie', 45)]
+</code></pre>
+<p>Note that the <code>zip</code> method returns an iterator over tuples of the same length as the <em>shortest</em> iterable passed to it.
+So, if we'd passed one list with 3 items and one list with 2 items, the resulting iterator would have 2 items.</p>
+<h2 id="rust-3"><a class="header" href="#rust-3">Rust</a></h2>
+<p>Recall from the <a href="pieces/intro/../intro/protocols_traits.html#rust-traits">first example</a> that we defined a <code>Person</code> struct with a
+name and an age attribute, in a similar way to the Python example.</p>
+<p>Consider that we have two vectors, one containing names and one containing ages. <code>zip</code> conveniently allows us
+to iterate over both vectors.</p>
+<pre><code class="language-rs">fn run3() {
+    let names = [&quot;Alice&quot;, &quot;Charlie&quot;];
+    let ages = [24, 45];
+    let mut persons = vec![];
+    for (name, age) in names.iter().zip(ages.iter()) {
+        persons.push(Person::new(name, *age));
+    }
+    println!(&quot;{:?}&quot;, persons);
+
+}
+</code></pre>
+<ul>
+<li>The <code>zip</code> method can only called on an iterator, so we need to call <code>iter</code> on both vectors before we can call <code>zip</code>.</li>
+<li>The <code>push</code> method is used to add a new item to the end of the vector, just like <code>append</code> in Python.</li>
+</ul>
+<p>Again, there's no need to &quot;remember&quot; any of this: the Rust compiler is super helpful in calling you out on common
+mistakes, while offering a helpful solution!</p>
+<p>Running the function via <code>main.rs</code> gives us the same output as in Python:</p>
+<pre><code class="language-bash">[Person: Alice, 24, Person: Charlie, 45]
+</code></pre>
+<h2 id="takeaways-3"><a class="header" href="#takeaways-3">Takeaways</a></h2>
+<p>The functionality of <code>zip</code> is the largely the same in both Python and Rust.</p>
+<p>There really aren't too many differences, but it's worth noting that Rust's <code>zip</code> is held to account by the strict type system,
+so it's typically only available on iterators (unless you implement your own traits or macros). Python's <code>zip</code> method, on the
+other hand, can be called on any iterable (lists, tuples, dictionaries, and so on) because of its dynamic, loosely typed nature.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="tuple-unpacking"><a class="header" href="#tuple-unpacking">Tuple unpacking</a></h1>
+<p>Both Python and Rust support tuple unpacking in similar ways.</p>
+<h3 id="python-4"><a class="header" href="#python-4">Python</a></h3>
+<p>Consider the following function in which we unpack the youngest and oldest age from a sorted
+list of ages:</p>
+<pre><code class="language-python">def run4() -&gt; None:
+    sorted_ages = (18, 41, 65)
+    youngest, _, oldest = sorted_ages
+    print(f&quot;Youngest age: {youngest}, oldest age: {oldest}&quot;)
+    print(f&quot;Middle age: {sorted_ages[1]}&quot;)
+</code></pre>
+<p>The <code>_</code> is a special variable name in Python that indicates that we don't care about the value,
+allowing the unused value to be cleared by the Python memory manager during runtime. We can
+still access the middle age via the index operator for tuples, <code>sorted_ages[1]</code>.</p>
+<p>Running the above function via <code>main.py</code> gives us the following output:</p>
+<pre><code class="language-bash">Youngest age: 18, oldest age: 65
+Middle age: 41
+</code></pre>
+<h3 id="rust-4"><a class="header" href="#rust-4">Rust</a></h3>
+<p>We can write the following function in which we unpack the youngest and oldest age from a sorted
+list of ages:</p>
+<pre><code class="language-rs">fn run4() {
+    let sorted_ages: (u8, u8, u8) = (18, 41, 65);
+    let (youngest, _, oldest) = sorted_ages;
+    println!(&quot;Youngest age: {}, oldest age: {}&quot;, youngest, oldest);
+    println!(&quot;Middle age: {}&quot;, sorted_ages.1);
+}
+</code></pre>
+<p>Just like in Python, the <code>_</code> indicates that we don't care about the middle value. The difference
+is that in Rust, there isn't a garbage collector (or reference counter) like in Python, so the
+unused value is only kept in scope till the function is exited. Also, we need to explicitly
+declare the type of each age element as unsigned 8-bit integers.</p>
+<p>The index operator for tuples in Rust is <code>.</code>, so we can access the middle age via <code>sorted_ages.1</code>.</p>
+<p>Running the function via <code>main.rs</code> gives us the same output as in Python:</p>
+<pre><code class="language-bash">Youngest age: 18, oldest age: 65
+Middle age: 41
+</code></pre>
+<h2 id="takeaways-4"><a class="header" href="#takeaways-4">Takeaways</a></h2>
+<ul>
+<li>Tuple unpacking is largely the same in Python and Rust.</li>
+<li>There are some minor differences between Python and Rust tuples:
+<ul>
+<li>In rust, elements of a tuple are mutable, while in Python, they are immutable (lists are
+mutable in Python).</li>
+<li>In Rust, the index operator for tuples is <code>.</code>, while in Python, it's <code>[]</code>.</li>
+</ul>
+</li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="contributors"><a class="header" href="#contributors">Contributors</a></h1>
 <h2 id="authors"><a class="header" href="#authors">Authors</a></h2>
 <p><em>Rust in Pieces</em> is co-authored by <a href="https://github.com/prrao87">Prashanth Rao</a> and <a href="https://github.com/sanders41">Paul Sanders</a>.</p>
