@@ -87,5 +87,6 @@ Key "13900KS" has the value "Intel Core i9"
 ## Takeaways
 
 - Python and Rust contain collections that store key-value pairs for fast lookups.
-- A key difference is that Python's `dict` values can be of any type, but Rust's `HashMap` values
+- A key difference is that Python's `dict` keys can be any hashable type and values can be of any type, but Rust's `HashMap` keys must all be the same type and  values
+  must be of the same type.
   must be of the same type.

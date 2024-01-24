@@ -5,8 +5,7 @@ Rust's `HashSet` performs the same function.
 
 ## Python
 
-Consider the following function in which we define a set of processors and their corresponding
-market names.
+Consider the following function in which we define a set of processors.
 
 ```py
 def run9() -> None:
@@ -37,8 +36,7 @@ Is "AMD Ryzen 3" in the set of processors?: True
 
 ## Rust
 
-We define the below function in Rust, where we define a hashset of processors and their
-corresponding market names.
+We define the below function in Rust, where we define a hashset of processors.
 
 ```rs
 use std::collections::HashSet;

@@ -2,7 +2,7 @@
 
 Journeys between two worlds: Python 🐍 and Rust 🦀.
 
-This repo contains the code for the book _[Rust in Pieces](https://rustinpieces.dev)_. The goal is to help developers move between the worlds of Python and Rust by building small projects in that they wouldn't normally have any trouble doing in the language of their choice. Each solution starts off with a Python implementation for a specific problem and is accompanied by a Rust implementation that performs the same task.
+This repo contains the code for the book _[Rust in Pieces](https://rustinpieces.dev)_. The goal is to help developers move between the worlds of Python and Rust by building small projects that they wouldn't normally have any trouble doing in the language of their choice. Each solution starts off with a Python implementation for a specific problem and is accompanied by a Rust implementation that performs the same task.
 
 Rust is a language that's known for its steep learning curve (yet, it's almost universally loved by those who become proficient with it). The book series that builds on this repo aims to make the initial steps for Python developers less daunting by providing a familiar environment for Python developers who are used to solving real world problems in their day-to-day work.
 
