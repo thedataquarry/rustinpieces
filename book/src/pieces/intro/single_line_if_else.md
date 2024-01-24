@@ -16,7 +16,14 @@ def approx_year_of_birth(person: Person) -> int:
     return birth_year_approx
 ```
 
-We then use this function after initializing a list of `Person` objects.
+<div class="warning">
+
+The leap year logic used above is simplistic and does not account for edge cases.
+It's used here purely for the purposes of illustration.
+
+</div>
+
+We can use this function after initializing a list of `Person` objects.
 
 ```py
 def run6() -> None:
