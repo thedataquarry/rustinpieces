@@ -32,9 +32,15 @@ allowing us to access the index of the current item as we iterate over the list 
 Recall from the [first example](../intro/protocols_traits.md#rust-traits) that we defined a `Person` struct with a
 name and an age attribute, in a similar way to the Python example.
 
-We can instantiate a vector of `Person` objects and iterate over them using `enumerate`. In Rust, a vector is a
-dynamic array allocated on the heap, provided by the standard library. It performs a similar function to a Python list.
-However, unlike in Python, a vector can only contain objects of the same type, in this case, `Person`.
+We can instantiate a vector of `Person` objects and iterate over them using `enumerate`.
+
+> **_What is a vector?_**
+> Like many other languages, Rust provides arrays, but arrays in Rust are fixed-size and allocated
+> on the stack. Vectors are dynamic arrays that are allocated on the heap, and can grow and shrink
+> as needed, similar to Python lists.
+
+For most purposes, vectors in Rust perform the same function as Python lists.
+Unlike a Python list, a vector in Rust can only contain objects of the same type, in this case, `Person`.
 
 ```rs
 fn run2() {
