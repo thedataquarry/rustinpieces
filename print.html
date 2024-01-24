@@ -90,7 +90,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction/_index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="introduction/why-rust.html"><strong aria-hidden="true">1.1.</strong> Why use Rust with Python?</a></li><li class="chapter-item expanded "><a href="introduction/learning.html"><strong aria-hidden="true">1.2.</strong> Learning a new language</a></li><li class="chapter-item expanded "><a href="introduction/how-to-read.html"><strong aria-hidden="true">1.3.</strong> How to read this book</a></li></ol></li><li class="chapter-item expanded "><a href="setup.html"><strong aria-hidden="true">2.</strong> Setup & installation</a></li><li class="chapter-item expanded "><a href="pieces/_index.html"><strong aria-hidden="true">3.</strong> Pieces</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="pieces/hello-world.html"><strong aria-hidden="true">3.1.</strong> Hello world!</a></li><li class="chapter-item expanded "><a href="pieces/intro/_index.html"><strong aria-hidden="true">3.2.</strong> Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="pieces/intro/protocols_traits.html"><strong aria-hidden="true">3.2.1.</strong> Protocols vs. traits</a></li><li class="chapter-item expanded "><a href="pieces/intro/enumerate.html"><strong aria-hidden="true">3.2.2.</strong> Enumerate</a></li><li class="chapter-item expanded "><a href="pieces/intro/zip.html"><strong aria-hidden="true">3.2.3.</strong> Zip</a></li><li class="chapter-item expanded "><a href="pieces/intro/tuple_unpacking.html"><strong aria-hidden="true">3.2.4.</strong> Tuple unpacking</a></li><li class="spacer"></li></ol></li></ol></li><li class="chapter-item expanded "><a href="CONTRIBUTORS.html"><strong aria-hidden="true">4.</strong> Contributors</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction/_index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="introduction/why-rust.html"><strong aria-hidden="true">1.1.</strong> Why use Rust with Python?</a></li><li class="chapter-item expanded "><a href="introduction/learning.html"><strong aria-hidden="true">1.2.</strong> Learning a new language</a></li><li class="chapter-item expanded "><a href="introduction/how-to-read.html"><strong aria-hidden="true">1.3.</strong> How to read this book</a></li></ol></li><li class="chapter-item expanded "><a href="setup.html"><strong aria-hidden="true">2.</strong> Setup & installation</a></li><li class="chapter-item expanded "><a href="pieces/_index.html"><strong aria-hidden="true">3.</strong> Pieces</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="pieces/hello-world.html"><strong aria-hidden="true">3.1.</strong> Hello world!</a></li><li class="chapter-item expanded "><a href="pieces/intro/_index.html"><strong aria-hidden="true">3.2.</strong> Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="pieces/intro/protocols_traits.html"><strong aria-hidden="true">3.2.1.</strong> Protocols vs. traits</a></li><li class="chapter-item expanded "><a href="pieces/intro/enumerate.html"><strong aria-hidden="true">3.2.2.</strong> Enumerate</a></li><li class="chapter-item expanded "><a href="pieces/intro/zip.html"><strong aria-hidden="true">3.2.3.</strong> Zip</a></li><li class="chapter-item expanded "><a href="pieces/intro/tuple_unpacking.html"><strong aria-hidden="true">3.2.4.</strong> Tuple unpacking</a></li><li class="chapter-item expanded "><a href="pieces/intro/lambdas_vs_closures.html"><strong aria-hidden="true">3.2.5.</strong> Lambdas vs. closures</a></li><li class="chapter-item expanded "><a href="pieces/intro/single_line_if_else.html"><strong aria-hidden="true">3.2.6.</strong> Single-line if-else</a></li><li class="chapter-item expanded "><a href="pieces/intro/list_comprehensions_vs_map.html"><strong aria-hidden="true">3.2.7.</strong> List comprehensions vs. map/filter</a></li><li class="chapter-item expanded "><a href="pieces/intro/dicts_vs_hashmaps.html"><strong aria-hidden="true">3.2.8.</strong> Dicts vs. HashMaps</a></li><li class="chapter-item expanded "><a href="pieces/intro/sets_vs_hashsets.html"><strong aria-hidden="true">3.2.9.</strong> Sets vs. HashSets</a></li><li class="spacer"></li></ol></li></ol></li><li class="chapter-item expanded "><a href="CONTRIBUTORS.html"><strong aria-hidden="true">4.</strong> Contributors</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -301,6 +301,24 @@ source venv/bin/activate
 </code></pre>
 <p>You can start a new Rust project in your local directory by running <code>cargo new &lt;project-name&gt;</code>, and you're ready to go!</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="pieces"><a class="header" href="#pieces">Pieces</a></h1>
+<h2 id="what-is-the-purpose-of-each-piece"><a class="header" href="#what-is-the-purpose-of-each-piece">What is the purpose of each piece?</a></h2>
+<p>A piece is a self-contained project with Python and Rust implementations that each perform the same tasks. The purpose of each piece is to help Python developers gain familiarity with Rust, and vice-versa, by comparing and contrasting the two languages in a top-down manner.</p>
+<p>A piece's directory structure is organized as follows:</p>
+<pre><code class="language-bash">pieces
+├── intro
+│   ├── python
+│   │   ├── main.py
+│   │   └── test_main.py
+│   └── rust
+│       ├── Cargo.toml
+│       └── src
+│           └── main.rs
+├── hello_world
+├── simple_csv
+└── ...
+</code></pre>
+<p>Each piece comes with Python and Rust source code, and their associated tests. When using Rust's test client, test code is placed in the same file as the code it's testing, and is marked with the <code>#[cfg(test)]</code> attribute. When using Python's test client, test code is placed in a separate file, and is marked with the <code>test_</code> prefix.</p>
+<p>For Python, <code>pip</code> is the package manager of choice, and <code>pytest</code> is the test client used throughout the code. For Rust, <code>cargo</code> is the package manager of choice, and Rust's inbuilt test client, invoked by <code>cargo test</code>, is used throughout.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="hello-world"><a class="header" href="#hello-world">Hello world!</a></h1>
 <p>This is the conventional first program that you write when learning a new programming language. It's a simple program that prints the text <code>Hello, world!</code> to the console.</p>
 <p>Navigate to the <code>pieces/hello_world</code> directory in the <a href="https://github.com/thedataquarry/rustinpieces/tree/main/pieces/hello_world">repo</a> to get started.</p>
@@ -474,9 +492,15 @@ allowing us to access the index of the current item as we iterate over the list 
 <h2 id="rust-2"><a class="header" href="#rust-2">Rust</a></h2>
 <p>Recall from the <a href="pieces/intro/../intro/protocols_traits.html#rust-traits">first example</a> that we defined a <code>Person</code> struct with a
 name and an age attribute, in a similar way to the Python example.</p>
-<p>We can instantiate a vector of <code>Person</code> objects and iterate over them using <code>enumerate</code>. In Rust, a vector is a
-dynamic array allocated on the heap, provided by the standard library. It performs a similar function to a Python list.
-However, unlike in Python, a vector can only contain objects of the same type, in this case, <code>Person</code>.</p>
+<p>We can instantiate a vector of <code>Person</code> objects and iterate over them using <code>enumerate</code>.</p>
+<blockquote>
+<p><strong><em>What is a vector?</em></strong>
+Like many other languages, Rust provides arrays, but arrays in Rust are fixed-size and allocated
+on the stack. Vectors are dynamic arrays that are allocated on the heap, and can grow and shrink
+as needed, similar to Python lists.</p>
+</blockquote>
+<p>For most purposes, vectors in Rust perform the same function as Python lists.
+Unlike a Python list, a vector in Rust can only contain objects of the same type, in this case, <code>Person</code>.</p>
 <pre><code class="language-rs">fn run2() {
     let persons = vec![Person::new(&quot;James&quot;, 33), Person::new(&quot;Salima&quot;, 31)];
     for (i, p) in persons.iter().enumerate() {
@@ -598,6 +622,335 @@ mutable in Python).</li>
 </ul>
 </li>
 </ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="lambdas-vs-closures"><a class="header" href="#lambdas-vs-closures">Lambdas vs. closures</a></h1>
+<p>Anonymous functions are functions that are not bound to a name. In Python, they are called
+<a href="https://docs.python.org/3/tutorial/controlflow.html#lambda-expressions">lambdas</a>. In Rust, they are
+called <a href="https://doc.rust-lang.org/book/ch13-01-closures.html">closures</a>. Both are useful for short,one-off functions that are not used anywhere else.</p>
+<h2 id="python-5"><a class="header" href="#python-5">Python</a></h2>
+<p>Recall from the <a href="pieces/intro/../intro/protocols_traits.html#python-protocols">first example</a> that we defined a
+<code>Person</code> class with a name and an age attribute.</p>
+<p>In the following example, we use the <code>sorted</code> function to sort a list of <code>Person</code> objects by their
+age.</p>
+<pre><code class="language-py">def run5() -&gt; None:
+    persons = [Person(&quot;Aiko&quot;, 41), Person(&quot;Rohan&quot;, 18)]
+    sorted_by_age = sorted(persons, key=lambda person: person.age)
+    youngest_person = sorted_by_age[0]
+    print(f&quot;{youngest_person.name} is the youngest person at {youngest_person.age} years old&quot;)
+</code></pre>
+<p>The <code>sorted</code> function takes an optional <code>key</code> argument, which is a function that is called on each
+item in the list to determine the value to sort by. In this case, we use a lambda to return the
+<code>age</code> attribute of each <code>Person</code> object.</p>
+<pre><code class="language-bash">Rohan is the youngest person at 18 years old
+</code></pre>
+<h2 id="rust-5"><a class="header" href="#rust-5">Rust</a></h2>
+<p>Recall from the <a href="pieces/intro/../intro/protocols_traits.html#rust-traits">first example</a> that we defined a <code>Person</code>
+struct with a name and an age attribute, in a similar way to the Python example.</p>
+<p>In the following example, we use the <code>sort_by_key</code> method to sort a vector of <code>Person</code> objects by
+their age.</p>
+<pre><code class="language-rs">fn run5() {
+    let mut persons = vec![Person::new(&quot;Aiko&quot;, 41), Person::new(&quot;Rohan&quot;, 18)];
+    // Sort by age
+    persons.sort_by_key(|p| p.age);
+    let youngest_person = persons.first().unwrap();
+    println!(
+        &quot;{} is the youngest person at {} years old&quot;,
+        youngest_person.name, youngest_person.age
+    );
+</code></pre>
+<p>The <code>sort_by_key</code> method takes a closure that is called on each item in the vector to determine the
+value to sort by. In this case, we use a closure operator <code>||</code> to return the <code>age</code> attribute of each
+<code>Person</code> object.</p>
+<pre><code class="language-bash">Rohan is the youngest person at 18 years old
+</code></pre>
+<h2 id="takeaways-5"><a class="header" href="#takeaways-5">Takeaways</a></h2>
+<ul>
+<li>Lambdas and closures are anonymous functions that are not bound to a name, or are passed as
+arguments to other functions.</li>
+<li>Lambdas and closures are useful for short, one-off functions that are not used anywhere else.</li>
+<li>Closures are more powerful than lambdas because they define higher-order functions that can
+capture their environment - this is out of scope for this book, but you can read more about it
+<a href="https://doc.rust-lang.org/book/ch13-01-closures.html#capturing-the-environment-with-closures">here</a>.</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="single-line-if-else"><a class="header" href="#single-line-if-else">Single line if-else</a></h1>
+<p>Both Python and Rust support single line if-else statements. This is especially useful when
+performing simple operations on a value, allowing for more concise code.</p>
+<h2 id="python-6"><a class="header" href="#python-6">Python</a></h2>
+<p>Consider the following function in which we print a message depending on whether a person is
+born in a leap year or not.</p>
+<p>To do this, we first define a function <code>approx_year_of_birth</code> that returns the approximate year.</p>
+<pre><code class="language-py">def approx_year_of_birth(person: Person) -&gt; int:
+    birth_year_approx = datetime.now().year - person.age
+    return birth_year_approx
+</code></pre>
+<div class="warning">
+<p>The leap year logic used above is simplistic and does not account for edge cases.
+It's used here purely for the purposes of illustration.</p>
+</div>
+<p>We can use this function after initializing a list of <code>Person</code> objects.</p>
+<pre><code class="language-py">def run6() -&gt; None:
+    persons = [Person(&quot;Josephine&quot;, 20), Person(&quot;Wesley&quot;, 31)]
+    for person in persons:
+        # Check if person is born in a leap year using simplistic leap year logic
+        birth_year = approx_year_of_birth(person)
+        person_is_born_in_leap_year = True if birth_year % 4 == 0 else False
+        print(f&quot;{person}. Born in a leap year?: {person_is_born_in_leap_year}&quot;)
+</code></pre>
+<p>Running the above function via <code>main.py</code> gives us the following output:</p>
+<pre><code class="language-bash">Josephine is 20 years old. Born in leap year?: True
+Wesley is 31 years old. Born in leap year?: False
+</code></pre>
+<h2 id="rust-6"><a class="header" href="#rust-6">Rust</a></h2>
+<p>We can define the below function in Rust, where we print a message depending on whether a person is
+born in a leap year or not.</p>
+<pre><code class="language-rs">use chrono::prelude::*;
+
+fn approx_year_of_birth(person: &amp;Person) -&gt; u16 {
+    let now = chrono::Utc::now();
+    let year = now.year() - (person.age as i32);
+    year as u16
+}
+</code></pre>
+<p>Note that in Rust, we need to use the <code>chrono</code> crate to handle datetimes, unlike in Python where
+the <code>datetime</code> module comes with the standard library.</p>
+<p>We then use this function after initializing a vector of <code>Person</code> objects.</p>
+<pre><code class="language-rs">fn run6() {
+    let persons = vec![Person::new(&quot;Josephine&quot;, 20), Person::new(&quot;Wesley&quot;, 31)];
+    for person in persons {
+        // check if person is born in a leap year using simplistic leap year logic
+        let birth_year = approx_year_of_birth(&amp;person);
+        let person_is_born_in_leap_year = birth_year % 4 == 0;
+        println!(
+            &quot;{}. Born in a leap year?: {}&quot;,
+            person, person_is_born_in_leap_year
+        );
+    }
+</code></pre>
+<p>Running the function via <code>main.rs</code> gives us the same output as in Python:</p>
+<pre><code class="language-bash">Josephine is 20 years old. Born in a leap year?: true
+Wesley is 31 years old. Born in a leap year?: false
+</code></pre>
+<h2 id="takeaways-6"><a class="header" href="#takeaways-6">Takeaways</a></h2>
+<ul>
+<li>Single line if-else statements are useful for performing simple operations on a value while
+remaining concise.</li>
+<li>In certain cases in Rust, we have to use external crates to handle certain functionality that
+comes with the standard library in Python.</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="list-comprehensions-vs-mapfilter"><a class="header" href="#list-comprehensions-vs-mapfilter">List comprehensions vs map/filter</a></h1>
+<p>One of Python's most popular features is its list comprehensions. They are a concise way to create
+lists from existing lists. Rust is more functional than Python, so it has a similar feature called
+<code>map</code> and <code>filter</code>. Although map and filter functions are availble in Python, they are not as
+commonly used as list comprehensions.</p>
+<h2 id="python-7"><a class="header" href="#python-7">Python</a></h2>
+<p>Consider the following function in which we print a message depending on which persons from
+a list of <code>Person</code> objects are born after the year 1995, based on their current age.</p>
+<pre><code class="language-py">def run7() -&gt; None:
+    &quot;&quot;&quot;
+    1. List comprehensions
+    &quot;&quot;&quot;
+    persons = [Person(&quot;Issa&quot;, 39), Person(&quot;Ibrahim&quot;, 26)]
+    persons_born_after_1995 = [
+        (person.name, person.age) for person in persons if approx_year_of_birth(person) &gt; 1995
+    ]
+    print(f&quot;Persons born after 1995: {persons_born_after_1995}&quot;)
+</code></pre>
+<p>The list comprehension in the above function essentially does the following:</p>
+<ol>
+<li>Iterate over the list of <code>Person</code> objects</li>
+<li>Unpack each <code>Person</code> tuple into their name and age</li>
+<li>For each person, check if their approximate year of birth is greater than 1995</li>
+</ol>
+<p>Running the above function via <code>main.py</code> gives us the following output:</p>
+<pre><code class="language-bash">Persons born after 1995: [('Ibrahim', 26)]
+</code></pre>
+<h2 id="rust-7"><a class="header" href="#rust-7">Rust</a></h2>
+<p>We can define the below function in Rust, where we print a message depending on which persons from
+a vector of <code>Person</code> objects are born after the year 1995, based on their current age.</p>
+<pre><code class="language-rs">fn run7() {
+    let persons = vec![Person::new(&quot;Issa&quot;, 39), Person::new(&quot;Ibrahim&quot;, 26)];
+    let result = persons
+        .into_iter()
+        .filter(|p| approx_year_of_birth(p) &gt; 1995)
+        .map(|p| (p.name, p.age))
+        .collect::&lt;Vec&lt;(String, u8)&gt;&gt;();
+    println!(&quot;Persons born after 1995: {:?}&quot;, result)
+</code></pre>
+<p>The <code>filter</code> and <code>map</code> functions in the above function essentially do the following:</p>
+<ol>
+<li>Turn the <code>persons</code> vector into an iterator and iterate over the <code>Person</code> objects</li>
+<li>For each person, check if their approximate year of birth is greater than 1995</li>
+<li>If the above condition is true, then create a tuple of their name and age</li>
+<li>Collect all the tuples into a vector of unsigned 8-bit integers</li>
+</ol>
+<p>Running the function via <code>main.rs</code> gives us the same output as in Python:</p>
+<pre><code class="language-bash">Persons born after 1995: [(&quot;Ibrahim&quot;, 26)]
+</code></pre>
+<p>The Rust version is a little more verbose than the Python version, but it's still quite readable.</p>
+<h2 id="takeaways-7"><a class="header" href="#takeaways-7">Takeaways</a></h2>
+<ul>
+<li>Both Python and Rust have convenient ways to create iterables without having to use explicit loops.</li>
+<li>Python's list comprehensions are more concise than Rust's <code>map</code> and <code>filter</code> functions in
+most cases.</li>
+<li>Rust's <code>map</code> and <code>filter</code> functions show that Rust is more functional than Python in its syntax.</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="dicts-vs-hashmaps"><a class="header" href="#dicts-vs-hashmaps">Dicts vs. hashmaps</a></h2>
+<p>Python's <code>dict</code> is essentially a hash table, which is a data structure that maps keys to values.
+Rust's <code>HashMap</code> performs the same function. Both are collections of key-value pairs where the
+keys must be unique, but the values can be duplicated. The purpose of dicts and hashmaps is to
+allow for fast lookup of values by key.</p>
+<h2 id="python-8"><a class="header" href="#python-8">Python</a></h2>
+<p>Consider the below function in Python, where we define a dictionary of processors and their
+corresponding market names.</p>
+<pre><code class="language-py">    processors = {
+        &quot;13900KS&quot;: &quot;Intel Core i9&quot;,
+        &quot;13700K&quot;: &quot;Intel Core i7&quot;,
+        &quot;13600K&quot;: &quot;Intel Core i5&quot;,
+        &quot;1800X&quot;: &quot;AMD Ryzen 7&quot;,
+        &quot;1600X&quot;: &quot;AMD Ryzen 5&quot;,
+        &quot;1300X&quot;: &quot;AMD Ryzen 3&quot;,
+    }
+
+    # Check for presence of value
+    is_item_in_dict = &quot;AMD Ryzen 3&quot; in processors.values()
+    print(f'Is &quot;AMD Ryzen 3&quot; in the dict of processors?: {is_item_in_dict}')
+    # Lookup by key
+    key = &quot;13900KS&quot;
+    lookup_by_key = processors[key]
+    print(f'Key &quot;{key}&quot; has the value &quot;{lookup_by_key}&quot;')
+</code></pre>
+<p>The first portion checks for the presence of a value in the dictionary, while the second portion
+looks up the value by key.</p>
+<p>Running the above function via <code>main.py</code> gives us the following output:</p>
+<pre><code class="language-bash">Is &quot;AMD Ryzen 3&quot; in the dict of processors?: True
+Key &quot;13900KS&quot; has the value &quot;Intel Core i9&quot;
+</code></pre>
+<h2 id="rust-8"><a class="header" href="#rust-8">Rust</a></h2>
+<p>We define the below function in Rust, where we define a hashmap of processors and their
+corresponding market names.</p>
+<pre><code class="language-rs">use std::collections::HashMap;
+
+fn run8() {
+    let mut processors = HashMap::new();
+    processors.insert(&quot;13900KS&quot;, &quot;Intel Core i9&quot;);
+    processors.insert(&quot;13700K&quot;, &quot;Intel Core i7&quot;);
+    processors.insert(&quot;13600K&quot;, &quot;Intel Core i5&quot;);
+    processors.insert(&quot;1800X&quot;, &quot;AMD Ryzen 7&quot;);
+    processors.insert(&quot;1600X&quot;, &quot;AMD Ryzen 5&quot;);
+    processors.insert(&quot;1300X&quot;, &quot;AMD Ryzen 3&quot;);
+
+    // Check for presence of value
+    let value = &quot;AMD Ryzen 3&quot;;
+    let mut values = processors.values();
+    println!(
+        &quot;Is \&quot;AMD Ryzen 3\&quot; in the hashmap of processors?: {}&quot;,
+        values.any(|v| v == &amp;value)
+    );
+    // Lookup by key
+    let key = &quot;13900KS&quot;;
+    let lookup_by_key = processors.get(key);
+    println!(
+        &quot;Key \&quot;{}\&quot; has the value \&quot;{}\&quot;&quot;,
+        key,
+        lookup_by_key.unwrap()
+    );
+}
+</code></pre>
+<p>Just like in the Python version, the first portion checks for the presence of a value in the
+hashmap, while the second portion looks up the value by key.</p>
+<p>Running the function via <code>main.rs</code> gives us the same output as in Python:</p>
+<pre><code class="language-bash">Is &quot;AMD Ryzen 3&quot; in the hashmap of processors?: true
+Key &quot;13900KS&quot; has the value &quot;Intel Core i9&quot;
+</code></pre>
+<h2 id="takeaways-8"><a class="header" href="#takeaways-8">Takeaways</a></h2>
+<p>Python and Rust contain collections that store key-value pairs for fast lookups. A key difference is
+that Python's <code>dict</code> keys can be any hashable type and values can be of any
+type, but in Rust, <em>both</em> the keys and values of a <code>HashMap</code> must be of the same type.</p>
+<p>In Python, this <code>dict</code> is perfectly valid:</p>
+<pre><code class="language-py"># You can have a dict with keys of different types
+example = {
+    &quot;a&quot;: 1,
+    1: 2
+}
+</code></pre>
+<p>In Rust, the compiler will enforce that the keys and values are of the same type, based on
+the first entry's inferred types.</p>
+<pre><code class="language-rs">let mut example = HashMap::new();
+example.insert(&quot;a&quot;, 1);
+// This errors because the first entry specified the key as &amp;str
+example.insert(1, 2);
+// This is valid
+example.insert(&quot;b&quot;, 2);
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="sets-vs-hashsets"><a class="header" href="#sets-vs-hashsets">Sets vs. hashsets</a></h1>
+<p>Python's <code>set</code> is an unordered collection of unique items, where duplicate items are not allowed.
+Rust's <code>HashSet</code> performs the same function.</p>
+<h2 id="python-9"><a class="header" href="#python-9">Python</a></h2>
+<p>Consider the following function in which we define a set of processors.</p>
+<pre><code class="language-py">def run9() -&gt; None:
+    processors = {
+        &quot;Intel Core i9&quot;,
+        &quot;Intel Core i7&quot;,
+        &quot;Intel Core i5&quot;,
+        &quot;AMD Ryzen 7&quot;,
+        &quot;AMD Ryzen 5&quot;,
+        &quot;AMD Ryzen 3&quot;,
+    }
+    # Duplicate values are ignored
+    processors.add(&quot;Intel Core i7&quot;)
+    processors.add(&quot;AMD Ryzen 5&quot;)
+    # Check for presence of value
+    is_item_in_set = &quot;AMD Ryzen 3&quot; in processors
+    print(f'Is &quot;AMD Ryzen 3&quot; in the set of processors?: {is_item_in_set}')
+</code></pre>
+<p>The purpose of the above function is to check for the presence of a value in the set of processors.
+When we add duplicate values to the set, they are ignored.</p>
+<p>Running the above function via <code>main.py</code> gives us the following output:</p>
+<pre><code class="language-bash">Is &quot;AMD Ryzen 3&quot; in the set of processors?: True
+</code></pre>
+<h2 id="rust-9"><a class="header" href="#rust-9">Rust</a></h2>
+<p>We define the below function in Rust, where we define a hashset of processors.</p>
+<pre><code class="language-rs">use std::collections::HashSet;
+
+fn run9() {
+    let mut processors = HashSet::new();
+    processors.insert(&quot;Intel Core i9&quot;);
+    processors.insert(&quot;Intel Core i7&quot;);
+    processors.insert(&quot;Intel Core i5&quot;);
+    processors.insert(&quot;AMD Ryzen 7&quot;);
+    processors.insert(&quot;AMD Ryzen 5&quot;);
+    processors.insert(&quot;AMD Ryzen 3&quot;);
+    // Duplicate values are ignored
+    processors.insert(&quot;Intel Core i7&quot;);
+    processors.insert(&quot;AMD Ryzen 5&quot;);
+    // Check for presence of value
+    let value = &quot;AMD Ryzen 3&quot;;
+    println!(
+        &quot;Is \&quot;AMD Ryzen 3\&quot; in the hashset of processors?: {}&quot;,
+        processors.contains(&amp;value)
+    );
+}
+</code></pre>
+<p>The purpose of the above function is to check for the presence of a value in the hashset of
+processors. When we add duplicate values to the hashset, they are ignored.</p>
+<p>Running the function via <code>main.rs</code> gives us the same output as in Python:</p>
+<pre><code class="language-bash">Is &quot;AMD Ryzen 3&quot; in the hashset of processors?: true
+</code></pre>
+<h2 id="takeaways-9"><a class="header" href="#takeaways-9">Takeaways</a></h2>
+<p>Python and Rust contain collections that allow for the storage of unique items. A key difference is
+that Python's <code>set</code> can contain items of any type, while Rust's <code>HashSet</code> can only contain items of
+the same type that were specified at the time of initialization.</p>
+<p>In Python, the following <code>set</code> containing multiple types is valid, as they are all hashable.</p>
+<pre><code class="language-py">example = {1, &quot;hello&quot;, 3.14}
+</code></pre>
+<p>In Rust, the compiler enforces that all items in the set are of the same type specified at the time
+of initialization, or by inferring the first value's type.</p>
+<pre><code class="language-rs">let example = HashSet::new();
+example.insert(1);
+// This errors because the first value specified the key as u32 or similar
+example.insert(&quot;hello&quot;);
+// This is valid
+example.insert(3);
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="contributors"><a class="header" href="#contributors">Contributors</a></h1>
 <h2 id="authors"><a class="header" href="#authors">Authors</a></h2>
 <p><em>Rust in Pieces</em> is co-authored by <a href="https://github.com/prrao87">Prashanth Rao</a> and <a href="https://github.com/sanders41">Paul Sanders</a>.</p>
