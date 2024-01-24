@@ -86,7 +86,28 @@ Key "13900KS" has the value "Intel Core i9"
 
 ## Takeaways
 
-- Python and Rust contain collections that store key-value pairs for fast lookups.
-- A key difference is that Python's `dict` keys can be any hashable type and values can be of any type, but Rust's `HashMap` keys must all be the same type and  values
-  must be of the same type.
-  must be of the same type.
+Python and Rust contain collections that store key-value pairs for fast lookups. A key difference is
+that Python's `dict` keys can be any hashable type and values can be of any
+type, but in Rust, _both_ the keys and values of a `HashMap` must be of the same type.
+
+In Python, this `dict` is perfectly valid:
+
+```python
+# You can have a dict with keys of different types
+example = {
+    "a": 1,
+    1: 2
+}
+```
+
+In Rust, the compiler will enforce that the keys and values are of the same type, based on
+the first entry's inferred types.
+
+```rs
+let mut example = HashMap::new();
+example.insert("a", 1);
+// This errors because the previous values specified the key as &str
+example.insert(1, 2);
+// This is valid
+example.insert("b", 2);
+```
