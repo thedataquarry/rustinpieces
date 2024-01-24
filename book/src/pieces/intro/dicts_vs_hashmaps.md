@@ -92,7 +92,7 @@ type, but in Rust, _both_ the keys and values of a `HashMap` must be of the same
 
 In Python, this `dict` is perfectly valid:
 
-```python
+```py
 # You can have a dict with keys of different types
 example = {
     "a": 1,
@@ -106,7 +106,7 @@ the first entry's inferred types.
 ```rs
 let mut example = HashMap::new();
 example.insert("a", 1);
-// This errors because the previous values specified the key as &str
+// This errors because the first entry specified the key as &str
 example.insert(1, 2);
 // This is valid
 example.insert("b", 2);

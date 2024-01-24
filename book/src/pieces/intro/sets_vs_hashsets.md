@@ -72,6 +72,24 @@ Is "AMD Ryzen 3" in the hashset of processors?: true
 
 ## Takeaways
 
-- Python and Rust contain collections that allow for the storage of unique items.
-- Python's `set` can contain items of any type, while Rust's `HashSet` can only contain items of the
-  same type that were specified at the time of initialization.
+Python and Rust contain collections that allow for the storage of unique items. A key difference is
+that Python's `set` can contain items of any type, while Rust's `HashSet` can only contain items of
+the same type that were specified at the time of initialization.
+
+In Python, the following `set` containing multiple types is valid, as they are all hashable.
+
+```py
+example = {1, "hello", 3.14}
+```
+
+In Rust, the compiler enforces that all items in the set are of the same type specified at the time
+of initialization, or by inferring the first value's type.
+
+```rs
+let example = HashSet::new();
+example.insert(1);
+// This errors because the first value specified the key as u32 or similar
+example.insert("hello");
+// This is valid
+example.insert(3);
+```
