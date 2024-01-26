@@ -1,0 +1,64 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rest_api_postgres"
+description = "Rest API with Postgres"
+requires-python = ">=3.8"
+dependencies = [
+  "argon2-cffi==23.1.0",
+  "asyncpg==0.29.0",
+  "camel-converter[pydantic]==3.1.1",
+  "fastapi==0.109.0",
+  "passlib==1.7.4",
+  "pydantic==2.5.3",
+  "pydantic-settings==2.1.0",
+  "pyjwt==2.8.0",
+  "python-multipart==0.0.6",
+  "uvicorn[standard]==0.26.0",
+]
+version = "0.1.0"
+
+[tool.setuptools.packages.find]
+where=["app"]
+
+[tool.mypy]
+check_untyped_defs = true
+disallow_untyped_defs = true
+plugins = ["pydantic.mypy"]
+
+[[tool.mypy.overrides]]
+module = ["tests.*"]
+disallow_untyped_defs = false
+
+[[tool.mypy.overrides]]
+module = ["asyncpg.*", "passlib.*"]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+
+[tool.ruff]
+select=["E", "F", "UP", "I001"]
+ignore=[
+  # Recommened ignores by ruff when using formatter
+  "E501",
+  "W191",
+  "E111",
+  "E114",
+  "E117",
+  "D206",
+  "D300",
+  "Q000",
+  "Q001",
+  "Q002",
+  "Q003",
+  "COM812",
+  "COM819",
+  "ISC001",
+  "ISC002",
+]
+line-length = 100
+target-version = "py38"
+fix = true

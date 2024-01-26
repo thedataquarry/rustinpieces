@@ -15,14 +15,21 @@ repos:
       - id: mypy
         additional_dependencies:
           [
+            argon2-cffi,
             asyncpg,
+            "camel-converter[pydantic]",
             faker,
+            fastapi,
             meilisearch-python-sdk,
+            passlib,
             pydantic,
+            pydantic-settings,
+            pyjwt,
             python-dotenv,
             rich,
             srsly,
             typer,
+            "uvicorn[standard]",
           ]
         exclude: ".*/test_.*\\.py"
         args: [--explicit-package-bases] # This is because of the mono repo type setup

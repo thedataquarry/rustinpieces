@@ -1,0 +1,7 @@
+httpx==0.26.0
+mypy==1.8.0
+pytest==7.4.4
+pytest-asyncio==0.23.3
+ruff==0.1.14
+
+-e .  # install the project in editable format
