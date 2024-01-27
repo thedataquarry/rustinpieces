@@ -1,10 +1,10 @@
-class InsufficientPermissions(Exception):
+class DeleteError(Exception):
     pass
 
 
-class NoUserDeletedError(Exception):
+class InsertError(Exception):
     pass
 
 
-class UserCreationError(Exception):
+class UpdateError(Exception):
     pass
