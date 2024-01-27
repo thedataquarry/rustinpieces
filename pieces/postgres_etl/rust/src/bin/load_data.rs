@@ -1,9 +1,8 @@
-use std::sync::Arc;
-
 use dotenvy::dotenv;
 use serde::Serialize;
-use sqlx::PgPool;
+use sqlx::{postgres::PgPoolOptions, PgPool};
 use std::path::Path;
+use std::sync::Arc;
 
 #[derive(Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -15,6 +14,18 @@ struct Person {
     city: String,
     state: String,
     country: String,
+}
+
+async fn get_pool(pg_uri: &str) -> Result<Arc<PgPool>, sqlx::Error> {
+    let pool = Arc::new(
+        PgPoolOptions::new()
+            .min_connections(20)
+            .max_connections(20)
+            .connect(pg_uri)
+            .await
+            .expect("Cannot obtain connection from pool"),
+    );
+    Ok(pool)
 }
 
 fn read_data(persons_csv_file: &Path) -> Result<Vec<Person>, csv::Error> {
@@ -34,6 +45,15 @@ fn read_data(persons_csv_file: &Path) -> Result<Vec<Person>, csv::Error> {
         });
     }
     Ok(persons)
+}
+
+async fn truncate_table(pool: Arc<PgPool>) -> Result<(), sqlx::Error> {
+    // Truncate table
+    sqlx::query!("TRUNCATE TABLE persons")
+        .execute(&*pool)
+        .await?;
+    println!("Created persons table");
+    Ok(())
 }
 
 async fn insert(person: Person, pool: Arc<PgPool>) {
@@ -60,28 +80,28 @@ async fn run() -> Result<usize, sqlx::Error> {
     dotenv().ok();
     // Get files
     let persons_csv_file = Path::new("../data/persons.csv");
-
     let persons: Vec<Person> =
         read_data(persons_csv_file).expect("Did not obtain valid output from CSV");
     let counter = persons.len();
     println!("Number of persons: {}", counter);
 
-    // Obtain connection
-    let pg_uri = dotenvy::var("DATABASE_URL").unwrap();
-    let pool = Arc::new(PgPool::connect(&pg_uri).await.unwrap());
+    // Obtain connection pool
+    let pg_uri = dotenvy::var("DATABASE_URL").expect("Invalid DB URI");
+    let pool = get_pool(&pg_uri).await?;
+
     // Truncate table
-    sqlx::query!("TRUNCATE TABLE persons")
-        .execute(&*pool)
-        .await?;
-    println!("Created persons table");
+    truncate_table(Arc::clone(&pool)).await?;
+
+    // Run async data load
     let mut tasks = Vec::new();
-    // Insert data
+    // Create async tasks to insert data
     for person in persons.into_iter() {
         let task = tokio::spawn(insert(person, Arc::clone(&pool)));
         tasks.push(task);
     }
+    // Run async tasks
     for task in tasks {
-        task.await.expect("Error running task");
+        task.await.expect("Error running async task");
     }
     println!("Finished loading {:?} records", counter);
     Ok(counter)
