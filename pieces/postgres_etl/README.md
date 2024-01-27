@@ -4,21 +4,21 @@ Insert data into a Postgres table and measure the performance of the async clien
 
 ## Goal
 
-In this piece, we will use `asyncpg` in Python and the `sqlx` crate in Rust to load a tabular
-dataset containing a million people, their age, marital status and the city, state and country they
-last visited into a Postgres table. We will then measure the throughput of up to 1000 async queries
-to the table.
+In this piece, we will use `asyncpg` in Python and the `sqlx` + `tokio` crates in Rust to
+asynchronously load a tabular dataset containing 100K people, their age, marital status and the
+city, state and country they last visited into a Postgres table. We will then measure the throughput
+of up to 100K async queries to the table.
 
 ## Inputs
 
 The input is a CSV file `./data/persons.csv` generated from the [mock_data](../mock_data) project.
-We use an input argument of `1000000` to generate a dataset of a million persons and their
-information.
+We use an input argument of `100000` to generate a dataset of 100K persons and their
+metadata.
 
 ## Output
 
-The outputs are the data loading time for 1M records and the query throughput (QPS) of 10, 100 and
-1000 async queries via `asyncpg` in Python and `sqlx` in Rust.
+The outputs are the ingestion time for 100K records and the query throughput (QPS) of
+100K async queries via `asyncpg` in Python and `sqlx` + `tokio` in Rust.
 
 ## Python Setup
 
@@ -44,15 +44,14 @@ The loader script is run just once as follows.
 python load_data.py
 ```
 
+This will ingest the 100K records via gathered async tasks.
+
 #### Run queries
 
 The query script is run as follows.
 
 ```bash
-# Run for 10, 100 and 1000 queries
-python main.py -n 10
-python main.py -n 100
-python main.py -n 1000
+python main.py -n 100000
 ```
 
 ### Run tests
@@ -88,25 +87,29 @@ The results for the data loading and for the query throughput are shown below.
 
 The data loading time is measured by running the `load_data.py` script.
 
-| numPersons | Python  | Rust    |
-| ---------- | ------- | ------- |
-| 1000000    | 222 sec | 187 sec |
+| numPersons | Python   | Rust    |
+| ---------- | -------- | ------- |
+| 100000     | 12.6 sec | 7.1 sec |
 
-The run time for Python to load 1M records is around 3 min 42 seconds. Note that a sync for loop
-was used to insert the records, so the insertion isn't truly non-blocking, and can be further
-improved.
+The Rust version takes ~44% less time than the Python version to insert 100K records into Postgres.
+20 min/max threads were used in the `sqlx` connection pool. We will see more on this below.
 
 #### Query throughput
 
 By specifying an argument to `main.py`, we can control the number of async queries that we're
 running. The queries are aggregation queries that perform counts of persons whose age is greater
-than a random number between 22 and 65.
+than a random number between 22 and 65. An example query is shown below.
 
-| numPersons | Python                | Rust                  |
-| ---------- | --------------------- | --------------------- |
-| 10         | 0.510 sec (19.6 QPS)  | 0.677 sec (14.8 QPS)  |
-| 100        | 3.786 sec (26.4 QPS)  | 3.977 sec (25.1 QPS)  |
-| 1000       | 37.616 sec (26.5 QPS) | 37.895 sec (26.3 QPS) |
+```sql
+SELECT COUNT(*) FROM persons WHERE age > 22;
+```
+
+| numQueries | Python                   | Rust                     |
+| ---------- | ------------------------ | ------------------------ |
+| 100000     | 1 min 27 sec (1149 QPS)  | 0 min 32 sec (3125 QPS)  |
+
+It can be seen that for 100K such aggregation queries with random age bounds, the Rust code is about
+2.7x faster than the Python code. We will see more on this below.
 
 ## Rust Setup
 
@@ -123,6 +126,9 @@ cargo add rand
 cargo add serde --features derive
 cargo add tokio --features full
 ```
+
+Note that we need to install all tokio features in order to use the `tokio::spawn` method
+that allows us to run async tasks truly concurrently.
 
 ### Run scripts
 
@@ -143,27 +149,28 @@ cargo run --quiet
 
 The loader script is run just once, via the `src/bin` directory that's external to `main.rs`. In
 order to do this, the Rust code that loads data to the Postgres database is situated in
-`src/bin/load_data.rs`. The loader is then run as follows:
+`src/bin/load_data.rs`. The loader is then run in release-mode as follows:
 
 ```bash
-cargo run --bin load_data
+cargo run --release --bin load_data
+# or
+cargo run --r --bin load_data
 ```
 
 #### Run queries
 
-The query script is run via `main.rs` and can be run multiple times. The query script is run as
-follows:
+The query script is run via `main.rs` and can be run multiple times. The query script is run in
+release-mode as follows:
 
 ```bash
-# Run for 10, 100 and 1000 queries
-cargo run -- 10
-cargo run -- 100
-cargo run -- 1000
+cargo run -r -- 100000
 ```
 
 ### Run tests
 
-The Rust in-built test client allows tests to be defined within the same file as the code being tested. Because Rust is a compiled language, the compiler will know to ignore the tests when building the final binary for runtime.
+The Rust in-built test client allows tests to be defined within the same file as the code being
+tested. Because Rust is a compiled language, the compiler will know to ignore the tests when
+building the final binary for runtime.
 
 Tests are run using `make test` or `cargo test --quiet`.
 
@@ -191,11 +198,11 @@ The results for the data loading and for the query throughput are shown below.
 #### Data loading
 
 The data loading time is measured by running the `load_data.rs` script. The results are shown below
-for just the unoptimized (dev) run, as this script is run just one time only to load the data.
+for just the release-mode run, as this script is run just one time only to load the data.
 
-| numPersons | Python  | Rust    |
-| ---------- | ------- | ------- |
-| 1000000    | 222 sec | 187 sec |
+| numPersons | Python   | Rust    |
+| ---------- | -------- | ------- |
+| 100000     | 12.6 sec | 7.1 sec |
 
 The Rust code takes about 16% less time than the Python code to insert 1M records into Postgres.
 Note that a sync for loop was used to insert the records, so the insertion isn't truly non-blocking,
@@ -204,19 +211,60 @@ and can be further improved.
 #### Query throughput
 
 By specifying an argument to `main.rs`, we can control the number of async queries that we're
-running. The queries are aggregation queries that perform counts of persons whose age is greater
-than a random number between 22 and 65.
+running. The queries are very simple aggregation queries that perform counts of persons whose age
+is greater than a random number between 22 and 65. An example query is shown below.
 
-| numPersons | Python                | Rust                  |
-| ---------- | --------------------- | --------------------- |
-| 10         | 0.510 sec (19.6 QPS)  | 0.677 sec (14.8 QPS)  |
-| 100        | 3.786 sec (26.4 QPS)  | 3.977 sec (25.1 QPS)  |
-| 1000       | 37.616 sec (26.5 QPS) | 37.895 sec (26.3 QPS) |
+```sql
+SELECT COUNT(*) FROM persons WHERE age > 22;
+```
+
+| numQueries | Python                   | Rust                     |
+| ---------- | ------------------------ | ------------------------ |
+| 100000     | 1 min 27 sec (1149 QPS)  | 0 min 32 sec (3125 QPS)  |
+
+It can be seen that for 100K such aggregation queries with random age bounds, the Rust code is about
+2.7x faster than the Python code. Note that the QPS and the run time depend on the CPU, OS, and the
+number of min/max threads that are allowed to run concurrently as specified to the `sqlx`
+connection pool in Rust, so depending on all these factors, your mileage may vary. However, it's
+clear that Rust will be the faster option when it comes to async queries.
 
 ## Takeaways
 
-There isn't that much difference between the Rust and Python code when running many asynchronous
-queries, because the bottleneck is the network overhead due to the client/server connection in
-Postgres, which Python's `asyncpg` library also handles well (because it's implemented in C and
-Cython under the hood). The Rust code is also not idiomatic, so there's a lot of room for
-improvement overall.
+Python's `asyncpg` library has its internals written in Cython, and as can be seen from the results,
+it performs admirably well and is really performant. However, Rust's `sqlx` + `tokio`
+combination is even more performant, largely because of the fact that it's a lot more low-level
+and deals purely in optimized Rust objects once they're compiled.
+
+Although Rust is way faster than Python here, it's important to note how much more
+complex the Rust code is compared to the Python version. For example, the Postgres connection pool
+created in `sqlx` is initialized with an `Arc` object, which stands for "atomic reference count" in
+Rust. This is a way to share ownership of the pool object across multiple threads, allowing for very
+cheap cloning of the underlying object. The way Rust shares ownership of objects across threads is
+rather complex for a beginner, and it's important to understand the ownership model in Rust, and the
+impact of cloning on performance, before attempting to write async code in Rust.
+
+> [!NOTE]
+> This example showed how to concurrently ingest data, record-by-record, into a Postgres table.
+> For much larger datasets in a realistic production environment, it would be more efficient to
+> batch-insert the data. This would require a slightly different approach, as we'd need
+> to handle the batching logic and potentially pass the entire vector of records to Postgres as
+> a temporary table. This would be a great exercise to try out in the future for larger datasets!
+
+When is it beneficial to use Python for such ETL tasks? Looking at how concise and readable the
+`asyncpg` Python code is compared to the Rust version, it's clear that Python is a great choice for
+rapid prototyping and iteration, for example, in early stages of a project when the data types and
+schemas are still evolving. In such cases, Python's dynamic typing and the ability to quickly
+string together async data ingestion code that performs well is a huge advantage.
+
+Rust's `sqlx` + `tokio` combination is a great choice for production-grade ETL tasks that
+require high performance and throughput. Not only is `sqlx` async-only, but it also allows us to
+perform compile-time SQL query validation (via the `query!` macro), allowing the developer to
+catch SQL errors at compile-time rather than at runtime. In a production environment, this is a
+huge advantage, as it allows developers to have the confidence that their production code will
+not fail at runtime due to simple syntax errors in their SQL.
+
+To summarize, in data engineering and ETL tasks in Postgres,, Python (via `asyncpg`) is a great
+choice as it's really fast, and the code is concise and easy to implement. Rust (via `sqlx` +
+`tokio`) is a great choice for production-grade ETL tasks that require high performance and
+reliability enabled by its compile-time checks and SQL query validation, though this comes at the
+cost of added code complexity.
