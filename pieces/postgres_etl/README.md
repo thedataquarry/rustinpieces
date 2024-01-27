@@ -104,9 +104,9 @@ than a random number between 22 and 65. An example query is shown below.
 SELECT COUNT(*) FROM persons WHERE age > 22;
 ```
 
-| numQueries | Python                   | Rust                     |
-| ---------- | ------------------------ | ------------------------ |
-| 100000     | 1 min 27 sec (1149 QPS)  | 0 min 32 sec (3125 QPS)  |
+| numQueries | Python                  | Rust                    |
+| ---------- | ----------------------- | ----------------------- |
+| 100000     | 1 min 27 sec (1149 QPS) | 0 min 32 sec (3125 QPS) |
 
 It can be seen that for 100K such aggregation queries with random age bounds, the Rust code is about
 2.7x faster than the Python code. We will see more on this below.
@@ -154,7 +154,7 @@ order to do this, the Rust code that loads data to the Postgres database is situ
 ```bash
 cargo run --release --bin load_data
 # or
-cargo run --r --bin load_data
+cargo run -r --bin load_data
 ```
 
 #### Run queries
@@ -218,9 +218,9 @@ is greater than a random number between 22 and 65. An example query is shown bel
 SELECT COUNT(*) FROM persons WHERE age > 22;
 ```
 
-| numQueries | Python                   | Rust                     |
-| ---------- | ------------------------ | ------------------------ |
-| 100000     | 1 min 27 sec (1149 QPS)  | 0 min 32 sec (3125 QPS)  |
+| numQueries | Python                  | Rust                    |
+| ---------- | ----------------------- | ----------------------- |
+| 100000     | 1 min 27 sec (1149 QPS) | 0 min 32 sec (3125 QPS) |
 
 It can be seen that for 100K such aggregation queries with random age bounds, the Rust code is about
 2.7x faster than the Python code. Note that the QPS and the run time depend on the CPU, OS, and the
