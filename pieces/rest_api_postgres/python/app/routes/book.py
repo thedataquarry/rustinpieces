@@ -14,6 +14,7 @@ from app.deps import Db
 from app.models.book import Book, BookInDb
 from app.services.book_service import add_book as add_book_service
 from app.services.book_service import delete_book_by_id as delete_book_by_id_service
+from app.services.book_service import get_book_by_id as get_book_by_id_service
 from app.services.book_service import get_books as get_books_service
 from app.services.book_service import update_book as update_book_service
 from app.utils import APIRouter
@@ -32,6 +33,17 @@ async def get_books(db: Db) -> List[BookInDb]:
     return books
 
 
+@router.get("/{book_id}")
+async def get_book(book_id: int, db: Db) -> BookInDb:
+    """Retrieve a book by it's id."""
+    book = await get_book_by_id_service(book_id, db)
+
+    if not book:
+        raise HTTPException(HTTP_404_NOT_FOUND, detail=f"No book with id {book_id} found")
+
+    return book
+
+
 @router.delete("/{book_id}", status_code=HTTP_204_NO_CONTENT)
 async def delete_book_by_id(book_id: int, db: Db) -> None:
     """Delete a book by it's id."""
@@ -41,18 +53,29 @@ async def delete_book_by_id(book_id: int, db: Db) -> None:
 @router.put("/")
 async def update_book(book: BookInDb, db: Db) -> BookInDb:
     """Update a book."""
-    return await update_book_service(book, db)
+    try:
+        return await update_book_service(book, db)
+    except UniqueViolationError:
+        raise HTTPException(
+            status_code=HTTP_400_BAD_REQUEST,
+            detail=f"A book with the title {book.title} by author {book.author_first_name} {book.author_last_name} already exists",
+        )
+    except Exception:
+        raise HTTPException(
+            status_code=HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="An error occurred while updating the book",
+        )
 
 
 @router.post("/")
 async def add_book(book: Book, db: Db) -> BookInDb:
     """Add a new book."""
     try:
-        created_user = await add_book_service(book, db)
+        created_book = await add_book_service(book, db)
     except UniqueViolationError:
         raise HTTPException(
             status_code=HTTP_400_BAD_REQUEST,
-            detail=f"A book with the user title {book.title} already exists",
+            detail=f"A book with the title {book.title} by author {book.author_first_name} {book.author_last_name} already exists",
         )
     except Exception:
         raise HTTPException(
@@ -60,4 +83,4 @@ async def add_book(book: Book, db: Db) -> BookInDb:
             detail="An error occurred while adding the book",
         )
 
-    return created_user
+    return created_book

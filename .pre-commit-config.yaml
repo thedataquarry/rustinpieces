@@ -31,7 +31,7 @@ repos:
             typer,
             "uvicorn[standard]",
           ]
-        exclude: ".*/test_.*\\.py"
+        exclude: ".*/test_.*||conftest\\.py"
         args: [--explicit-package-bases] # This is because of the mono repo type setup
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.1.13

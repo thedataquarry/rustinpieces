@@ -56,6 +56,23 @@ async def delete_book_by_id(book_id: int, db: DatabaseManager) -> None:
             raise DeleteError()
 
 
+async def get_book_by_id(book_id: int, db: DatabaseManager) -> BookInDb | None:
+    async with db.pool.acquire() as conn:
+        book = await conn.fetchrow(
+            """
+            SELECT id, title, author_first_name, author_last_name, book_status, date_added, date_read, rating
+            FROM books
+            WHERE id = $1;
+            """,
+            book_id,
+        )
+
+    if not book:
+        return None
+
+    return BookInDb(**book)
+
+
 async def get_books(db: DatabaseManager) -> list[BookInDb] | None:
     async with db.pool.acquire() as conn:
         books = await conn.fetch(
@@ -76,7 +93,8 @@ async def update_book(book: BookInDb, db: DatabaseManager) -> BookInDb:
         result = await conn.execute(
             """
             UPDATE books
-            SET title = $1, author_first_name = $2, author_last_name = $3, book_status = $4, date_added = $5, date_read = $6, rating = $7;
+            SET title = $1, author_first_name = $2, author_last_name = $3, book_status = $4, date_added = $5, date_read = $6, rating = $7
+            WHERE id = $8;
             """,
             book.title,
             book.author_first_name,
@@ -85,6 +103,7 @@ async def update_book(book: BookInDb, db: DatabaseManager) -> BookInDb:
             book.date_added,
             book.date_read,
             book.rating,
+            book.id,
         )
 
         if result != "UPDATE 1":

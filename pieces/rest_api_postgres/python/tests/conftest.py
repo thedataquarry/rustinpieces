@@ -1,13 +1,28 @@
+from datetime import UTC, datetime
 from uuid import uuid4
 
 import pytest
-from asyncpg import create_pool
 from httpx import AsyncClient
 
 from app.config import config
+from app.db import db
 from app.main import app
-from app.models.user import UserCreate
-from app.services.user_service import create_user, delete_user
+from app.models.book import Book, BookStatus
+from app.services.book_service import add_book
+
+
+@pytest.fixture(autouse=True)
+async def prep_db():
+    await db.create_pool()
+    yield
+
+    async with db.pool.acquire() as conn:
+        await conn.execute(
+            """
+           DELETE FROM books;
+           """,
+        )
+    await db.close_pool()
 
 
 @pytest.fixture
@@ -17,9 +32,29 @@ async def test_client():
 
 
 @pytest.fixture
-async def user():
-    pool = await create_pool(config.postgres_uri, min_size=1, max_size=1)
-    user = await create_user(UserCreate(user_name=str(uuid4()), password="test"))
-    yield user
-    await delete_user(user.id)
-    await pool.close()
+def book():
+    return Book(
+        title=str(uuid4()),
+        author_first_name="Imma",
+        author_last_name="Author",
+        book_status=BookStatus.READ,
+        date_added=datetime.now(tz=UTC),
+        date_read=datetime.now(tz=UTC),
+        rating=3,
+    )
+
+
+@pytest.fixture
+def book_json(book):
+    book_json = book.model_dump(by_alias=True)
+    book_json["bookStatus"] = book_json["bookStatus"].value
+    book_json["dateAdded"] = book_json["dateAdded"].isoformat().replace("+00:00", "Z")
+    book_json["dateRead"] = book_json["dateRead"].isoformat().replace("+00:00", "Z")
+
+    return book_json
+
+
+@pytest.fixture
+async def book_in_db(book):
+    book = await add_book(book, db)
+    yield book
