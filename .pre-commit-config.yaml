@@ -31,8 +31,24 @@ repos:
             typer,
             "uvicorn[standard]",
           ]
-        exclude: ".*/test_.*||conftest\\.py"
+        exclude: ".*/test_.*\\.py|.*/conftest\\.py|pieces/rest_api_postgres/python/*"
         args: [--explicit-package-bases] # This is because of the mono repo type setup
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.8.0
+    hooks:
+      - id: mypy
+        pass_filenames: false
+        files: ^pieces/rest_api_postgres/python/
+        additional_dependencies:
+          [
+            asyncpg,
+            "camel-converter[pydantic]",
+            fastapi,
+            pydantic,
+            pydantic-settings,
+            "uvicorn[standard]",
+          ]
+        entry: bash -c 'cd pieces/rest_api_postgres/python && mypy -p app "$@"' --
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.1.13
     hooks:
