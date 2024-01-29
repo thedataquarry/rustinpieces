@@ -7,8 +7,7 @@ from httpx import AsyncClient
 from app.config import config
 from app.db import db
 from app.main import app
-from app.models.book import Book, BookStatus
-from app.services.book_service import add_book
+from app.models.book import Book, BookInDb, BookStatus
 
 
 @pytest.fixture(autouse=True)
@@ -56,5 +55,30 @@ def book_json(book):
 
 @pytest.fixture
 async def book_in_db(book):
-    book = await add_book(book, db)
-    yield book
+    async with db.pool.acquire() as conn:
+        await conn.execute(
+            """
+            INSERT INTO books(title, author_first_name, author_last_name, book_status, date_added, date_read, rating)
+            VALUES ($1, $2, $3, $4, $5, $6, $7);
+            """,
+            book.title,
+            book.author_first_name,
+            book.author_last_name,
+            book.book_status,
+            book.date_added,
+            book.date_read,
+            book.rating,
+        )
+
+        added_book = await conn.fetchrow(
+            """
+            SELECT id, title, author_first_name, author_last_name, book_status, date_added, date_read, rating
+            FROM books
+            WHERE title = $1 and author_first_name = $2 and author_last_name = $3;
+            """,
+            book.title,
+            book.author_first_name,
+            book.author_last_name,
+        )
+
+    yield BookInDb(**added_book)
