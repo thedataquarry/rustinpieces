@@ -8,6 +8,11 @@ module = ["tests.*"]
 disallow_untyped_defs = false
 
 [tool.ruff]
+line-length = 100
+target-version = "py38"
+fix = true
+
+[tool.ruff.lint]
 select=["E", "F", "UP", "I001"]
 ignore=[
   # Recommened ignores by ruff when using formatter
@@ -27,9 +32,6 @@ ignore=[
   "ISC001",
   "ISC002",
 ]
-line-length = 100
-target-version = "py38"
-fix = true
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
