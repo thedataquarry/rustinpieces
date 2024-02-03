@@ -36,7 +36,7 @@ pub struct BookInDb {
 
 pub fn is_valid_rating(rating: &Option<i16>) -> bool {
     if let Some(r) = rating {
-        if r > &5 || r < &0 {
+        if !(&0..=&5).contains(&r) {
             return false;
         }
     }
