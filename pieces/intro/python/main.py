@@ -107,7 +107,7 @@ def run6() -> None:
         print(f"{person}. Born in a leap year?: {person_is_born_in_leap_year}")
     """
     Josephine is 20 years old. Born in leap year?: True
-    Will is 31 years old. Born in leap year?: False
+    Wesley is 31 years old. Born in leap year?: False
     """
 
 

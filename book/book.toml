@@ -8,3 +8,6 @@ src = "src"
 [output.html]
 site-url = "/rustinpieces/"
 additional-css = ["theme/extra.css"]
+git-repository-url = "https://github.com/thedataquarry/rustinpieces"
+git-repository-icon = "fa-github"
+edit-url-template = "https://github.com/thedataquarry/rustinpieces/edit/main/book/{path}"

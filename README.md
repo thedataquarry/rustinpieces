@@ -2,13 +2,13 @@
 
 Journeys between two worlds: Python 🐍 and Rust 🦀.
 
-This repo contains the code for an upcoming book series called "Rust in Pieces". The goal is to help Python and Rust developers learn either language by building small projects in that they wouldn't normally have any trouble doing in the language of their choice. Each solution starts off with a Python implementation for a specific problem and is accompanied by a Rust implementation that performs the same task.
+This repo contains the code for the book _[Rust in Pieces](https://rustinpieces.dev)_. The goal is to help developers move between the worlds of Python and Rust by building small projects that they wouldn't normally have any trouble doing in the language of their choice. Each solution starts off with a Python implementation for a specific problem and is accompanied by a Rust implementation that performs the same task.
 
 Rust is a language that's known for its steep learning curve (yet, it's almost universally loved by those who become proficient with it). The book series that builds on this repo aims to make the initial steps for Python developers less daunting by providing a familiar environment for Python developers who are used to solving real world problems in their day-to-day work.
 
-In the reverse direction, Python is a language that's falsely known for its performance limitations. Python's rich package ecosystem allows one to write high-performance code, but sometimes, it makes sense to write parts of a project in Rust for performance reasons. In addition, a large portion of the AI/ML landscape is in Python. Thus, the other goal of this repo is to help Rust developers become familiar with Python's ecosystem and how to use it to their advantage.
+In the reverse direction, Python is a language that's falsely known for its performance limitations. Nowadays, Python's rich package ecosystem allows one to write high-performance code, but sometimes, it makes sense to write only _parts_ of a Python project in Rust for performance reasons. A large portion of the AI/ML landscape is in Python. Thus, the other goal of this repo is to help Rust developers become familiar with Python's ecosystem and how to use it to their advantage.
 
-The larger goal of the book is to help developers become proficient enough with software/data engineering use cases in either language to make an informed choice about whether to use one or the other language for parts of a larger project. This will come from a deeper understanding of Rust's performance benefits, and how to unite Python and Rust code bases via [PyO3](https://github.com/PyO3/pyo3).
+The larger focus of the book is to help developers become proficient enough with software/data engineering use cases in either language to make an informed choice about whether to use one or the other language for parts of a larger project. This will come from a deeper understanding of Rust's performance benefits, and how to unite Python and Rust code bases via [PyO3](https://github.com/PyO3/pyo3).
 
 ## Pieces
 
@@ -43,3 +43,7 @@ A roadmap for upcoming pieces is shown below. Stay tuned!
 | REST API to local LLM        | APIs          | axum, LLMs                               |
 | PyO3 mock data generation    | Unification   | TBD                                      |
 | PyO3 query local LLM         | Unification   | TBD                                      |
+
+## Contributing
+
+Contributions and improvements from the community are welcome! Please see the [contributing guidelines](./CONTRIBUTING.md).
