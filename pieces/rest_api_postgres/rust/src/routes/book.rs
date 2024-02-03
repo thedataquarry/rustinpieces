@@ -1,13 +1,19 @@
 use axum::{
     extract::{Path, State},
     http::StatusCode,
+    response::{IntoResponse, Response},
     routing::{delete, get, post, put},
     Json, Router,
 };
+use serde::{Deserialize, Serialize};
 use sqlx::postgres::PgPool;
 
-use crate::db::internal_error;
-use crate::models::book::{Book, BookInDb, BookStatus};
+use crate::models::book::{is_valid_rating, Book, BookInDb, BookStatus};
+
+#[derive(Deserialize, Serialize, Debug)]
+struct GenericMessage {
+    detail: String,
+}
 
 pub fn book_routes(pool: PgPool) -> Router<PgPool> {
     let prefix = "/book";
@@ -20,10 +26,19 @@ pub fn book_routes(pool: PgPool) -> Router<PgPool> {
         .with_state(pool)
 }
 
-async fn add_book(
-    State(pool): State<PgPool>,
-    Json(book): Json<Book>,
-) -> (StatusCode, Json<BookInDb>) {
+async fn add_book(State(pool): State<PgPool>, Json(book): Json<Book>) -> Response {
+    if !is_valid_rating(&book.rating) {
+        return (
+            StatusCode::BAD_REQUEST,
+            Json(GenericMessage {
+                detail: format!(
+                    "{:?} is not a valid rating. Ratings must be between 0 and 5",
+                    book.rating
+                ),
+            }),
+        )
+            .into_response();
+    }
     let book = sqlx::query_as!(
         BookInDb,
         r#"
@@ -41,14 +56,41 @@ async fn add_book(
 
     )
     .fetch_one(&pool)
-    .await
-    .unwrap();
+    .await;
 
-    (StatusCode::CREATED, Json(book))
+    match book {
+        Ok(b) => (StatusCode::CREATED, Json(b)).into_response(),
+        Err(sqlx::Error::Database(db_err)) => {
+            if db_err.code().map(|code| code == "23505").unwrap_or(false) {
+                (
+                    StatusCode::BAD_REQUEST,
+                    Json(GenericMessage {
+                        detail: "Book already exists".to_string(),
+                    }),
+                )
+                    .into_response()
+            } else {
+                (
+                    StatusCode::INTERNAL_SERVER_ERROR,
+                    Json(GenericMessage {
+                        detail: "An error occurred while adding the record".to_string(),
+                    }),
+                )
+                    .into_response()
+            }
+        }
+        Err(_) => (
+            StatusCode::INTERNAL_SERVER_ERROR,
+            Json(GenericMessage {
+                detail: "An error occurred while adding the record".to_string(),
+            }),
+        )
+            .into_response(),
+    }
 }
 
 async fn delete_book(State(pool): State<PgPool>, Path(book_id): Path<i32>) -> StatusCode {
-    sqlx::query!(
+    let result = sqlx::query!(
         r#"
     DELETE FROM books
     WHERE id = $1
@@ -56,13 +98,21 @@ async fn delete_book(State(pool): State<PgPool>, Path(book_id): Path<i32>) -> St
         book_id,
     )
     .execute(&pool)
-    .await
-    .unwrap();
+    .await;
 
-    StatusCode::NO_CONTENT
+    match result {
+        Ok(r) => {
+            if r.rows_affected() > 0 {
+                StatusCode::NO_CONTENT
+            } else {
+                StatusCode::INTERNAL_SERVER_ERROR
+            }
+        }
+        Err(_) => StatusCode::INTERNAL_SERVER_ERROR,
+    }
 }
 
-async fn get_books(State(pool): State<PgPool>) -> Json<Vec<BookInDb>> {
+async fn get_books(State(pool): State<PgPool>) -> Response {
     let books = sqlx::query_as!(
         BookInDb,
         r#"
@@ -79,13 +129,21 @@ async fn get_books(State(pool): State<PgPool>) -> Json<Vec<BookInDb>> {
         "#
     )
     .fetch_all(&pool)
-    .await
-    .unwrap(); //map_err(internal_error);
+    .await;
 
-    Json(books)
+    match books {
+        Ok(b) => (StatusCode::OK, Json(b)).into_response(),
+        Err(_) => (
+            StatusCode::INTERNAL_SERVER_ERROR,
+            Json(GenericMessage {
+                detail: "Error getting records".to_string(),
+            }),
+        )
+            .into_response(),
+    }
 }
 
-async fn get_book(State(pool): State<PgPool>, Path(book_id): Path<i32>) -> Json<BookInDb> {
+async fn get_book(State(pool): State<PgPool>, Path(book_id): Path<i32>) -> Response {
     let book = sqlx::query_as!(
         BookInDb,
         r#"
@@ -103,17 +161,44 @@ async fn get_book(State(pool): State<PgPool>, Path(book_id): Path<i32>) -> Json<
         "#,
         book_id,
     )
-    .fetch_one(&pool)
-    .await
-    .unwrap(); // .map_err(internal_error);
+    .fetch_optional(&pool)
+    .await;
 
-    Json(book)
+    if let Ok(book_result) = book {
+        match book_result {
+            Some(b) => (StatusCode::OK, Json(b)).into_response(),
+            None => (
+                StatusCode::NOT_FOUND,
+                Json(GenericMessage {
+                    detail: format!("No record with the id {book_id} found"),
+                }),
+            )
+                .into_response(),
+        }
+    } else {
+        (
+            StatusCode::INTERNAL_SERVER_ERROR,
+            Json(GenericMessage {
+                detail: "An error occurred while retrieving the record".to_string(),
+            }),
+        )
+            .into_response()
+    }
 }
 
-async fn update_book(
-    State(pool): State<PgPool>,
-    Json(book): Json<BookInDb>,
-) -> (StatusCode, Json<BookInDb>) {
+async fn update_book(State(pool): State<PgPool>, Json(book): Json<BookInDb>) -> Response {
+    if !is_valid_rating(&book.rating) {
+        return (
+            StatusCode::BAD_REQUEST,
+            Json(GenericMessage {
+                detail: format!(
+                    "{:?} is not a valid rating. Ratings must be between 0 and 5",
+                    book.rating
+                ),
+            }),
+        )
+            .into_response();
+    }
     let updated_book = sqlx::query_as!(
         BookInDb,
         r#"
@@ -139,8 +224,35 @@ async fn update_book(
         book.rating,
     )
     .fetch_one(&pool)
-    .await
-    .unwrap();
+    .await;
 
-    (StatusCode::CREATED, Json(updated_book))
+    match updated_book {
+        Ok(b) => (StatusCode::CREATED, Json(b)).into_response(),
+        Err(sqlx::Error::Database(db_err)) => {
+            if db_err.code().map(|code| code == "23505").unwrap_or(false) {
+                (
+                    StatusCode::BAD_REQUEST,
+                    Json(GenericMessage {
+                        detail: "Book already exists".to_string(),
+                    }),
+                )
+                    .into_response()
+            } else {
+                (
+                    StatusCode::INTERNAL_SERVER_ERROR,
+                    Json(GenericMessage {
+                        detail: "An error occurred while updating the record".to_string(),
+                    }),
+                )
+                    .into_response()
+            }
+        }
+        Err(_) => (
+            StatusCode::INTERNAL_SERVER_ERROR,
+            Json(GenericMessage {
+                detail: "An error occurred while updating the record".to_string(),
+            }),
+        )
+            .into_response(),
+    }
 }
