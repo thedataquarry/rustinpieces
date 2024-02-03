@@ -217,7 +217,7 @@ async fn update_book(State(pool): State<PgPool>, Json(book): Json<BookInDb>) -> 
         book.id,
         book.title,
         book.author_first_name,
-        book.author_first_name,
+        book.author_last_name,
         book.book_status as BookStatus,
         book.date_added,
         book.date_read,
