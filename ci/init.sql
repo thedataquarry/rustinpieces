@@ -39,4 +39,4 @@ CREATE TABLE IF NOT EXISTS books(
   UNIQUE (title, author_first_name, author_last_name)
 )\gexec
 
-TRUNCATE TABLE persons\gexec
+TRUNCATE TABLE books\gexec
