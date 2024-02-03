@@ -11,7 +11,7 @@ use crate::db::create_pool;
 #[tokio::main]
 async fn main() {
     dotenv().ok();
-    let pg_uri = dotenvy::var("DATABASE_URL").expect("Invalid DB URI");
+    let pg_uri = dotenvy::var("API_DATABASE_URL").expect("Invalid DB URI");
     let pool = create_pool(&pg_uri)
         .await
         .expect("Unable to connect to the database");

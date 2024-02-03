@@ -50,7 +50,7 @@ async fn perf_query(pool: PgPool, age: i16) -> Result<(), sqlx::Error> {
 async fn main() -> Result<(), sqlx::Error> {
     dotenv().ok();
     // Obtain connection
-    let pg_uri = dotenvy::var("DATABASE_URL").unwrap();
+    let pg_uri = dotenvy::var("ETL_DATABASE_URL").unwrap();
     let pool = PgPoolOptions::new()
         .min_connections(5)
         .max_connections(5)
