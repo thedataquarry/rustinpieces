@@ -1,7 +1,7 @@
-SELECT 'CREATE DATABASE etl'
-WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'etl')\gexec
+SELECT 'CREATE DATABASE testing'
+WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'testing')\gexec
 
-\connect etl
+\connect testing
 
 CREATE TABLE IF NOT EXISTS persons(
     id integer PRIMARY KEY,
@@ -19,11 +19,6 @@ COPY persons(id, name, age, isMarried, city, state, country)
 FROM '/data/persons.csv'
 DELIMITER ','
 CSV HEADER\gexec
-
-SELECT 'CREATE DATABASE api'
-WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'api')\gexec
-
-\connect api
 
 CREATE TYPE bookstatus AS ENUM('read', 'currently_reading', 'want_to_read')\gexec
 

@@ -64,7 +64,7 @@ async fn get_age_limits() -> Result<Vec<i16>, sqlx::Error> {
 async fn main() -> Result<(), sqlx::Error> {
     dotenv().ok();
     // Obtain connection
-    let pg_uri = dotenvy::var("ETL_DATABASE_URL").expect("Invalid DB URI");
+    let pg_uri = dotenvy::var("DATABASE_URL").expect("Invalid DB URI");
     let pool = get_pool(&pg_uri).await?;
     let ages = get_age_limits().await?;
     let mut tasks = Vec::new();

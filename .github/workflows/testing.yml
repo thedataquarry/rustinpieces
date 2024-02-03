@@ -10,8 +10,7 @@ env:
   RUST_BACKTRACE: 1
   RUSTFLAGS: "-D warnings"
   POSTGRES_PASSWORD: "test_password"
-  ETL_DATABASE_URL: "postgresql://postgres:test_password@127.0.0.1:5432/etl"
-  API_DATABASE_URL: "postgresql://postgres:test_password@127.0.0.1:5432/api"
+  DATABASE_URL: "postgresql://postgres:test_password@127.0.0.1:5432/testing"
 jobs:
   clippy:
     name: Clippy
