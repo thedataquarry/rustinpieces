@@ -64,7 +64,7 @@ class BatchProcessor:
         return data
 
     def process_batches(self, data: list[JsonBlob]) -> list[JsonBlob]:
-        with ProcessPoolExecutor(max_workers=8) as executor:
+        with ProcessPoolExecutor(max_workers=NUM_WORKERS) as executor:
             batches = list(self._create_batches(data))
             # Process batches in parallel
             results = []
@@ -108,9 +108,10 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Count gendered pronouns in a dataset")
     parser.add_argument("--batch_size", "-b", type=int, default=250,help="Number or records for each batch processed in parallel")
     parser.add_argument("--file_path", "-p", type=str, default="../data", help="Path to input files")
-    parser.add_argument("--num_workers", "-n", type=int, default=4, help="Maximum number of worker processes")
+    parser.add_argument("--num_workers", "-n", type=int, default=8, help="Maximum number of worker processes")
     args = parser.parse_args()
     # fmt: on
 
+    NUM_WORKERS = args.num_workers
     file_path = Path(args.file_path)
     main(file_path, args.batch_size)
