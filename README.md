@@ -16,33 +16,28 @@ Each _piece_ is a small project that's implemented in both Python and Rust. The 
 
 The code for the pieces is in the [pieces](./pieces) directory. Each piece is accompanied by a README that explains the problem statement, and how to run the code in both languages.
 
-One of the challenges with learning (and teaching) Rust, is that certain concepts such as ownership, borrowing, traits and lifetimes can be quite challenging to grasp for a new learner, but these concepts are ubiquitous in the language, such that they appear all at once. But, because the learning approach provided here is top-down, the best way to get familiar with these concepts is to try and apply them to your own projects, as done in each piece listed below.
+One of the challenges with learning (and teaching) Rust, is that concepts such as ownership, borrowing, traits and lifetimes that can be quite challenging to grasp for a new learner, are ubiquitous in the language, so it's not straightforward to introduce them gradually. The learning approach applied here is top-down, and so the best way to get familiar with these concepts is to try and apply them to your own problems, as we do in each piece.
 
-As such, the concepts are introduced in a way that's as gradual as possible, though it's still possible that you may find yourself having to refer to the [Rust book](https://doc.rust-lang.org/book/) or other resources to understand certain concepts from the bottom-up as you go along.
+Although the implementation concepts are introduced as gradually as possible, it's still possible that you may find yourself referring to the [Rust book](https://doc.rust-lang.org/book/) or other resources to understand certain concepts from the bottom-up as you go along.
 
-A roadmap for upcoming pieces is shown below. Stay tuned!
+The following pieces are covered:
 
-| Piece                        | Category      | New Rust concepts                        |
+| Piece                        | Category      | Key Rust concepts                        |
 | ---------------------------- | ------------- | ---------------------------------------- |
 | Hello world                  | Intro         | macros                                   |
 | Data structures & constructs | Intro         | crates, structs, traits, implementations |
-| Simple CSV parsing           | File-handling | serde, vec                               |
-| Regex JSON                   | File-handling | match, regex                             |
-| Mock data generation         | File-handling | RNG, sampling                            |
-| Age grouping                 | File-handling | enums                                    |
-| Datetime parsing             | File-handling | chrono, lifetimes                        |
-| Preprocessing data for NLP   | Parallelism   | rayon, parallelism                       |
-| Polars datetimes             | DataFrames    | datetimes                                |
+| Simple CSV parsing           | Files         | serde, vec                               |
+| Regex JSON                   | Files         | match, regex                             |
+| Mock data generation         | Files         | RNG, sampling                            |
+| Age grouping                 | Files         | enums                                    |
+| Datetime parsing             | Files         | chrono, lifetimes                        |
+| Extract pronouns from text   | Files         | rayon, parallelism                       |
 | Polars EDA                   | DataFrames    | TBD                                      |
 | Postgres                     | Databases     | async, sqlx, tokio                       |
-| DuckDB                       | Databases     | arrow, in-memory DB                      |
-| Meilisearch                  | Databases     | async, async-std, clap                   |
-| Qdrant                       | Databases     | async, tokio, gRPC                       |
-| KùzuDB                       | Databases     | async, graph                             |
+| Meilisearch                  | CLIs          | async, async-std, clap                   |
 | REST API to Postgres         | APIs          | axum, async, tokio                       |
-| REST API to local LLM        | APIs          | axum, LLMs                               |
-| PyO3 mock data generation    | Unification   | TBD                                      |
-| PyO3 query local LLM         | Unification   | TBD                                      |
+| PyO3 mock data generation    | Unification   | PyO3                                     |
+| PyO3 parallel computation    | Unification   | PyO3                                     |
 
 ## Contributing
 

@@ -18,24 +18,19 @@ We believe that Rust 🦀 is the among the most approachable lower-level program
 
 Rust's learning curve is considerably steeper than Python's, so the table below is provided to show a mapping between each piece and its corresponding concept in Rust. As can be seen, structs, serialization, deserialization, vectors and traits are ubiquitous concepts in Rust.
 
-| Piece                        | Category      | New Rust concepts                        |
+| Piece                        | Category      | Key Rust concepts                        |
 | ---------------------------- | ------------- | ---------------------------------------- |
 | Hello world                  | Intro         | macros                                   |
 | Data structures & constructs | Intro         | crates, structs, traits, implementations |
-| Simple CSV parsing           | File-handling | serde, vec                               |
-| Regex JSON                   | File-handling | match, regex                             |
-| Mock data generation         | File-handling | RNG, sampling                            |
-| Age grouping                 | File-handling | enums                                    |
-| Datetime parsing             | File-handling | chrono, lifetimes                        |
-| Preprocessing data for NLP   | Parallelism   | rayon, parallelism                       |
-| Polars datetimes             | DataFrames    | datetimes                                |
+| Simple CSV parsing           | Files         | serde, vec                               |
+| Regex JSON                   | Files         | match, regex                             |
+| Mock data generation         | Files         | RNG, sampling                            |
+| Age grouping                 | Files         | enums                                    |
+| Datetime parsing             | Files         | chrono, lifetimes                        |
+| Extract pronouns from text   | Files         | rayon, parallelism                       |
 | Polars EDA                   | DataFrames    | TBD                                      |
 | Postgres                     | Databases     | async, sqlx, tokio                       |
-| DuckDB                       | Databases     | arrow, in-memory DB                      |
-| Meilisearch                  | Databases     | async, async-std, clap                   |
-| Qdrant                       | Databases     | async, tokio, gRPC                       |
-| KùzuDB                       | Databases     | async, graph                             |
+| Meilisearch                  | CLIs          | async, async-std, clap                   |
 | REST API to Postgres         | APIs          | axum, async, tokio                       |
-| REST API to local LLM        | APIs          | axum, LLMs                               |
-| PyO3 mock data generation    | Unification   | TBD                                      |
-| PyO3 query local LLM         | Unification   | TBD                                      |
+| PyO3 mock data generation    | Unification   | PyO3                                     |
+| PyO3 parallel computation    | Unification   | PyO3                                     |
