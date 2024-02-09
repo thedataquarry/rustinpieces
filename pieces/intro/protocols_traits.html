@@ -181,7 +181,7 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="protocols-vs-traits"><a class="header" href="#protocols-vs-traits">Protocols vs. Traits</a></h1>
-<p>Python has a concept called protocols, sometimes referred to as special methods, or &quot;dunder methods&quot; implemented on
+<p>Python has a concept called protocols, sometimes referred to as special methods, or "dunder methods" implemented on
 <a href="https://docs.python.org/3/library/stdtypes.html">built-in types</a> in the standard library.
 For example, the <code>__str__</code> method is used to implement the <code>str()</code> function, which returns the string representation of an object.
 Th <code>__repr__</code> method is used to implement the <code>repr()</code> function, which returns a string containing a <em>printable representation</em> of an object.</p>
@@ -195,13 +195,13 @@ that are translated to the <code>str()</code> and <code>repr()</code> functions 
         if age &gt; 0 and isinstance(age, int):
             self.age = age
         else:
-            raise ValueError(&quot;Age must be a positive integer&quot;)
+            raise ValueError("Age must be a positive integer")
 
     def __str__(self) -&gt; str:
-        return f&quot;{self.name} is {self.age} years old&quot;
+        return f"{self.name} is {self.age} years old"
 
     def __repr__(self) -&gt; str:
-        return f&quot;Person: {self.name}, {self.age}&quot;
+        return f"Person: {self.name}, {self.age}"
 </code></pre>
 <p>One limitation of Python's type system that's worth noting is that it treats <em>all</em> integers as <code>int</code> types, even if they
 are unsigned. In this case, the age of a person should be a positive integer, so we need to check for this by using
@@ -209,13 +209,13 @@ an <code>if</code> statement in the class constructor defined in the <code>__ini
 more powerful, while also being stricter than Python's.</p>
 <p>We can now create a <code>Person</code> object via a function and print it to the console by running the code via <code>main.py</code>.</p>
 <pre><code class="language-python">def run1() -&gt; None:
-    person = Person(&quot;Megan&quot;, 28)
+    person = Person("Megan", 28)
     print(person)
     print(repr(person))
-    &quot;&quot;&quot;
+    """
     Megan is 28 years old
     Person: Megan, 28
-    &quot;&quot;&quot;
+    """
 </code></pre>
 <p>When we print the <code>person</code> object, the <code>__str__</code> method is called, and when we print the <code>repr</code> object,
 the <code>__repr__</code> method is called, thus producing slightly different outputs depending on what we want to display.
@@ -252,13 +252,13 @@ A trait is similar to an interface in other languages, and vaguely similar to a 
 an object's <em>behavior</em>.</p>
 <pre><code class="language-rs">impl fmt::Display for Person {
     fn fmt(&amp;self, f: &amp;mut fmt::Formatter) -&gt; fmt::Result {
-        write!(f, &quot;{} is {} years old&quot;, self.name, self.age)
+        write!(f, "{} is {} years old", self.name, self.age)
     }
 }
 
 impl fmt::Debug for Person {
     fn fmt(&amp;self, f: &amp;mut fmt::Formatter) -&gt; fmt::Result {
-        write!(f, &quot;Person: {}, {}&quot;, self.name, self.age)
+        write!(f, "Person: {}, {}", self.name, self.age)
     }
 }
 </code></pre>
@@ -266,9 +266,9 @@ impl fmt::Debug for Person {
 strict type system needs to know upfront what the user wants to do with the object's types prior to displaying them.</p>
 <p>With these bits in place, we can now create a <code>Person</code> object via a function and print it to the console by running the code via <code>main.rs</code>.</p>
 <pre><code class="language-rs">fn run1() {
-    let p = Person::new(&quot;Megan&quot;, 28);
-    println!(&quot;{}&quot;, p);
-    println!(&quot;{:?}&quot;, p);
+    let p = Person::new("Megan", 28);
+    println!("{}", p);
+    println!("{:?}", p);
     /*
     Megan is 28 years old
     Person: Megan, 28

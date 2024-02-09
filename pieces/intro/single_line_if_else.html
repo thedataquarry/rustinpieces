@@ -197,12 +197,12 @@ It's used here purely for the purposes of illustration.</p>
 </div>
 <p>We can use this function after initializing a list of <code>Person</code> objects.</p>
 <pre><code class="language-py">def run6() -&gt; None:
-    persons = [Person(&quot;Josephine&quot;, 20), Person(&quot;Wesley&quot;, 31)]
+    persons = [Person("Josephine", 20), Person("Wesley", 31)]
     for person in persons:
         # Check if person is born in a leap year using simplistic leap year logic
         birth_year = approx_year_of_birth(person)
         person_is_born_in_leap_year = True if birth_year % 4 == 0 else False
-        print(f&quot;{person}. Born in a leap year?: {person_is_born_in_leap_year}&quot;)
+        print(f"{person}. Born in a leap year?: {person_is_born_in_leap_year}")
 </code></pre>
 <p>Running the above function via <code>main.py</code> gives us the following output:</p>
 <pre><code class="language-bash">Josephine is 20 years old. Born in leap year?: True
@@ -223,13 +223,13 @@ fn approx_year_of_birth(person: &amp;Person) -&gt; u16 {
 the <code>datetime</code> module comes with the standard library.</p>
 <p>We then use this function after initializing a vector of <code>Person</code> objects.</p>
 <pre><code class="language-rs">fn run6() {
-    let persons = vec![Person::new(&quot;Josephine&quot;, 20), Person::new(&quot;Wesley&quot;, 31)];
+    let persons = vec![Person::new("Josephine", 20), Person::new("Wesley", 31)];
     for person in persons {
         // check if person is born in a leap year using simplistic leap year logic
         let birth_year = approx_year_of_birth(&amp;person);
         let person_is_born_in_leap_year = birth_year % 4 == 0;
         println!(
-            &quot;{}. Born in a leap year?: {}&quot;,
+            "{}. Born in a leap year?: {}",
             person, person_is_born_in_leap_year
         );
     }

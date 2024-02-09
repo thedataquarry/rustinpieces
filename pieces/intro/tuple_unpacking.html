@@ -188,8 +188,8 @@ list of ages:</p>
 <pre><code class="language-python">def run4() -&gt; None:
     sorted_ages = (18, 41, 65)
     youngest, _, oldest = sorted_ages
-    print(f&quot;Youngest age: {youngest}, oldest age: {oldest}&quot;)
-    print(f&quot;Middle age: {sorted_ages[1]}&quot;)
+    print(f"Youngest age: {youngest}, oldest age: {oldest}")
+    print(f"Middle age: {sorted_ages[1]}")
 </code></pre>
 <p>The <code>_</code> is a special variable name in Python that indicates that we don't care about the value,
 allowing the unused value to be cleared by the Python memory manager during runtime. We can
@@ -204,8 +204,8 @@ list of ages:</p>
 <pre><code class="language-rs">fn run4() {
     let sorted_ages: (u8, u8, u8) = (18, 41, 65);
     let (youngest, _, oldest) = sorted_ages;
-    println!(&quot;Youngest age: {}, oldest age: {}&quot;, youngest, oldest);
-    println!(&quot;Middle age: {}&quot;, sorted_ages.1);
+    println!("Youngest age: {}, oldest age: {}", youngest, oldest);
+    println!("Middle age: {}", sorted_ages.1);
 }
 </code></pre>
 <p>Just like in Python, the <code>_</code> indicates that we don't care about the middle value. The difference

@@ -188,13 +188,13 @@
 <p>If we have two lists, one containing names and one containing ages. <code>zip</code> conveniently allows us
 to iterate over both lists.</p>
 <pre><code class="language-py">def run3() -&gt; None:
-    names = [&quot;Alice&quot;, &quot;Charlie&quot;]
+    names = ["Alice", "Charlie"]
     ages = [24, 45]
     persons = []
     for name, age in zip(names, ages):
         person = Person(name, age)
         persons.append(person)
-    print(f&quot;{repr(persons)}&quot;)
+    print(f"{repr(persons)}")
 </code></pre>
 <p>The <code>append</code> method is used to add a new item to the end of the list, similar to <code>push</code> in Rust.</p>
 <p>Running the above function via <code>main.py</code> gives us the following output:</p>
@@ -208,13 +208,13 @@ name and an age attribute, in a similar way to the Python example.</p>
 <p>Consider that we have two vectors, one containing names and one containing ages. <code>zip</code> conveniently allows us
 to iterate over both vectors.</p>
 <pre><code class="language-rs">fn run3() {
-    let names = [&quot;Alice&quot;, &quot;Charlie&quot;];
+    let names = ["Alice", "Charlie"];
     let ages = [24, 45];
     let mut persons = vec![];
     for (name, age) in names.iter().zip(ages.iter()) {
         persons.push(Person::new(name, *age));
     }
-    println!(&quot;{:?}&quot;, persons);
+    println!("{:?}", persons);
 
 }
 </code></pre>
@@ -222,7 +222,7 @@ to iterate over both vectors.</p>
 <li>The <code>zip</code> method can only called on an iterator, so we need to call <code>iter</code> on both vectors before we can call <code>zip</code>.</li>
 <li>The <code>push</code> method is used to add a new item to the end of the vector, just like <code>append</code> in Python.</li>
 </ul>
-<p>Again, there's no need to &quot;remember&quot; any of this: the Rust compiler is super helpful in calling you out on common
+<p>Again, there's no need to "remember" any of this: the Rust compiler is super helpful in calling you out on common
 mistakes, while offering a helpful solution!</p>
 <p>Running the function via <code>main.rs</code> gives us the same output as in Python:</p>
 <pre><code class="language-bash">[Person: Alice, 24, Person: Charlie, 45]

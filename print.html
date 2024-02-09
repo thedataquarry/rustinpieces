@@ -196,14 +196,11 @@
 <tr><td>Mock data generation</td><td>File-handling</td><td>RNG, sampling</td></tr>
 <tr><td>Age grouping</td><td>File-handling</td><td>enums</td></tr>
 <tr><td>Datetime parsing</td><td>File-handling</td><td>chrono, lifetimes</td></tr>
-<tr><td>Preprocessing data for NLP</td><td>Parallelism</td><td>rayon, parallelism</td></tr>
+<tr><td>Extract pronouns from text</td><td>Parallelism</td><td>rayon, parallelism</td></tr>
 <tr><td>Polars datetimes</td><td>DataFrames</td><td>datetimes</td></tr>
 <tr><td>Polars EDA</td><td>DataFrames</td><td>TBD</td></tr>
 <tr><td>Postgres</td><td>Databases</td><td>async, sqlx, tokio</td></tr>
-<tr><td>DuckDB</td><td>Databases</td><td>arrow, in-memory DB</td></tr>
 <tr><td>Meilisearch</td><td>Databases</td><td>async, async-std, clap</td></tr>
-<tr><td>Qdrant</td><td>Databases</td><td>async, tokio, gRPC</td></tr>
-<tr><td>KùzuDB</td><td>Databases</td><td>async, graph</td></tr>
 <tr><td>REST API to Postgres</td><td>APIs</td><td>axum, async, tokio</td></tr>
 <tr><td>REST API to local LLM</td><td>APIs</td><td>axum, LLMs</td></tr>
 <tr><td>PyO3 mock data generation</td><td>Unification</td><td>TBD</td></tr>
@@ -214,7 +211,7 @@
 <p>It's possible to write relatively high-performance code in Python these days by leveraging its rich library ecosystem (which are typically wrappers around C/C++/Cython runtimes). However, performance and concurrency are <em>not</em> Python's strong suits, and this requires performance-critical code to be implemented in lower-level languages. For many Python developers, using languages like C, C++ and Cython is a daunting prospect.</p>
 <p><a href="https://www.rust-lang.org/">Rust</a> is a statically typed, compiled programming language that's known for its relatively steep learning curve. Its design philosophy is centered around three core functions: performance, safety, and fearless concurrency. It offers a modern, high-level syntax and a rich type system that makes it possible to write code that runs really fast without the need for manual memory management, eliminating entire classes of bugs.</p>
 <p>Although it's possible to write all sorts of complex tools and applications in Rust, it's not the best option for <em>every</em> situation. In cases like research and prototyping, where speed of iteration is important, Rust's strict compiler can slow down development, and Python is still the better choice.</p>
-<p>We believe that Python 🐍 and Rust 🦀 form a near-perfect pair to address either side of the so-called &quot;two-world problem&quot;, explained below.</p>
+<p>We believe that Python 🐍 and Rust 🦀 form a near-perfect pair to address either side of the so-called "two-world problem", explained below.</p>
 <h2 id="the-two-world-problem"><a class="header" href="#the-two-world-problem">The two-world problem</a></h2>
 <p>The programming world often finds itself divided in two: those who prefer high-level, dynamically typed languages, and those who prefer low-level, statically typed languages.</p>
 <p>Many high-level languages are interpreted (i.e., they execute each line as it's read, sequentially). These languages are generally easier to learn because they abstract away the details of memory management, allowing for rapid prototyping and development.</p>
@@ -223,7 +220,7 @@
 <p><img src="introduction//image/two-world-problem.png" alt="" /></p>
 <p>The image above is a figurative representation of two distributions of people, typically disparate individuals from either background (with the languages listed in no specific order).</p>
 <h2 id="has-the-two-world-problem-been-solved-before"><a class="header" href="#has-the-two-world-problem-been-solved-before">Has the two-world problem been solved before?</a></h2>
-<p>A lot of readers will have heard of Julia, a dynamically typed, just-in-time (JIT) compiled alternative to Python and is often touted as a &quot;high-level language with the performance of C&quot;. While Julia is no doubt a great language, it's popularity is largely limited to the scientific community and its library ecosystem and user community haven't yet matured to the extent that Python's has. As such, the &quot;two-language problem&quot; that Julia <a href="https://julialang.org/blog/2012/02/why-we-created-julia/">attempts to solve</a>, is still largely unsolved.</p>
+<p>A lot of readers will have heard of Julia, a dynamically typed, just-in-time (JIT) compiled alternative to Python and is often touted as a "high-level language with the performance of C". While Julia is no doubt a great language, it's popularity is largely limited to the scientific community and its library ecosystem and user community haven't yet matured to the extent that Python's has. As such, the "two-language problem" that Julia <a href="https://julialang.org/blog/2012/02/why-we-created-julia/">attempts to solve</a>, is still largely unsolved.</p>
 <p>Other languages like Mojo explain in <a href="https://docs.modular.com/mojo/why-mojo.html">their vision</a> how they aim to solve the two-world problem by providing a single unified language (acting like a superset of Python) that can be compiled to run on any hardware. However, Mojo is still very much in its infancy as a language and hasn't gained widespread adoption, and its user community is non-existent.</p>
 <h2 id="rust-and-pyo3"><a class="header" href="#rust-and-pyo3">Rust and PyO3</a></h2>
 <p>The most interesting aspect about PyO3 in combination with Rust is that they offer a new way to think the two-world problem. Rather than trying to <em>solve</em> the problem by creating a new language that offers the best of many worlds, Rust and PyO3 <em>embrace</em> the problem by allowing a developer to move between the worlds and choose the best tool for parts of a larger task.</p>
@@ -324,7 +321,7 @@ source venv/bin/activate
 <p>Navigate to the <code>pieces/hello_world</code> directory in the <a href="https://github.com/thedataquarry/rustinpieces/tree/main/pieces/hello_world">repo</a> to get started.</p>
 <h2 id="python-1"><a class="header" href="#python-1">Python</a></h2>
 <p>The file <code>main.py</code> has just one line of code:</p>
-<pre><code class="language-python">print(&quot;Hello, world!&quot;)
+<pre><code class="language-python">print("Hello, world!")
 </code></pre>
 <p>The program is run as follows:</p>
 <pre><code class="language-bash">python main.py
@@ -332,7 +329,7 @@ source venv/bin/activate
 <h2 id="rust-1"><a class="header" href="#rust-1">Rust</a></h2>
 <p>The file <code>main.rs</code> has just three lines of code:</p>
 <pre><code class="language-rs">fn main() {
-    println!(&quot;Hello, world!&quot;);
+    println!("Hello, world!");
 }
 </code></pre>
 <p>The program is run via <code>cargo</code>:</p>
@@ -366,7 +363,7 @@ Where Python prefers list comprehensions, Rust prefers map/filter. Rust's closur
 enough to Python's lambda functions, but they are also a lot more complex and can be viewed as a superset of anonymous functions.</p>
 <p>Hopefully, as you read through the examples, you'll see that Rust and Python are not as different as they may seem at first glance!</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="protocols-vs-traits"><a class="header" href="#protocols-vs-traits">Protocols vs. Traits</a></h1>
-<p>Python has a concept called protocols, sometimes referred to as special methods, or &quot;dunder methods&quot; implemented on
+<p>Python has a concept called protocols, sometimes referred to as special methods, or "dunder methods" implemented on
 <a href="https://docs.python.org/3/library/stdtypes.html">built-in types</a> in the standard library.
 For example, the <code>__str__</code> method is used to implement the <code>str()</code> function, which returns the string representation of an object.
 Th <code>__repr__</code> method is used to implement the <code>repr()</code> function, which returns a string containing a <em>printable representation</em> of an object.</p>
@@ -380,13 +377,13 @@ that are translated to the <code>str()</code> and <code>repr()</code> functions 
         if age &gt; 0 and isinstance(age, int):
             self.age = age
         else:
-            raise ValueError(&quot;Age must be a positive integer&quot;)
+            raise ValueError("Age must be a positive integer")
 
     def __str__(self) -&gt; str:
-        return f&quot;{self.name} is {self.age} years old&quot;
+        return f"{self.name} is {self.age} years old"
 
     def __repr__(self) -&gt; str:
-        return f&quot;Person: {self.name}, {self.age}&quot;
+        return f"Person: {self.name}, {self.age}"
 </code></pre>
 <p>One limitation of Python's type system that's worth noting is that it treats <em>all</em> integers as <code>int</code> types, even if they
 are unsigned. In this case, the age of a person should be a positive integer, so we need to check for this by using
@@ -394,13 +391,13 @@ an <code>if</code> statement in the class constructor defined in the <code>__ini
 more powerful, while also being stricter than Python's.</p>
 <p>We can now create a <code>Person</code> object via a function and print it to the console by running the code via <code>main.py</code>.</p>
 <pre><code class="language-python">def run1() -&gt; None:
-    person = Person(&quot;Megan&quot;, 28)
+    person = Person("Megan", 28)
     print(person)
     print(repr(person))
-    &quot;&quot;&quot;
+    """
     Megan is 28 years old
     Person: Megan, 28
-    &quot;&quot;&quot;
+    """
 </code></pre>
 <p>When we print the <code>person</code> object, the <code>__str__</code> method is called, and when we print the <code>repr</code> object,
 the <code>__repr__</code> method is called, thus producing slightly different outputs depending on what we want to display.
@@ -437,13 +434,13 @@ A trait is similar to an interface in other languages, and vaguely similar to a 
 an object's <em>behavior</em>.</p>
 <pre><code class="language-rs">impl fmt::Display for Person {
     fn fmt(&amp;self, f: &amp;mut fmt::Formatter) -&gt; fmt::Result {
-        write!(f, &quot;{} is {} years old&quot;, self.name, self.age)
+        write!(f, "{} is {} years old", self.name, self.age)
     }
 }
 
 impl fmt::Debug for Person {
     fn fmt(&amp;self, f: &amp;mut fmt::Formatter) -&gt; fmt::Result {
-        write!(f, &quot;Person: {}, {}&quot;, self.name, self.age)
+        write!(f, "Person: {}, {}", self.name, self.age)
     }
 }
 </code></pre>
@@ -451,9 +448,9 @@ impl fmt::Debug for Person {
 strict type system needs to know upfront what the user wants to do with the object's types prior to displaying them.</p>
 <p>With these bits in place, we can now create a <code>Person</code> object via a function and print it to the console by running the code via <code>main.rs</code>.</p>
 <pre><code class="language-rs">fn run1() {
-    let p = Person::new(&quot;Megan&quot;, 28);
-    println!(&quot;{}&quot;, p);
-    println!(&quot;{:?}&quot;, p);
+    let p = Person::new("Megan", 28);
+    println!("{}", p);
+    println!("{:?}", p);
     /*
     Megan is 28 years old
     Person: Megan, 28
@@ -479,9 +476,9 @@ iterate over a list while keeping track of the index of the current item.</p>
 <code>Person</code> class with a name and an age attribute.</p>
 <p>We can instantiate a list of <code>Person</code> objects and iterate over them using <code>enumerate</code>.</p>
 <pre><code class="language-py">def run2() -&gt; None:
-    persons = [Person(&quot;James&quot;, 33), Person(&quot;Salima&quot;, 31)]
+    persons = [Person("James", 33), Person("Salima", 31)]
     for i, person in enumerate(persons):
-        print(f&quot;Person {i}: {str(person)}&quot;)
+        print(f"Person {i}: {str(person)}")
 </code></pre>
 <p>Running the above function via <code>main.py</code> gives us the same output as in Rust:</p>
 <pre><code class="language-bash">Person 0: James is 33 years old
@@ -502,9 +499,9 @@ as needed, similar to Python lists.</p>
 <p>For most purposes, vectors in Rust perform the same function as Python lists.
 Unlike a Python list, a vector in Rust can only contain objects of the same type, in this case, <code>Person</code>.</p>
 <pre><code class="language-rs">fn run2() {
-    let persons = vec![Person::new(&quot;James&quot;, 33), Person::new(&quot;Salima&quot;, 31)];
+    let persons = vec![Person::new("James", 33), Person::new("Salima", 31)];
     for (i, p) in persons.iter().enumerate() {
-        println!(&quot;Person {}: {}&quot;, i, p)
+        println!("Person {}: {}", i, p)
     }
 }
 </code></pre>
@@ -530,13 +527,13 @@ track of the index of the current item.</li>
 <p>If we have two lists, one containing names and one containing ages. <code>zip</code> conveniently allows us
 to iterate over both lists.</p>
 <pre><code class="language-py">def run3() -&gt; None:
-    names = [&quot;Alice&quot;, &quot;Charlie&quot;]
+    names = ["Alice", "Charlie"]
     ages = [24, 45]
     persons = []
     for name, age in zip(names, ages):
         person = Person(name, age)
         persons.append(person)
-    print(f&quot;{repr(persons)}&quot;)
+    print(f"{repr(persons)}")
 </code></pre>
 <p>The <code>append</code> method is used to add a new item to the end of the list, similar to <code>push</code> in Rust.</p>
 <p>Running the above function via <code>main.py</code> gives us the following output:</p>
@@ -550,13 +547,13 @@ name and an age attribute, in a similar way to the Python example.</p>
 <p>Consider that we have two vectors, one containing names and one containing ages. <code>zip</code> conveniently allows us
 to iterate over both vectors.</p>
 <pre><code class="language-rs">fn run3() {
-    let names = [&quot;Alice&quot;, &quot;Charlie&quot;];
+    let names = ["Alice", "Charlie"];
     let ages = [24, 45];
     let mut persons = vec![];
     for (name, age) in names.iter().zip(ages.iter()) {
         persons.push(Person::new(name, *age));
     }
-    println!(&quot;{:?}&quot;, persons);
+    println!("{:?}", persons);
 
 }
 </code></pre>
@@ -564,7 +561,7 @@ to iterate over both vectors.</p>
 <li>The <code>zip</code> method can only called on an iterator, so we need to call <code>iter</code> on both vectors before we can call <code>zip</code>.</li>
 <li>The <code>push</code> method is used to add a new item to the end of the vector, just like <code>append</code> in Python.</li>
 </ul>
-<p>Again, there's no need to &quot;remember&quot; any of this: the Rust compiler is super helpful in calling you out on common
+<p>Again, there's no need to "remember" any of this: the Rust compiler is super helpful in calling you out on common
 mistakes, while offering a helpful solution!</p>
 <p>Running the function via <code>main.rs</code> gives us the same output as in Python:</p>
 <pre><code class="language-bash">[Person: Alice, 24, Person: Charlie, 45]
@@ -582,8 +579,8 @@ list of ages:</p>
 <pre><code class="language-python">def run4() -&gt; None:
     sorted_ages = (18, 41, 65)
     youngest, _, oldest = sorted_ages
-    print(f&quot;Youngest age: {youngest}, oldest age: {oldest}&quot;)
-    print(f&quot;Middle age: {sorted_ages[1]}&quot;)
+    print(f"Youngest age: {youngest}, oldest age: {oldest}")
+    print(f"Middle age: {sorted_ages[1]}")
 </code></pre>
 <p>The <code>_</code> is a special variable name in Python that indicates that we don't care about the value,
 allowing the unused value to be cleared by the Python memory manager during runtime. We can
@@ -598,8 +595,8 @@ list of ages:</p>
 <pre><code class="language-rs">fn run4() {
     let sorted_ages: (u8, u8, u8) = (18, 41, 65);
     let (youngest, _, oldest) = sorted_ages;
-    println!(&quot;Youngest age: {}, oldest age: {}&quot;, youngest, oldest);
-    println!(&quot;Middle age: {}&quot;, sorted_ages.1);
+    println!("Youngest age: {}, oldest age: {}", youngest, oldest);
+    println!("Middle age: {}", sorted_ages.1);
 }
 </code></pre>
 <p>Just like in Python, the <code>_</code> indicates that we don't care about the middle value. The difference
@@ -632,10 +629,10 @@ called <a href="https://doc.rust-lang.org/book/ch13-01-closures.html">closures</
 <p>In the following example, we use the <code>sorted</code> function to sort a list of <code>Person</code> objects by their
 age.</p>
 <pre><code class="language-py">def run5() -&gt; None:
-    persons = [Person(&quot;Aiko&quot;, 41), Person(&quot;Rohan&quot;, 18)]
+    persons = [Person("Aiko", 41), Person("Rohan", 18)]
     sorted_by_age = sorted(persons, key=lambda person: person.age)
     youngest_person = sorted_by_age[0]
-    print(f&quot;{youngest_person.name} is the youngest person at {youngest_person.age} years old&quot;)
+    print(f"{youngest_person.name} is the youngest person at {youngest_person.age} years old")
 </code></pre>
 <p>The <code>sorted</code> function takes an optional <code>key</code> argument, which is a function that is called on each
 item in the list to determine the value to sort by. In this case, we use a lambda to return the
@@ -648,12 +645,12 @@ struct with a name and an age attribute, in a similar way to the Python example.
 <p>In the following example, we use the <code>sort_by_key</code> method to sort a vector of <code>Person</code> objects by
 their age.</p>
 <pre><code class="language-rs">fn run5() {
-    let mut persons = vec![Person::new(&quot;Aiko&quot;, 41), Person::new(&quot;Rohan&quot;, 18)];
+    let mut persons = vec![Person::new("Aiko", 41), Person::new("Rohan", 18)];
     // Sort by age
     persons.sort_by_key(|p| p.age);
     let youngest_person = persons.first().unwrap();
     println!(
-        &quot;{} is the youngest person at {} years old&quot;,
+        "{} is the youngest person at {} years old",
         youngest_person.name, youngest_person.age
     );
 </code></pre>
@@ -688,12 +685,12 @@ It's used here purely for the purposes of illustration.</p>
 </div>
 <p>We can use this function after initializing a list of <code>Person</code> objects.</p>
 <pre><code class="language-py">def run6() -&gt; None:
-    persons = [Person(&quot;Josephine&quot;, 20), Person(&quot;Wesley&quot;, 31)]
+    persons = [Person("Josephine", 20), Person("Wesley", 31)]
     for person in persons:
         # Check if person is born in a leap year using simplistic leap year logic
         birth_year = approx_year_of_birth(person)
         person_is_born_in_leap_year = True if birth_year % 4 == 0 else False
-        print(f&quot;{person}. Born in a leap year?: {person_is_born_in_leap_year}&quot;)
+        print(f"{person}. Born in a leap year?: {person_is_born_in_leap_year}")
 </code></pre>
 <p>Running the above function via <code>main.py</code> gives us the following output:</p>
 <pre><code class="language-bash">Josephine is 20 years old. Born in leap year?: True
@@ -714,13 +711,13 @@ fn approx_year_of_birth(person: &amp;Person) -&gt; u16 {
 the <code>datetime</code> module comes with the standard library.</p>
 <p>We then use this function after initializing a vector of <code>Person</code> objects.</p>
 <pre><code class="language-rs">fn run6() {
-    let persons = vec![Person::new(&quot;Josephine&quot;, 20), Person::new(&quot;Wesley&quot;, 31)];
+    let persons = vec![Person::new("Josephine", 20), Person::new("Wesley", 31)];
     for person in persons {
         // check if person is born in a leap year using simplistic leap year logic
         let birth_year = approx_year_of_birth(&amp;person);
         let person_is_born_in_leap_year = birth_year % 4 == 0;
         println!(
-            &quot;{}. Born in a leap year?: {}&quot;,
+            "{}. Born in a leap year?: {}",
             person, person_is_born_in_leap_year
         );
     }
@@ -745,14 +742,14 @@ commonly used as list comprehensions.</p>
 <p>Consider the following function in which we print a message depending on which persons from
 a list of <code>Person</code> objects are born after the year 1995, based on their current age.</p>
 <pre><code class="language-py">def run7() -&gt; None:
-    &quot;&quot;&quot;
+    """
     1. List comprehensions
-    &quot;&quot;&quot;
-    persons = [Person(&quot;Issa&quot;, 39), Person(&quot;Ibrahim&quot;, 26)]
+    """
+    persons = [Person("Issa", 39), Person("Ibrahim", 26)]
     persons_born_after_1995 = [
         (person.name, person.age) for person in persons if approx_year_of_birth(person) &gt; 1995
     ]
-    print(f&quot;Persons born after 1995: {persons_born_after_1995}&quot;)
+    print(f"Persons born after 1995: {persons_born_after_1995}")
 </code></pre>
 <p>The list comprehension in the above function essentially does the following:</p>
 <ol>
@@ -767,13 +764,13 @@ a list of <code>Person</code> objects are born after the year 1995, based on the
 <p>We can define the below function in Rust, where we print a message depending on which persons from
 a vector of <code>Person</code> objects are born after the year 1995, based on their current age.</p>
 <pre><code class="language-rs">fn run7() {
-    let persons = vec![Person::new(&quot;Issa&quot;, 39), Person::new(&quot;Ibrahim&quot;, 26)];
+    let persons = vec![Person::new("Issa", 39), Person::new("Ibrahim", 26)];
     let result = persons
         .into_iter()
         .filter(|p| approx_year_of_birth(p) &gt; 1995)
         .map(|p| (p.name, p.age))
         .collect::&lt;Vec&lt;(String, u8)&gt;&gt;();
-    println!(&quot;Persons born after 1995: {:?}&quot;, result)
+    println!("Persons born after 1995: {:?}", result)
 </code></pre>
 <p>The <code>filter</code> and <code>map</code> functions in the above function essentially do the following:</p>
 <ol>
@@ -783,7 +780,7 @@ a vector of <code>Person</code> objects are born after the year 1995, based on t
 <li>Collect all the tuples into a vector of unsigned 8-bit integers</li>
 </ol>
 <p>Running the function via <code>main.rs</code> gives us the same output as in Python:</p>
-<pre><code class="language-bash">Persons born after 1995: [(&quot;Ibrahim&quot;, 26)]
+<pre><code class="language-bash">Persons born after 1995: [("Ibrahim", 26)]
 </code></pre>
 <p>The Rust version is a little more verbose than the Python version, but it's still quite readable.</p>
 <h2 id="takeaways-7"><a class="header" href="#takeaways-7">Takeaways</a></h2>
@@ -802,27 +799,27 @@ allow for fast lookup of values by key.</p>
 <p>Consider the below function in Python, where we define a dictionary of processors and their
 corresponding market names.</p>
 <pre><code class="language-py">    processors = {
-        &quot;13900KS&quot;: &quot;Intel Core i9&quot;,
-        &quot;13700K&quot;: &quot;Intel Core i7&quot;,
-        &quot;13600K&quot;: &quot;Intel Core i5&quot;,
-        &quot;1800X&quot;: &quot;AMD Ryzen 7&quot;,
-        &quot;1600X&quot;: &quot;AMD Ryzen 5&quot;,
-        &quot;1300X&quot;: &quot;AMD Ryzen 3&quot;,
+        "13900KS": "Intel Core i9",
+        "13700K": "Intel Core i7",
+        "13600K": "Intel Core i5",
+        "1800X": "AMD Ryzen 7",
+        "1600X": "AMD Ryzen 5",
+        "1300X": "AMD Ryzen 3",
     }
 
     # Check for presence of value
-    is_item_in_dict = &quot;AMD Ryzen 3&quot; in processors.values()
-    print(f'Is &quot;AMD Ryzen 3&quot; in the dict of processors?: {is_item_in_dict}')
+    is_item_in_dict = "AMD Ryzen 3" in processors.values()
+    print(f'Is "AMD Ryzen 3" in the dict of processors?: {is_item_in_dict}')
     # Lookup by key
-    key = &quot;13900KS&quot;
+    key = "13900KS"
     lookup_by_key = processors[key]
-    print(f'Key &quot;{key}&quot; has the value &quot;{lookup_by_key}&quot;')
+    print(f'Key "{key}" has the value "{lookup_by_key}"')
 </code></pre>
 <p>The first portion checks for the presence of a value in the dictionary, while the second portion
 looks up the value by key.</p>
 <p>Running the above function via <code>main.py</code> gives us the following output:</p>
-<pre><code class="language-bash">Is &quot;AMD Ryzen 3&quot; in the dict of processors?: True
-Key &quot;13900KS&quot; has the value &quot;Intel Core i9&quot;
+<pre><code class="language-bash">Is "AMD Ryzen 3" in the dict of processors?: True
+Key "13900KS" has the value "Intel Core i9"
 </code></pre>
 <h2 id="rust-8"><a class="header" href="#rust-8">Rust</a></h2>
 <p>We define the below function in Rust, where we define a hashmap of processors and their
@@ -831,25 +828,25 @@ corresponding market names.</p>
 
 fn run8() {
     let mut processors = HashMap::new();
-    processors.insert(&quot;13900KS&quot;, &quot;Intel Core i9&quot;);
-    processors.insert(&quot;13700K&quot;, &quot;Intel Core i7&quot;);
-    processors.insert(&quot;13600K&quot;, &quot;Intel Core i5&quot;);
-    processors.insert(&quot;1800X&quot;, &quot;AMD Ryzen 7&quot;);
-    processors.insert(&quot;1600X&quot;, &quot;AMD Ryzen 5&quot;);
-    processors.insert(&quot;1300X&quot;, &quot;AMD Ryzen 3&quot;);
+    processors.insert("13900KS", "Intel Core i9");
+    processors.insert("13700K", "Intel Core i7");
+    processors.insert("13600K", "Intel Core i5");
+    processors.insert("1800X", "AMD Ryzen 7");
+    processors.insert("1600X", "AMD Ryzen 5");
+    processors.insert("1300X", "AMD Ryzen 3");
 
     // Check for presence of value
-    let value = &quot;AMD Ryzen 3&quot;;
+    let value = "AMD Ryzen 3";
     let mut values = processors.values();
     println!(
-        &quot;Is \&quot;AMD Ryzen 3\&quot; in the hashmap of processors?: {}&quot;,
+        "Is \"AMD Ryzen 3\" in the hashmap of processors?: {}",
         values.any(|v| v == &amp;value)
     );
     // Lookup by key
-    let key = &quot;13900KS&quot;;
+    let key = "13900KS";
     let lookup_by_key = processors.get(key);
     println!(
-        &quot;Key \&quot;{}\&quot; has the value \&quot;{}\&quot;&quot;,
+        "Key \"{}\" has the value \"{}\"",
         key,
         lookup_by_key.unwrap()
     );
@@ -858,8 +855,8 @@ fn run8() {
 <p>Just like in the Python version, the first portion checks for the presence of a value in the
 hashmap, while the second portion looks up the value by key.</p>
 <p>Running the function via <code>main.rs</code> gives us the same output as in Python:</p>
-<pre><code class="language-bash">Is &quot;AMD Ryzen 3&quot; in the hashmap of processors?: true
-Key &quot;13900KS&quot; has the value &quot;Intel Core i9&quot;
+<pre><code class="language-bash">Is "AMD Ryzen 3" in the hashmap of processors?: true
+Key "13900KS" has the value "Intel Core i9"
 </code></pre>
 <h2 id="takeaways-8"><a class="header" href="#takeaways-8">Takeaways</a></h2>
 <p>Python and Rust contain collections that store key-value pairs for fast lookups. A key difference is
@@ -868,18 +865,18 @@ type, but in Rust, <em>both</em> the keys and values of a <code>HashMap</code> m
 <p>In Python, this <code>dict</code> is perfectly valid:</p>
 <pre><code class="language-py"># You can have a dict with keys of different types
 example = {
-    &quot;a&quot;: 1,
+    "a": 1,
     1: 2
 }
 </code></pre>
 <p>In Rust, the compiler will enforce that the keys and values are of the same type, based on
 the first entry's inferred types.</p>
 <pre><code class="language-rs">let mut example = HashMap::new();
-example.insert(&quot;a&quot;, 1);
+example.insert("a", 1);
 // This errors because the first entry specified the key as &amp;str
 example.insert(1, 2);
 // This is valid
-example.insert(&quot;b&quot;, 2);
+example.insert("b", 2);
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="sets-vs-hashsets"><a class="header" href="#sets-vs-hashsets">Sets vs. hashsets</a></h1>
 <p>Python's <code>set</code> is an unordered collection of unique items, where duplicate items are not allowed.
@@ -888,24 +885,24 @@ Rust's <code>HashSet</code> performs the same function.</p>
 <p>Consider the following function in which we define a set of processors.</p>
 <pre><code class="language-py">def run9() -&gt; None:
     processors = {
-        &quot;Intel Core i9&quot;,
-        &quot;Intel Core i7&quot;,
-        &quot;Intel Core i5&quot;,
-        &quot;AMD Ryzen 7&quot;,
-        &quot;AMD Ryzen 5&quot;,
-        &quot;AMD Ryzen 3&quot;,
+        "Intel Core i9",
+        "Intel Core i7",
+        "Intel Core i5",
+        "AMD Ryzen 7",
+        "AMD Ryzen 5",
+        "AMD Ryzen 3",
     }
     # Duplicate values are ignored
-    processors.add(&quot;Intel Core i7&quot;)
-    processors.add(&quot;AMD Ryzen 5&quot;)
+    processors.add("Intel Core i7")
+    processors.add("AMD Ryzen 5")
     # Check for presence of value
-    is_item_in_set = &quot;AMD Ryzen 3&quot; in processors
-    print(f'Is &quot;AMD Ryzen 3&quot; in the set of processors?: {is_item_in_set}')
+    is_item_in_set = "AMD Ryzen 3" in processors
+    print(f'Is "AMD Ryzen 3" in the set of processors?: {is_item_in_set}')
 </code></pre>
 <p>The purpose of the above function is to check for the presence of a value in the set of processors.
 When we add duplicate values to the set, they are ignored.</p>
 <p>Running the above function via <code>main.py</code> gives us the following output:</p>
-<pre><code class="language-bash">Is &quot;AMD Ryzen 3&quot; in the set of processors?: True
+<pre><code class="language-bash">Is "AMD Ryzen 3" in the set of processors?: True
 </code></pre>
 <h2 id="rust-9"><a class="header" href="#rust-9">Rust</a></h2>
 <p>We define the below function in Rust, where we define a hashset of processors.</p>
@@ -913,19 +910,19 @@ When we add duplicate values to the set, they are ignored.</p>
 
 fn run9() {
     let mut processors = HashSet::new();
-    processors.insert(&quot;Intel Core i9&quot;);
-    processors.insert(&quot;Intel Core i7&quot;);
-    processors.insert(&quot;Intel Core i5&quot;);
-    processors.insert(&quot;AMD Ryzen 7&quot;);
-    processors.insert(&quot;AMD Ryzen 5&quot;);
-    processors.insert(&quot;AMD Ryzen 3&quot;);
+    processors.insert("Intel Core i9");
+    processors.insert("Intel Core i7");
+    processors.insert("Intel Core i5");
+    processors.insert("AMD Ryzen 7");
+    processors.insert("AMD Ryzen 5");
+    processors.insert("AMD Ryzen 3");
     // Duplicate values are ignored
-    processors.insert(&quot;Intel Core i7&quot;);
-    processors.insert(&quot;AMD Ryzen 5&quot;);
+    processors.insert("Intel Core i7");
+    processors.insert("AMD Ryzen 5");
     // Check for presence of value
-    let value = &quot;AMD Ryzen 3&quot;;
+    let value = "AMD Ryzen 3";
     println!(
-        &quot;Is \&quot;AMD Ryzen 3\&quot; in the hashset of processors?: {}&quot;,
+        "Is \"AMD Ryzen 3\" in the hashset of processors?: {}",
         processors.contains(&amp;value)
     );
 }
@@ -933,21 +930,21 @@ fn run9() {
 <p>The purpose of the above function is to check for the presence of a value in the hashset of
 processors. When we add duplicate values to the hashset, they are ignored.</p>
 <p>Running the function via <code>main.rs</code> gives us the same output as in Python:</p>
-<pre><code class="language-bash">Is &quot;AMD Ryzen 3&quot; in the hashset of processors?: true
+<pre><code class="language-bash">Is "AMD Ryzen 3" in the hashset of processors?: true
 </code></pre>
 <h2 id="takeaways-9"><a class="header" href="#takeaways-9">Takeaways</a></h2>
 <p>Python and Rust contain collections that allow for the storage of unique items. A key difference is
 that Python's <code>set</code> can contain items of any type, while Rust's <code>HashSet</code> can only contain items of
 the same type that were specified at the time of initialization.</p>
 <p>In Python, the following <code>set</code> containing multiple types is valid, as they are all hashable.</p>
-<pre><code class="language-py">example = {1, &quot;hello&quot;, 3.14}
+<pre><code class="language-py">example = {1, "hello", 3.14}
 </code></pre>
 <p>In Rust, the compiler enforces that all items in the set are of the same type specified at the time
 of initialization, or by inferring the first value's type.</p>
 <pre><code class="language-rs">let example = HashSet::new();
 example.insert(1);
 // This errors because the first value specified the key as u32 or similar
-example.insert(&quot;hello&quot;);
+example.insert("hello");
 // This is valid
 example.insert(3);
 </code></pre>

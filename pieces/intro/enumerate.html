@@ -188,9 +188,9 @@ iterate over a list while keeping track of the index of the current item.</p>
 <code>Person</code> class with a name and an age attribute.</p>
 <p>We can instantiate a list of <code>Person</code> objects and iterate over them using <code>enumerate</code>.</p>
 <pre><code class="language-py">def run2() -&gt; None:
-    persons = [Person(&quot;James&quot;, 33), Person(&quot;Salima&quot;, 31)]
+    persons = [Person("James", 33), Person("Salima", 31)]
     for i, person in enumerate(persons):
-        print(f&quot;Person {i}: {str(person)}&quot;)
+        print(f"Person {i}: {str(person)}")
 </code></pre>
 <p>Running the above function via <code>main.py</code> gives us the same output as in Rust:</p>
 <pre><code class="language-bash">Person 0: James is 33 years old
@@ -211,9 +211,9 @@ as needed, similar to Python lists.</p>
 <p>For most purposes, vectors in Rust perform the same function as Python lists.
 Unlike a Python list, a vector in Rust can only contain objects of the same type, in this case, <code>Person</code>.</p>
 <pre><code class="language-rs">fn run2() {
-    let persons = vec![Person::new(&quot;James&quot;, 33), Person::new(&quot;Salima&quot;, 31)];
+    let persons = vec![Person::new("James", 33), Person::new("Salima", 31)];
     for (i, p) in persons.iter().enumerate() {
-        println!(&quot;Person {}: {}&quot;, i, p)
+        println!("Person {}: {}", i, p)
     }
 }
 </code></pre>

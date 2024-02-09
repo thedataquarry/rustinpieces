@@ -190,10 +190,10 @@ called <a href="https://doc.rust-lang.org/book/ch13-01-closures.html">closures</
 <p>In the following example, we use the <code>sorted</code> function to sort a list of <code>Person</code> objects by their
 age.</p>
 <pre><code class="language-py">def run5() -&gt; None:
-    persons = [Person(&quot;Aiko&quot;, 41), Person(&quot;Rohan&quot;, 18)]
+    persons = [Person("Aiko", 41), Person("Rohan", 18)]
     sorted_by_age = sorted(persons, key=lambda person: person.age)
     youngest_person = sorted_by_age[0]
-    print(f&quot;{youngest_person.name} is the youngest person at {youngest_person.age} years old&quot;)
+    print(f"{youngest_person.name} is the youngest person at {youngest_person.age} years old")
 </code></pre>
 <p>The <code>sorted</code> function takes an optional <code>key</code> argument, which is a function that is called on each
 item in the list to determine the value to sort by. In this case, we use a lambda to return the
@@ -206,12 +206,12 @@ struct with a name and an age attribute, in a similar way to the Python example.
 <p>In the following example, we use the <code>sort_by_key</code> method to sort a vector of <code>Person</code> objects by
 their age.</p>
 <pre><code class="language-rs">fn run5() {
-    let mut persons = vec![Person::new(&quot;Aiko&quot;, 41), Person::new(&quot;Rohan&quot;, 18)];
+    let mut persons = vec![Person::new("Aiko", 41), Person::new("Rohan", 18)];
     // Sort by age
     persons.sort_by_key(|p| p.age);
     let youngest_person = persons.first().unwrap();
     println!(
-        &quot;{} is the youngest person at {} years old&quot;,
+        "{} is the youngest person at {} years old",
         youngest_person.name, youngest_person.age
     );
 </code></pre>

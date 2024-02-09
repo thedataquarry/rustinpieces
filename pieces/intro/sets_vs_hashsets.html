@@ -187,24 +187,24 @@ Rust's <code>HashSet</code> performs the same function.</p>
 <p>Consider the following function in which we define a set of processors.</p>
 <pre><code class="language-py">def run9() -&gt; None:
     processors = {
-        &quot;Intel Core i9&quot;,
-        &quot;Intel Core i7&quot;,
-        &quot;Intel Core i5&quot;,
-        &quot;AMD Ryzen 7&quot;,
-        &quot;AMD Ryzen 5&quot;,
-        &quot;AMD Ryzen 3&quot;,
+        "Intel Core i9",
+        "Intel Core i7",
+        "Intel Core i5",
+        "AMD Ryzen 7",
+        "AMD Ryzen 5",
+        "AMD Ryzen 3",
     }
     # Duplicate values are ignored
-    processors.add(&quot;Intel Core i7&quot;)
-    processors.add(&quot;AMD Ryzen 5&quot;)
+    processors.add("Intel Core i7")
+    processors.add("AMD Ryzen 5")
     # Check for presence of value
-    is_item_in_set = &quot;AMD Ryzen 3&quot; in processors
-    print(f'Is &quot;AMD Ryzen 3&quot; in the set of processors?: {is_item_in_set}')
+    is_item_in_set = "AMD Ryzen 3" in processors
+    print(f'Is "AMD Ryzen 3" in the set of processors?: {is_item_in_set}')
 </code></pre>
 <p>The purpose of the above function is to check for the presence of a value in the set of processors.
 When we add duplicate values to the set, they are ignored.</p>
 <p>Running the above function via <code>main.py</code> gives us the following output:</p>
-<pre><code class="language-bash">Is &quot;AMD Ryzen 3&quot; in the set of processors?: True
+<pre><code class="language-bash">Is "AMD Ryzen 3" in the set of processors?: True
 </code></pre>
 <h2 id="rust"><a class="header" href="#rust">Rust</a></h2>
 <p>We define the below function in Rust, where we define a hashset of processors.</p>
@@ -212,19 +212,19 @@ When we add duplicate values to the set, they are ignored.</p>
 
 fn run9() {
     let mut processors = HashSet::new();
-    processors.insert(&quot;Intel Core i9&quot;);
-    processors.insert(&quot;Intel Core i7&quot;);
-    processors.insert(&quot;Intel Core i5&quot;);
-    processors.insert(&quot;AMD Ryzen 7&quot;);
-    processors.insert(&quot;AMD Ryzen 5&quot;);
-    processors.insert(&quot;AMD Ryzen 3&quot;);
+    processors.insert("Intel Core i9");
+    processors.insert("Intel Core i7");
+    processors.insert("Intel Core i5");
+    processors.insert("AMD Ryzen 7");
+    processors.insert("AMD Ryzen 5");
+    processors.insert("AMD Ryzen 3");
     // Duplicate values are ignored
-    processors.insert(&quot;Intel Core i7&quot;);
-    processors.insert(&quot;AMD Ryzen 5&quot;);
+    processors.insert("Intel Core i7");
+    processors.insert("AMD Ryzen 5");
     // Check for presence of value
-    let value = &quot;AMD Ryzen 3&quot;;
+    let value = "AMD Ryzen 3";
     println!(
-        &quot;Is \&quot;AMD Ryzen 3\&quot; in the hashset of processors?: {}&quot;,
+        "Is \"AMD Ryzen 3\" in the hashset of processors?: {}",
         processors.contains(&amp;value)
     );
 }
@@ -232,21 +232,21 @@ fn run9() {
 <p>The purpose of the above function is to check for the presence of a value in the hashset of
 processors. When we add duplicate values to the hashset, they are ignored.</p>
 <p>Running the function via <code>main.rs</code> gives us the same output as in Python:</p>
-<pre><code class="language-bash">Is &quot;AMD Ryzen 3&quot; in the hashset of processors?: true
+<pre><code class="language-bash">Is "AMD Ryzen 3" in the hashset of processors?: true
 </code></pre>
 <h2 id="takeaways"><a class="header" href="#takeaways">Takeaways</a></h2>
 <p>Python and Rust contain collections that allow for the storage of unique items. A key difference is
 that Python's <code>set</code> can contain items of any type, while Rust's <code>HashSet</code> can only contain items of
 the same type that were specified at the time of initialization.</p>
 <p>In Python, the following <code>set</code> containing multiple types is valid, as they are all hashable.</p>
-<pre><code class="language-py">example = {1, &quot;hello&quot;, 3.14}
+<pre><code class="language-py">example = {1, "hello", 3.14}
 </code></pre>
 <p>In Rust, the compiler enforces that all items in the set are of the same type specified at the time
 of initialization, or by inferring the first value's type.</p>
 <pre><code class="language-rs">let example = HashSet::new();
 example.insert(1);
 // This errors because the first value specified the key as u32 or similar
-example.insert(&quot;hello&quot;);
+example.insert("hello");
 // This is valid
 example.insert(3);
 </code></pre>

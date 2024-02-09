@@ -189,27 +189,27 @@ allow for fast lookup of values by key.</p>
 <p>Consider the below function in Python, where we define a dictionary of processors and their
 corresponding market names.</p>
 <pre><code class="language-py">    processors = {
-        &quot;13900KS&quot;: &quot;Intel Core i9&quot;,
-        &quot;13700K&quot;: &quot;Intel Core i7&quot;,
-        &quot;13600K&quot;: &quot;Intel Core i5&quot;,
-        &quot;1800X&quot;: &quot;AMD Ryzen 7&quot;,
-        &quot;1600X&quot;: &quot;AMD Ryzen 5&quot;,
-        &quot;1300X&quot;: &quot;AMD Ryzen 3&quot;,
+        "13900KS": "Intel Core i9",
+        "13700K": "Intel Core i7",
+        "13600K": "Intel Core i5",
+        "1800X": "AMD Ryzen 7",
+        "1600X": "AMD Ryzen 5",
+        "1300X": "AMD Ryzen 3",
     }
 
     # Check for presence of value
-    is_item_in_dict = &quot;AMD Ryzen 3&quot; in processors.values()
-    print(f'Is &quot;AMD Ryzen 3&quot; in the dict of processors?: {is_item_in_dict}')
+    is_item_in_dict = "AMD Ryzen 3" in processors.values()
+    print(f'Is "AMD Ryzen 3" in the dict of processors?: {is_item_in_dict}')
     # Lookup by key
-    key = &quot;13900KS&quot;
+    key = "13900KS"
     lookup_by_key = processors[key]
-    print(f'Key &quot;{key}&quot; has the value &quot;{lookup_by_key}&quot;')
+    print(f'Key "{key}" has the value "{lookup_by_key}"')
 </code></pre>
 <p>The first portion checks for the presence of a value in the dictionary, while the second portion
 looks up the value by key.</p>
 <p>Running the above function via <code>main.py</code> gives us the following output:</p>
-<pre><code class="language-bash">Is &quot;AMD Ryzen 3&quot; in the dict of processors?: True
-Key &quot;13900KS&quot; has the value &quot;Intel Core i9&quot;
+<pre><code class="language-bash">Is "AMD Ryzen 3" in the dict of processors?: True
+Key "13900KS" has the value "Intel Core i9"
 </code></pre>
 <h2 id="rust"><a class="header" href="#rust">Rust</a></h2>
 <p>We define the below function in Rust, where we define a hashmap of processors and their
@@ -218,25 +218,25 @@ corresponding market names.</p>
 
 fn run8() {
     let mut processors = HashMap::new();
-    processors.insert(&quot;13900KS&quot;, &quot;Intel Core i9&quot;);
-    processors.insert(&quot;13700K&quot;, &quot;Intel Core i7&quot;);
-    processors.insert(&quot;13600K&quot;, &quot;Intel Core i5&quot;);
-    processors.insert(&quot;1800X&quot;, &quot;AMD Ryzen 7&quot;);
-    processors.insert(&quot;1600X&quot;, &quot;AMD Ryzen 5&quot;);
-    processors.insert(&quot;1300X&quot;, &quot;AMD Ryzen 3&quot;);
+    processors.insert("13900KS", "Intel Core i9");
+    processors.insert("13700K", "Intel Core i7");
+    processors.insert("13600K", "Intel Core i5");
+    processors.insert("1800X", "AMD Ryzen 7");
+    processors.insert("1600X", "AMD Ryzen 5");
+    processors.insert("1300X", "AMD Ryzen 3");
 
     // Check for presence of value
-    let value = &quot;AMD Ryzen 3&quot;;
+    let value = "AMD Ryzen 3";
     let mut values = processors.values();
     println!(
-        &quot;Is \&quot;AMD Ryzen 3\&quot; in the hashmap of processors?: {}&quot;,
+        "Is \"AMD Ryzen 3\" in the hashmap of processors?: {}",
         values.any(|v| v == &amp;value)
     );
     // Lookup by key
-    let key = &quot;13900KS&quot;;
+    let key = "13900KS";
     let lookup_by_key = processors.get(key);
     println!(
-        &quot;Key \&quot;{}\&quot; has the value \&quot;{}\&quot;&quot;,
+        "Key \"{}\" has the value \"{}\"",
         key,
         lookup_by_key.unwrap()
     );
@@ -245,8 +245,8 @@ fn run8() {
 <p>Just like in the Python version, the first portion checks for the presence of a value in the
 hashmap, while the second portion looks up the value by key.</p>
 <p>Running the function via <code>main.rs</code> gives us the same output as in Python:</p>
-<pre><code class="language-bash">Is &quot;AMD Ryzen 3&quot; in the hashmap of processors?: true
-Key &quot;13900KS&quot; has the value &quot;Intel Core i9&quot;
+<pre><code class="language-bash">Is "AMD Ryzen 3" in the hashmap of processors?: true
+Key "13900KS" has the value "Intel Core i9"
 </code></pre>
 <h2 id="takeaways"><a class="header" href="#takeaways">Takeaways</a></h2>
 <p>Python and Rust contain collections that store key-value pairs for fast lookups. A key difference is
@@ -255,18 +255,18 @@ type, but in Rust, <em>both</em> the keys and values of a <code>HashMap</code> m
 <p>In Python, this <code>dict</code> is perfectly valid:</p>
 <pre><code class="language-py"># You can have a dict with keys of different types
 example = {
-    &quot;a&quot;: 1,
+    "a": 1,
     1: 2
 }
 </code></pre>
 <p>In Rust, the compiler will enforce that the keys and values are of the same type, based on
 the first entry's inferred types.</p>
 <pre><code class="language-rs">let mut example = HashMap::new();
-example.insert(&quot;a&quot;, 1);
+example.insert("a", 1);
 // This errors because the first entry specified the key as &amp;str
 example.insert(1, 2);
 // This is valid
-example.insert(&quot;b&quot;, 2);
+example.insert("b", 2);
 </code></pre>
 
                     </main>

@@ -189,14 +189,14 @@ commonly used as list comprehensions.</p>
 <p>Consider the following function in which we print a message depending on which persons from
 a list of <code>Person</code> objects are born after the year 1995, based on their current age.</p>
 <pre><code class="language-py">def run7() -&gt; None:
-    &quot;&quot;&quot;
+    """
     1. List comprehensions
-    &quot;&quot;&quot;
-    persons = [Person(&quot;Issa&quot;, 39), Person(&quot;Ibrahim&quot;, 26)]
+    """
+    persons = [Person("Issa", 39), Person("Ibrahim", 26)]
     persons_born_after_1995 = [
         (person.name, person.age) for person in persons if approx_year_of_birth(person) &gt; 1995
     ]
-    print(f&quot;Persons born after 1995: {persons_born_after_1995}&quot;)
+    print(f"Persons born after 1995: {persons_born_after_1995}")
 </code></pre>
 <p>The list comprehension in the above function essentially does the following:</p>
 <ol>
@@ -211,13 +211,13 @@ a list of <code>Person</code> objects are born after the year 1995, based on the
 <p>We can define the below function in Rust, where we print a message depending on which persons from
 a vector of <code>Person</code> objects are born after the year 1995, based on their current age.</p>
 <pre><code class="language-rs">fn run7() {
-    let persons = vec![Person::new(&quot;Issa&quot;, 39), Person::new(&quot;Ibrahim&quot;, 26)];
+    let persons = vec![Person::new("Issa", 39), Person::new("Ibrahim", 26)];
     let result = persons
         .into_iter()
         .filter(|p| approx_year_of_birth(p) &gt; 1995)
         .map(|p| (p.name, p.age))
         .collect::&lt;Vec&lt;(String, u8)&gt;&gt;();
-    println!(&quot;Persons born after 1995: {:?}&quot;, result)
+    println!("Persons born after 1995: {:?}", result)
 </code></pre>
 <p>The <code>filter</code> and <code>map</code> functions in the above function essentially do the following:</p>
 <ol>
@@ -227,7 +227,7 @@ a vector of <code>Person</code> objects are born after the year 1995, based on t
 <li>Collect all the tuples into a vector of unsigned 8-bit integers</li>
 </ol>
 <p>Running the function via <code>main.rs</code> gives us the same output as in Python:</p>
-<pre><code class="language-bash">Persons born after 1995: [(&quot;Ibrahim&quot;, 26)]
+<pre><code class="language-bash">Persons born after 1995: [("Ibrahim", 26)]
 </code></pre>
 <p>The Rust version is a little more verbose than the Python version, but it's still quite readable.</p>
 <h2 id="takeaways"><a class="header" href="#takeaways">Takeaways</a></h2>
