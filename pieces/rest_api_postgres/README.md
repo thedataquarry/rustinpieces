@@ -121,3 +121,15 @@ One nice feature of FastAPI is OpenAPI documenation is automatically generated f
 makes it very easy to test and document the API. Because Axum does not provide this same functionality
 a program such as [postman](https://www.postman.com/) with test routes manually created is needed to
 serve this pourpose. Additionally documentation would still need to be created.
+
+In the tests you may have noticed that in Python we clear the database tables between each test, but
+we don't do this in Rust. The reason for this is by default pytest runs one test at a time while
+the default in Rust is to run tests in parallel. Because of this if we were to clear the tables
+between tests in Rust we end up with race conditions.
+
+Let's use an example where we are checking that we can retrieve records from the database. First the
+test will add records to the database to ensure there is something to retrieve, then retrieve the
+records and check the result. Because the tests are running in parallel in Rust it is possible that
+a different test finishes and clears the database before the tests retrieving the data finishes. If
+this happens the test will fail because the setup data was deleted and there are no records to
+retrieve.
