@@ -123,21 +123,6 @@ test_main.py::test_process_batches PASSED                                       
 ======================================== 5 passed in 0.15s =========================================
 ```
 
-### Results
-
-> [!NOTE]
-> The timing numbers shown below are the run times from a 2023 M3 Macbook Pro with 32GB of RAM.
-> The Python version used was `3.11.7`.
-
-
-| numRecords | Python     | Rust      | Speedup factor |
-| ---------- | ---------- | --------- | -------------- |
-| 10         | 0.255 sec  | 0.192 sec | 1.3x           |
-| 143000     | 13.493 sec | 3.416 sec | 4.0x           |
-
-For the full dataset, the Rust code using `rayon` is about 4x faster than the Python code. This
-performance difference would only increase as the number of records increases.
-
 ## Rust Setup
 
 Install dependencies via Cargo. In this piece, we use the `rayon` crate to parallelize the
@@ -197,7 +182,7 @@ test tests::test_process_record ... ok
 test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 ```
 
-### Results
+## Results
 
 The results for the data loading and for the query throughput are shown below.
 
@@ -210,7 +195,7 @@ The results for the data loading and for the query throughput are shown below.
 | 10         | 0.255 sec  | 0.192 sec | 1.3x           |
 | 143000     | 13.493 sec | 3.416 sec | 4.0x           |
 
-For the full dataset, the Rust code using `rayon` is about 4x faster than the Python code. This
+For the full dataset, the Rust code using `rayon` is about **4x** faster than the Python code. This
 performance difference would only increase as the number of records increases. It should be noted
 here that Rayon allows for easy parallelization of processing the batches of records, as well as
 capturing the regex pattern and the pronoun counts, and it uses work-stealing to distribute the
