@@ -1,24 +1,7 @@
-SELECT 'CREATE DATABASE testing'
-WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'testing')\gexec
+SELECT 'CREATE DATABASE api'
+WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'api')\gexec
 
-\connect testing
-
-CREATE TABLE IF NOT EXISTS persons(
-    id integer PRIMARY KEY,
-    name text,
-    age smallint,
-    isMarried boolean,
-    city text,
-    state text,
-    country text
-)\gexec
-
-TRUNCATE TABLE persons\gexec
-
-COPY persons(id, name, age, isMarried, city, state, country)
-FROM '/data/persons.csv'
-DELIMITER ','
-CSV HEADER\gexec
+\connect api
 
 CREATE TYPE bookstatus AS ENUM('read', 'currently_reading', 'want_to_read')\gexec
 
