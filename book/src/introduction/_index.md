@@ -27,14 +27,11 @@ Rust's learning curve is considerably steeper than Python's, so the table below 
 | Mock data generation         | File-handling | RNG, sampling                            |
 | Age grouping                 | File-handling | enums                                    |
 | Datetime parsing             | File-handling | chrono, lifetimes                        |
-| Preprocessing data for NLP   | Parallelism   | rayon, parallelism                       |
+| Extract pronouns from text   | Parallelism   | rayon, parallelism                       |
 | Polars datetimes             | DataFrames    | datetimes                                |
 | Polars EDA                   | DataFrames    | TBD                                      |
 | Postgres                     | Databases     | async, sqlx, tokio                       |
-| DuckDB                       | Databases     | arrow, in-memory DB                      |
 | Meilisearch                  | Databases     | async, async-std, clap                   |
-| Qdrant                       | Databases     | async, tokio, gRPC                       |
-| KùzuDB                       | Databases     | async, graph                             |
 | REST API to Postgres         | APIs          | axum, async, tokio                       |
 | REST API to local LLM        | APIs          | axum, LLMs                               |
 | PyO3 mock data generation    | Unification   | TBD                                      |

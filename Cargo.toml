@@ -10,5 +10,6 @@ members = [
   "pieces/mock_data/rust",
   "pieces/postgres_etl/rust",
   "pieces/regex_json/rust",
+  "pieces/parallelism/rust",
 ]
 resolver = "2"
