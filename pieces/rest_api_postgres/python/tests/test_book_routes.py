@@ -1,3 +1,5 @@
+from uuid import uuid4
+
 import pytest
 
 
@@ -12,6 +14,10 @@ async def test_add_book(test_client, book_json):
 
 @pytest.mark.usefixtures("book_in_db")
 async def test_add_book_duplicate(test_client, book_json):
+    """NOTE: This test will cause an error in the database logs because of the duplicate record.
+
+    This error is expected and happens for testing purposes.
+    """
     response = await test_client.post("book/", json=book_json)
 
     assert response.status_code == 400
@@ -51,25 +57,31 @@ async def test_get_books_none(test_client):
 
 
 async def test_update_book(test_client, book_in_db):
+    new_title = str(uuid4())
     book_json = book_in_db.model_dump(by_alias=True)
-    book_json["title"] = "new title"
+    book_json["title"] = new_title
     book_json["bookStatus"] = book_json["bookStatus"].value
     book_json["dateAdded"] = book_json["dateAdded"].isoformat().replace("+00:00", "Z")
     book_json["dateRead"] = book_json["dateRead"].isoformat().replace("+00:00", "Z")
     response = await test_client.put("book", json=book_json)
 
-    assert response.json()["title"] == "new title"
+    assert response.json()["title"] == new_title
 
 
 async def test_update_book_duplicate(test_client, book_in_db):
+    """NOTE: This test will cause an error in the database logs because of the duplicate record.
+
+    This error is expected and happens for testing purposes.
+    """
+    new_title = str(uuid4())
     book_json = book_in_db.model_dump(by_alias=True)
-    book_json["title"] = "new title"
+    book_json["title"] = new_title
     book_json["bookStatus"] = book_json["bookStatus"].value
     book_json["dateAdded"] = book_json["dateAdded"].isoformat().replace("+00:00", "Z")
     book_json["dateRead"] = book_json["dateRead"].isoformat().replace("+00:00", "Z")
     response = await test_client.post("book/", json=book_json)
 
-    assert response.json()["title"] == "new title"
+    assert response.json()["title"] == new_title
     response = await test_client.put("book", json=book_json)
 
     assert response.status_code == 400

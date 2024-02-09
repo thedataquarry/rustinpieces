@@ -57,7 +57,7 @@ mod tests {
             RETURNING id, title, author_first_name, author_last_name, book_status AS "book_status: BookStatus", date_added, date_read, rating
             "#,
             Uuid::new_v4().to_string(),
-            "Duglas",
+            "Douglas",
             "Adams",
             BookStatus::Read as BookStatus,
             Utc.with_ymd_and_hms(2024, 2, 2, 22, 2, 0).unwrap(),
@@ -104,6 +104,8 @@ mod tests {
 
     #[tokio::test]
     async fn test_add_book_duplicate() {
+        // NOTE: This test will cause an error in the database logs because of the duplicate
+        // record. This error is expected and happens for testing purposes.
         let book = mock_book().await;
         let app = app(&pg_uri()).await;
 
@@ -276,6 +278,8 @@ mod tests {
 
     #[tokio::test]
     async fn test_update_book_duplicate() {
+        // NOTE: This test will cause an error in the database logs because of the duplicate
+        // record. This error is expected and happens for testing purposes.
         let mut book1 = mock_book().await;
         let book2 = mock_book().await;
         let app = app(&pg_uri()).await;

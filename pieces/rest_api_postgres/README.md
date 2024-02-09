@@ -7,6 +7,8 @@ A REST API that interacts with PostgreSQL.
 In this piece, we will use `fastapi` + `asyncpg` packages in Python and the `axum` + `sqlx` crates
 in Rust to build a REST API.
 
+The API is used to track books that you have read/want to read and lets you rate the book.
+
 ## Python Setup
 
 Install the dependencies in a virtual environment via `requirements.txt`.
@@ -38,12 +40,12 @@ The server can be started either with `Make` or manually.
 make dev
 
 # Manually
-uvicorn app.main:app --reload
+uvicorn app.main:app --port 8000 --reload
 ```
 
 FastAPI automatically generates interactive OpenAPI documentation. We can use this to test/interact
-with our API. To view the documentation go to `http://127.0.0.1/docs`, then from here expeand the
-section you want to try and clieck the `Try it out` button.
+with our API. To view the documentation go to `http://127.0.0.1/docs`, then from here expand the
+section you want to try and click the **Try it out** button.
 
 ## Rust setup
 
@@ -119,12 +121,12 @@ be used for any Rust program that you want to re-run when changes are saved.
 
 One nice feature of FastAPI is OpenAPI documenation is automatically generated for routes. This
 makes it very easy to test and document the API. Because Axum does not provide this same functionality
-a program such as [postman](https://www.postman.com/) with test routes manually created is needed to
-serve this pourpose. Additionally documentation would still need to be created.
+a program such as [aide](https://docs.rs/aide/latest/aide/) would need to be used to serve this
+purpose.
 
 In the tests you may have noticed that in Python we clear the database tables between each test, but
-we don't do this in Rust. The reason for this is by default pytest runs one test at a time while
-the default in Rust is to run tests in parallel. Because of this if we were to clear the tables
+we don't do this in Rust. The reason for this is by default, `pytest` runs the tests sequentially,
+while the default in Rust is to run tests in parallel. Because of this if we were to clear the tables
 between tests in Rust we end up with race conditions.
 
 Let's use an example where we are checking that we can retrieve records from the database. First the
