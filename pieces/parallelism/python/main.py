@@ -11,7 +11,6 @@ csv.field_size_limit(50_000_000)
 
 
 def load_csv(input_file: Path) -> list[JsonBlob]:
-    records = None
     # Assumes each file is small enough (<100K rows) that we can load it all into memory at once
     with open(input_file) as f:
         next(f)  # Skip header
@@ -108,7 +107,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Count gendered pronouns in a dataset")
     parser.add_argument("--batch_size", "-b", type=int, default=250,help="Number or records for each batch processed in parallel")
     parser.add_argument("--file_path", "-p", type=str, default="../data", help="Path to input files")
-    parser.add_argument("--num_workers", "-n", type=int, default=8, help="Maximum number of worker processes")
+    parser.add_argument("--num_workers", "-n", type=int, default=cpu_count(), help="Maximum number of worker processes")
     args = parser.parse_args()
     # fmt: on
 
