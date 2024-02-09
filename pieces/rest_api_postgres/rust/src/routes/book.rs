@@ -8,7 +8,7 @@ use axum::{
 use serde::{Deserialize, Serialize};
 use sqlx::postgres::PgPool;
 
-use crate::models::book::{is_valid_rating, Book, BookInDb, BookStatus};
+use crate::models::book::{is_valid_rating, Book, BookInDb};
 
 #[derive(Deserialize, Serialize, Debug)]
 struct GenericMessage {
@@ -39,24 +39,21 @@ async fn add_book(State(pool): State<PgPool>, Json(book): Json<Book>) -> Respons
         )
             .into_response();
     }
-    let book = sqlx::query_as!(
-        BookInDb,
+    let book = sqlx::query_as::<_, BookInDb>(
         r#"
         INSERT INTO books (title, author_first_name, author_last_name, "book_status", date_added, date_read, rating)
         VALUES ($1, $2, $3, $4, $5, $6, $7)
-        RETURNING id, title, author_first_name, author_last_name, book_status AS "book_status: BookStatus", date_added, date_read, rating
-        "#,
-        book.title,
-        book.author_first_name,
-        book.author_last_name,
-        book.book_status as BookStatus,
-        book.date_added,
-        book.date_read,
-        book.rating,
-
-    )
-    .fetch_one(&pool)
-    .await;
+        RETURNING id, title, author_first_name, author_last_name, book_status, date_added, date_read, rating
+        "#)
+        .bind(book.title)
+        .bind(book.author_first_name)
+        .bind(book.author_last_name)
+        .bind(book.book_status)
+        .bind(book.date_added)
+        .bind(book.date_read)
+        .bind(book.rating)
+        .fetch_one(&pool)
+        .await;
 
     match book {
         Ok(b) => (StatusCode::CREATED, Json(b)).into_response(),
@@ -90,13 +87,13 @@ async fn add_book(State(pool): State<PgPool>, Json(book): Json<Book>) -> Respons
 }
 
 async fn delete_book(State(pool): State<PgPool>, Path(book_id): Path<i32>) -> StatusCode {
-    let result = sqlx::query!(
+    let result = sqlx::query(
         r#"
     DELETE FROM books
     WHERE id = $1
     "#,
-        book_id,
     )
+    .bind(book_id)
     .execute(&pool)
     .await;
 
@@ -113,20 +110,19 @@ async fn delete_book(State(pool): State<PgPool>, Path(book_id): Path<i32>) -> St
 }
 
 async fn get_books(State(pool): State<PgPool>) -> Response {
-    let books = sqlx::query_as!(
-        BookInDb,
+    let books = sqlx::query_as::<_, BookInDb>(
         r#"
         SELECT
             id,
             title,
             author_first_name,
             author_last_name,
-            book_status AS "book_status: BookStatus",
+            book_status,
             date_added,
             date_read,
             rating
         FROM books
-        "#
+        "#,
     )
     .fetch_all(&pool)
     .await;
@@ -144,23 +140,22 @@ async fn get_books(State(pool): State<PgPool>) -> Response {
 }
 
 async fn get_book(State(pool): State<PgPool>, Path(book_id): Path<i32>) -> Response {
-    let book = sqlx::query_as!(
-        BookInDb,
+    let book = sqlx::query_as::<_, BookInDb>(
         r#"
         SELECT
             id,
             title,
             author_first_name,
             author_last_name,
-            book_status AS "book_status: BookStatus",
+            book_status,
             date_added,
             date_read,
             rating
         FROM books
         WHERE id = $1
         "#,
-        book_id,
     )
+    .bind(book_id)
     .fetch_optional(&pool)
     .await;
 
@@ -199,8 +194,7 @@ async fn update_book(State(pool): State<PgPool>, Json(book): Json<BookInDb>) -> 
         )
             .into_response();
     }
-    let updated_book = sqlx::query_as!(
-        BookInDb,
+    let updated_book = sqlx::query_as::<_, BookInDb>(
         r#"
         UPDATE books
         SET
@@ -212,18 +206,17 @@ async fn update_book(State(pool): State<PgPool>, Json(book): Json<BookInDb>) -> 
             date_read = $7,
             rating = $8
         WHERE id = $1
-        RETURNING id, title, author_first_name, author_last_name, book_status AS "book_status: BookStatus", date_added, date_read, rating
-        "#,
-        book.id,
-        book.title,
-        book.author_first_name,
-        book.author_last_name,
-        book.book_status as BookStatus,
-        book.date_added,
-        book.date_read,
-        book.rating,
-    )
-    .fetch_one(&pool)
+        RETURNING id, title, author_first_name, author_last_name, book_status, date_added, date_read, rating
+        "#)
+            .bind(book.id)
+            .bind(book.title)
+            .bind(book.author_first_name)
+            .bind(book.author_last_name)
+            .bind(book.book_status)
+            .bind(book.date_added)
+            .bind(book.date_read)
+            .bind(book.rating)
+            .fetch_one(&pool)
     .await;
 
     match updated_book {
