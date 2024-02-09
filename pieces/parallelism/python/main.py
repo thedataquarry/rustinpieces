@@ -1,7 +1,10 @@
+from __future__ import annotations
+
 import argparse
 import csv
 import re
 from concurrent.futures import ProcessPoolExecutor
+from multiprocessing import cpu_count
 from pathlib import Path
 from typing import Any, Iterator
 
