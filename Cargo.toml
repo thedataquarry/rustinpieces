@@ -1,16 +1,16 @@
 [workspace]
 
 members = [
-  "pieces/simple_csv/rust",
-  "pieces/age_groups_csv/rust",
-  "pieces/datetime_parsing_csv/rust",
-  "pieces/hello_world/rust",
-  "pieces/intro/rust",
-  "pieces/meilisearch_with_cli/rust",
-  "pieces/mock_data/rust",
-  "pieces/postgres_etl/rust",
-  "pieces/regex_json/rust",
-  "pieces/rest_api_postgres/rust",
-  "pieces/parallelism/rust",
+  "src/simple_csv/rust",
+  "src/age_groups_csv/rust",
+  "src/datetime_parsing_csv/rust",
+  "src/hello_world/rust",
+  "src/intro/rust",
+  "src/meilisearch_with_cli/rust",
+  "src/mock_data/rust",
+  "src/postgres_etl/rust",
+  "src/regex_json/rust",
+  "src/rest_api_postgres/rust",
+  "src/parallelism/rust",
 ]
 resolver = "2"

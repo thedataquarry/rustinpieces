@@ -15,7 +15,7 @@ The following constructs are covered:
 | Dictionary                | HashMap    |
 | Set                       | HashSet    |
 
-The code is available in the `pieces/intro` directory of the [repo](https://github.com/thedataquarry/rustinpieces/tree/main/pieces/intro).
+The code is available in the `src/intro` directory of the [repo](https://github.com/thedataquarry/rustinpieces/tree/main/src/intro).
 
 Rust's traits don't have a direct equivalent in Python, but they are similar enough to protocols or special methods in that they
 allow us to define a set of methods that a type must implement, allowing us to customize the behavior of the type.
