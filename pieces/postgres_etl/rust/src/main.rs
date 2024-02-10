@@ -29,14 +29,15 @@ async fn get_pool(pg_uri: &str) -> Result<Arc<PgPool>, sqlx::Error> {
 }
 
 async fn perf_query(pool: Arc<PgPool>, age: i16) -> Result<(), sqlx::Error> {
-    let query = sqlx::query!(
+    sqlx::query(
         r#"
         SELECT COUNT(*) AS count
         FROM persons WHERE age > $1
         "#,
-        age
-    );
-    query.fetch_one(&*pool).await?;
+    )
+    .bind(age)
+    .fetch_one(&*pool)
+    .await?;
     Ok(())
 }
 
@@ -85,6 +86,7 @@ async fn main() -> Result<(), sqlx::Error> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use sqlx::Row;
 
     // Get database connection pool for test
     pub async fn get_pool() -> Arc<PgPool> {
@@ -100,12 +102,14 @@ mod tests {
     #[sqlx::test]
     async fn test_summary_query() {
         let pool = get_pool().await;
-        let query = sqlx::query!("SELECT COUNT(*) AS count FROM persons");
+        let query = sqlx::query("SELECT COUNT(*) AS count FROM persons");
         let result = query
             .fetch_one(&*pool)
             .await
             .expect("Query did not execute");
-        assert!(result.count.unwrap() > 0);
+        let count: i64 = result.get("count");
+        println!("{count}");
+        assert!(count > 0);
     }
 
     #[sqlx::test]

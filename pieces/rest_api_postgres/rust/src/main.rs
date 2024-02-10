@@ -49,22 +49,19 @@ mod tests {
 
     async fn mock_book() -> BookInDb {
         let pool = create_pool(&pg_uri()).await.unwrap();
-        sqlx::query_as!(
-            BookInDb,
+        sqlx::query_as::<_, BookInDb>(
             r#"
             INSERT INTO books (title, author_first_name, author_last_name, "book_status", date_added, date_read, rating)
             VALUES ($1, $2, $3, $4, $5, $6, $7)
-            RETURNING id, title, author_first_name, author_last_name, book_status AS "book_status: BookStatus", date_added, date_read, rating
-            "#,
-            Uuid::new_v4().to_string(),
-            "Douglas",
-            "Adams",
-            BookStatus::Read as BookStatus,
-            Utc.with_ymd_and_hms(2024, 2, 2, 22, 2, 0).unwrap(),
-            Utc.with_ymd_and_hms(2024, 2, 2, 22, 0, 0).unwrap(),
-            5,
-
-        )
+            RETURNING id, title, author_first_name, author_last_name, book_status, date_added, date_read, rating
+            "#)
+            .bind(Uuid::new_v4().to_string())
+            .bind("Douglas")
+            .bind("Adams")
+            .bind(BookStatus::Read as BookStatus)
+            .bind(Utc.with_ymd_and_hms(2024, 2, 2, 22, 2, 0).unwrap())
+            .bind(Utc.with_ymd_and_hms(2024, 2, 2, 22, 0, 0).unwrap())
+            .bind(5)
         .fetch_one(&pool)
         .await
         .unwrap()
