@@ -22,6 +22,7 @@ repos:
             fastapi,
             meilisearch-python-sdk,
             passlib,
+            polars,
             pydantic,
             pydantic-settings,
             pyjwt,
