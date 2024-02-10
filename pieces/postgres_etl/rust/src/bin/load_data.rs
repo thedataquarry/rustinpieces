@@ -49,7 +49,7 @@ fn read_data(persons_csv_file: &Path) -> Result<Vec<Person>, csv::Error> {
 
 async fn truncate_table(pool: Arc<PgPool>) -> Result<(), sqlx::Error> {
     // Truncate table
-    sqlx::query!("TRUNCATE TABLE persons")
+    sqlx::query("TRUNCATE TABLE persons")
         .execute(&*pool)
         .await?;
     println!("Created persons table");
@@ -58,19 +58,19 @@ async fn truncate_table(pool: Arc<PgPool>) -> Result<(), sqlx::Error> {
 
 async fn insert(person: Person, pool: Arc<PgPool>) {
     // Populate database
-    sqlx::query!(
+    sqlx::query(
         r#"
             INSERT INTO persons (id, name, age, isMarried, city, state, country)
             VALUES ($1, $2, $3, $4, $5, $6, $7)
             "#,
-        person.id,
-        &person.name,
-        person.age,
-        person.is_married,
-        &person.city,
-        &person.state,
-        &person.country,
     )
+    .bind(person.id)
+    .bind(&person.name)
+    .bind(person.age)
+    .bind(person.is_married)
+    .bind(&person.city)
+    .bind(&person.state)
+    .bind(&person.country)
     .execute(&*pool)
     .await
     .expect("Cannot insert data into persons table");
