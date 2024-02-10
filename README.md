@@ -14,7 +14,7 @@ The larger focus of the book is to help developers become proficient enough with
 
 Each _piece_ is a small project that's implemented in both Python and Rust. The goal is to make it as easy as possible for Python developers to understand the Rust implementation, and vice versa.
 
-The code for the pieces is in the [pieces](./pieces) directory. Each piece is accompanied by a README that explains the problem statement, and how to run the code in both languages.
+The code for the pieces is in the [src](./src) directory. Each piece is accompanied by a README that explains the problem statement, and how to run the code in both languages.
 
 One of the challenges with learning (and teaching) Rust, is that concepts such as ownership, borrowing, traits and lifetimes that can be quite challenging to grasp for a new learner, are ubiquitous in the language, so it's not straightforward to introduce them gradually. The learning approach applied here is top-down, and so the best way to get familiar with these concepts is to try and apply them to your own problems, as we do in each piece.
 
