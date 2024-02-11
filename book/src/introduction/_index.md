@@ -18,19 +18,19 @@ We believe that Rust 🦀 is the among the most approachable lower-level program
 
 Rust's learning curve is considerably steeper than Python's, so the table below is provided to show a mapping between each piece and its corresponding concept in Rust. As can be seen, structs, serialization, deserialization, vectors and traits are ubiquitous concepts in Rust.
 
-| Piece                        | Category      | Key Rust concepts                        |
-| ---------------------------- | ------------- | ---------------------------------------- |
-| Hello world                  | Intro         | macros                                   |
-| Data structures & constructs | Intro         | crates, structs, traits, implementations |
-| Simple CSV parsing           | Files         | serde, vec                               |
-| Regex JSON                   | Files         | match, regex                             |
-| Mock data generation         | Files         | RNG, sampling                            |
-| Age grouping                 | Files         | enums                                    |
-| Datetime parsing             | Files         | chrono, lifetimes                        |
-| Extract pronouns from text   | Files         | rayon, parallelism                       |
-| Polars EDA                   | DataFrames    | TBD                                      |
-| Postgres                     | Databases     | async, sqlx, tokio                       |
-| Meilisearch                  | CLIs          | async, async-std, clap                   |
-| REST API to Postgres         | APIs          | axum, async, tokio                       |
-| PyO3 mock data generation    | Unification   | PyO3                                     |
-| PyO3 parallel computation    | Unification   | PyO3                                     |
+| Piece                        | Category    | Key Rust concepts                        |
+| ---------------------------- | ----------- | ---------------------------------------- |
+| Hello world                  | Intro       | macros                                   |
+| Data structures & constructs | Intro       | crates, structs, traits, implementations |
+| Simple CSV parsing           | Files       | serde, vec                               |
+| Regex JSON                   | Files       | match, regex                             |
+| Mock data generation         | Files       | RNG, sampling                            |
+| Age grouping                 | Files       | enums                                    |
+| Datetime parsing             | Files       | chrono, lifetimes                        |
+| Extract pronouns from text   | Files       | rayon, parallelism                       |
+| Polars EDA                   | DataFrames  | TBD                                      |
+| Postgres                     | Databases   | async, sqlx, tokio                       |
+| Meilisearch                  | CLIs        | async, async-std, clap                   |
+| REST API to Postgres         | APIs        | axum, async, tokio                       |
+| PyO3 mock data generation    | Unification | PyO3, Maturin                            |
+| PyO3 parallel computation    | Unification | PyO3, Maturin                            |

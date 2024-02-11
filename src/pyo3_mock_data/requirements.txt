@@ -1,0 +1,5 @@
+maturin~=1.4.0
+mypy~=1.8.0
+pytest~=8.0.0
+
+-e .

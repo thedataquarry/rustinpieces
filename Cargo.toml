@@ -12,5 +12,6 @@ members = [
   "src/regex_json/rust",
   "src/rest_api_postgres/rust",
   "src/parallelism/rust",
+  "src/pyo3_mock_data",
 ]
 resolver = "2"
