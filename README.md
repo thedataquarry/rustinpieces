@@ -22,22 +22,22 @@ Although the implementation concepts are introduced as gradually as possible, it
 
 The following pieces are covered:
 
-| Piece                        | Category      | Key Rust concepts                        |
-| ---------------------------- | ------------- | ---------------------------------------- |
-| Hello world                  | Intro         | macros                                   |
-| Data structures & constructs | Intro         | crates, structs, traits, implementations |
-| Simple CSV parsing           | Files         | serde, vec                               |
-| Regex JSON                   | Files         | match, regex                             |
-| Mock data generation         | Files         | RNG, sampling                            |
-| Age grouping                 | Files         | enums                                    |
-| Datetime parsing             | Files         | chrono, lifetimes                        |
-| Extract pronouns from text   | Files         | rayon, parallelism                       |
-| Polars EDA                   | DataFrames    | TBD                                      |
-| Postgres                     | Databases     | async, sqlx, tokio                       |
-| Meilisearch                  | CLIs          | async, async-std, clap                   |
-| REST API to Postgres         | APIs          | axum, async, tokio                       |
-| PyO3 mock data generation    | Unification   | PyO3                                     |
-| PyO3 parallel computation    | Unification   | PyO3                                     |
+| Piece                        | Category    | Key Rust concepts                        |
+| ---------------------------- | ----------- | ---------------------------------------- |
+| Hello world                  | Intro       | macros                                   |
+| Data structures & constructs | Intro       | crates, structs, traits, implementations |
+| Simple CSV parsing           | Files       | serde, vec                               |
+| Regex JSON                   | Files       | match, regex                             |
+| Mock data generation         | Files       | RNG, sampling                            |
+| Age grouping                 | Files       | enums                                    |
+| Datetime parsing             | Files       | chrono, lifetimes                        |
+| Extract pronouns from text   | Files       | rayon, parallelism                       |
+| Polars EDA                   | DataFrames  | TBD                                      |
+| Postgres                     | Databases   | async, sqlx, tokio                       |
+| Meilisearch                  | CLIs        | async, async-std, clap                   |
+| REST API to Postgres         | APIs        | axum, async, tokio                       |
+| PyO3 mock data generation    | Unification | PyO3, Maturin                            |
+| PyO3 parallel computation    | Unification | PyO3, Maturin                            |
 
 ## Contributing
 
