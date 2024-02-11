@@ -14,7 +14,7 @@ use rand::{rngs::StdRng, seq::IteratorRandom, SeedableRng};
 use serde::{Deserialize, Serialize};
 use unicode_normalization::UnicodeNormalization;
 
-create_exception!(_prelude_parser, FileNotFoundError, PyException);
+create_exception!(_pyo3_mock_data, FileNotFoundError, PyException);
 
 #[derive(Debug)]
 struct Location {

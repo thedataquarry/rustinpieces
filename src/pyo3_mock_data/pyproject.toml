@@ -3,7 +3,7 @@ requires = ["maturin>=1.0.0"]
 build-backend = "maturin"
 
 [project]
-name = "prelude-parser"
+name = "pyo3-mock-data"
 requires-python = ">=3.8"
 
 [tool.maturin]
