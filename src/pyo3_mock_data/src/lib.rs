@@ -145,7 +145,7 @@ fn write_csv(output_path: &Path, result: Vec<u8>) -> PyResult<()> {
     }
 }
 
-#[pyfunction(signature = (filename, limit=10, output_filename=None))]
+#[pyfunction(signature = (filename, *, limit=10, output_filename=None))]
 fn generate_fake_persons(
     filename: PathBuf,
     limit: u32,
