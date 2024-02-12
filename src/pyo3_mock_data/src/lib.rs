@@ -145,25 +145,16 @@ fn write_csv(output_path: &Path, result: Vec<u8>) -> PyResult<()> {
     }
 }
 
-#[pyfunction]
+#[pyfunction(signature = (filename, limit=10, output_filename=None))]
 fn generate_fake_persons(
     filename: PathBuf,
-    limit: Option<u32>,
+    limit: u32,
     output_filename: Option<PathBuf>,
 ) -> PyResult<()> {
     check_valid_file(&filename)?;
     let locations = read_cities(&filename)?;
-
-    match limit {
-        Some(l) => {
-            println!("Generating {:?} person profiles.", l);
-            run(&locations, l, &output_filename)?;
-        }
-        None => {
-            println!("No limit provided. Defaulting to generating 10 person profiles.");
-            run(&locations, 10, &output_filename)?;
-        }
-    }
+    println!("Generating {:?} person profiles.", limit);
+    run(&locations, limit, &output_filename)?;
 
     Ok(())
 }
