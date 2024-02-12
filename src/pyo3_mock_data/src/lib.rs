@@ -146,7 +146,7 @@ fn write_csv(output_path: &Path, result: Vec<u8>) -> PyResult<()> {
 }
 
 #[pyfunction(signature = (filename, limit=10, *, output_filename=None))]
-fn generate_fake_persons(
+fn generate_mock_persons(
     filename: PathBuf,
     limit: u32,
     output_filename: Option<PathBuf>,
@@ -161,7 +161,7 @@ fn generate_fake_persons(
 
 #[pymodule]
 fn _pyo3_mock_data(py: Python, m: &PyModule) -> PyResult<()> {
-    m.add_function(wrap_pyfunction!(generate_fake_persons, m)?)?;
+    m.add_function(wrap_pyfunction!(generate_mock_persons, m)?)?;
     m.add("FileNotFoundError", py.get_type::<FileNotFoundError>())?;
 
     Ok(())
