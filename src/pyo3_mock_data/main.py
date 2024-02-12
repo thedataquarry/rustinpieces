@@ -10,7 +10,7 @@ def main() -> int:
         "--num", "-n", type=int, default=10, help="Number of fake profiles to generate"
     )
     args = parser.parse_args()
-    generate_fake_persons(Path("data/worldcities.csv"), limit=args.num)
+    generate_fake_persons(Path("data/worldcities.csv"), args.num)
 
     return 0
 
