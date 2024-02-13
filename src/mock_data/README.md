@@ -186,22 +186,19 @@ test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 
 ## Performance
 
-Because the number of persons generated via this script is configurable, we can generate datasets
-of different sizes. And because it's Rust, we can expect the performance to be better than Python
-(even with minimal optimizations). 😀
+Because the number of persons generated via this script is configurable, we can generate datasets of different sizes.
 
 > [!NOTE]
-> The timing numbers shown below are the run times from a 2022 M2 Macbook Pro with 16GB of RAM.
-> The Python version used was `3.11.6` and the Rust version used was `1.74.1`.
-> The speedup over the Python code is shown in parentheses.
+> The timing numbers shown below are the run times from a 2023 M3 Macbook Pro with 32GB of RAM.
+> The Python version used was `3.11.7` and the Rust version used was `1.75.0`.
 
-| numPersons | Python    | Rust (unoptimized)   | Rust (Release)       |
-| ---------- | --------- | -------------------- | -------------------- |
-| 10         | 0.21 sec  | 0.35 sec (**0.6x**)  | 0.15 sec (**1.4x**)  |
-| 100        | 0.22 sec  | 0.36 sec (**0.6x**)  | 0.17 sec (**1.3x**)  |
-| 1000       | 0.29 sec  | 0.38 sec (**0.7x**)  | 0.17 sec (**1.7x**)  |
-| 10000      | 0.91 sec  | 0.55 sec (**1.6x**)  | 0.18 sec (**5.1x**)  |
-| 100000     | 7.28 sec  | 2.34 sec (**3.1x**)  | 0.27 sec (**27.0x**) |
-| 1000000    | 69.91 sec | 20.29 sec (**3.4x**) | 1.16 sec (**60.3x**) |
+| numPersons | Python    | Rust (Release mode) | Speedup factor over Python |
+| ---------- | --------- | ------------------- | ---------------------------|
+| 10         | 0.21 sec  | 0.04 sec | 5.3x |
+| 100        | 0.22 sec  | 0.05 sec | 4.4x |
+| 1000       | 0.29 sec  | 0.05 sec | 5.8x |
+| 10000      | 0.91 sec  | 0.06 sec | 15.2x |
+| 100000     | 7.28 sec  | 0.13 sec | 56.0x |
+| 1000000    | 69.91 sec | 0.89 sec | 78.6x |
 
-Even the unoptimized Rust code is multiple times faster than the Python code. The more data we're dealing with the bigger this difference will be.
+Generating mock data with Rust in release mode is order of magnitudes faster than the Python code. The more data we're dealing with, the bigger this difference will be.
