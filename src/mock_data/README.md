@@ -186,7 +186,8 @@ test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 
 ## Performance
 
-Because the number of persons generated via this script is configurable, we can generate datasets of different sizes.
+Because the number of persons generated via this script is configurable, we can generate datasets of
+different sizes.
 
 > [!NOTE]
 > The timing numbers shown below are the run times from a 2023 M3 Macbook Pro with 32GB of RAM.
@@ -194,11 +195,12 @@ Because the number of persons generated via this script is configurable, we can 
 
 | numPersons | Python    | Rust (Release mode) | Speedup factor over Python |
 | ---------- | --------- | ------------------- | ---------------------------|
-| 10         | 0.21 sec  | 0.04 sec | 5.3x |
-| 100        | 0.22 sec  | 0.05 sec | 4.4x |
-| 1000       | 0.29 sec  | 0.05 sec | 5.8x |
-| 10000      | 0.91 sec  | 0.06 sec | 15.2x |
-| 100000     | 7.28 sec  | 0.13 sec | 56.0x |
-| 1000000    | 69.91 sec | 0.89 sec | 78.6x |
+| 10         | 0.18 sec  | 0.04 sec | 4.5x |
+| 100        | 0.18 sec  | 0.05 sec | 3.6x |
+| 1000       | 0.23 sec  | 0.05 sec | 4.6x |
+| 10000      | 0.80 sec  | 0.06 sec | 13.3x |
+| 100000     | 6.35 sec  | 0.13 sec | 48.8x |
+| 1000000    | 62.27 sec | 0.89 sec | 70.1x |
 
-Generating mock data with Rust in release mode is order of magnitudes faster than the Python code. The more data we're dealing with, the bigger this difference will be.
+Generating mock data with Rust in release mode is order of magnitudes faster than the Python code.
+The more data we're dealing with, the bigger this difference will be.
