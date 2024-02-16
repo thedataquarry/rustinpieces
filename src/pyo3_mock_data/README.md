@@ -1,4 +1,4 @@
-# PyO3 Mock data generation
+# PyO3 mock data generation
 
 Generate a mock dataset using [PyO3](https://github.com/PyO3/pyo3) to create a module to generate
 the data in Rust and call the function from Python. [Maturin](https://github.com/PyO3/maturin) will
@@ -8,7 +8,29 @@ be used to build the Rust module and make it available to Python.
 
 In this project, we will generate a mock tabular dataset of people, their age, marital status and
 the city, state and country they last visited. The data will be genrated in a Rust module and called
-from Python. The dataset should be in the following format:
+from Python.
+
+### Why might we do this in Rust?
+
+As can be seen from the [mock_data](../mock_data/README.md) project, generating mock data in Python
+can be slow as we increase the number of records. This is for two reasons:
+
+1. Generating mock data is not straightforward to parallelize, because we need to maintain order
+   across the fields along with the randomness in the data, and so, we need to resort to Python
+   for loops, which are slow
+2. The `Faker` library is used in Python, which is itself written in Python
+
+Timing the mock data showed that Rust was up to 60x faster than Python as we approached 1M records
+generated. In a real-world situation where we need to generate multiple mock datasets to test
+different scenarios prior to production, this speedup can be significant.
+
+However, Rust is not a language that a lot of developers are familiar with (or can learn), so it
+makes sense to write a Rust extension that can be called from Python, which is the goal of this piece.
+
+### Dataset schema
+
+The dataset should be in the following format:
+
 
 ```json
 {
@@ -70,7 +92,7 @@ source venv/bin/activate
 
 ### Build the Rust module
 
-Maturin is used to build the rust Module. The build can be run either with the provided Makefile
+Maturin is used to build the rust module. The build can be run either with the provided Makefile
 or directly.
 
 ```bash
@@ -152,25 +174,34 @@ Because the number of persons generated via this script is configurable, we can 
 of different sizes. Because the data is generated in Rust, we can expect the performance to be
 better than Python alone (even with minimal optimizations).
 
-Performance numbers here can be compared to the [mock data generation](../mock_data/README.md) where
-Python and Rust were used individually to generate the data.
+Performance numbers here can be compared to the [mock data](../mock_data/README.md) generation piece where Python and Rust were individually used to generate the data.
 
 > [!NOTE]
-> The timing numbers shown below are the run times from a 2022 M2 Macbook Pro with 16GB of RAM.
-> The Python version used was `3.11.6` and the Rust version used was `1.74.1`.
+> The timing numbers shown below are the run times from a 2023 M3 Macbook Pro with 32GB of RAM.
+> The Python version used was `3.11.7` and the Rust version used was `1.75.0`.
 
-| numPersons | unoptimized | Release |
-| ---------- | ----------- | ------- |
-| 10         |             |         |
-| 100        |             |         |
-| 1000       |             |         |
-| 10000      |             |         |
-| 100000     |             |         |
-| 1000000    |             |         |
+| numPersons | Release mode |
+| ---------- | ------------ |
+| 10         | 0.06 sec     |
+| 100        | 0.06 sec     |
+| 1000       | 0.07 sec     |
+| 10000      | 0.07 sec     |
+| 100000     | 0.15 sec     |
+| 1000000    | 0.91 sec     |
+
+As can be seen, the Rust bindings called from Python produce near identical timings to
+the pure Rust version's [results](../mock_data/README.md#performance) from the `mock_data`piece,
+within 10%. The (very) slight difference is due to the overhead of calling Rust from Python.
 
 ## Takeaways
 
-It is realatively easy to use PyO3 to build Python modules in Rust, and get significant speedups.
-There is some overhead involved with passing data back and forth between Python and Rust, and
-because of this writing a module in Rust will not always be faster. In situations where Python is
-slow, such as with this fake data generation, Rust can be significantly faster.
+Rather than expecting users to install and learn Rust, it's possible to expose Rust
+bindings to the Python interpreter, so that Python users can benefit from the performance
+of Rust.
+
+As can be seen. it is relatively easy to use PyO3 to build Python modules in Rust and get significant
+speedups over pure Python.
+There is some overhead involved with passing data between Rust and Python, and
+because of this writing a Python extension is not likely to be identical in performance
+to pure Rust code. However, in situations that are inherently difficult to parallelize in Python,
+such as with this fake data generation, it makes sense to consider writing a Python extension in Rust.
