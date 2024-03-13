@@ -20,9 +20,9 @@ class Settings(BaseSettings):
                 raise ValueError("A POSTGRES_PASSWORD environment variable is required")
 
             port = data["postgres_port"] if data.get("postgres_port") else 5432
-            data[
-                "postgres_uri"
-            ] = f"postgres://postgres:{data['postgres_password']}@127.0.0.1:{port}/api"
+            data["postgres_uri"] = (
+                f"postgres://postgres:{data['postgres_password']}@127.0.0.1:{port}/api"
+            )
 
         return data
 
