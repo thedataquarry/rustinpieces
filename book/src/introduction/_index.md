@@ -28,7 +28,6 @@ Rust's learning curve is considerably steeper than Python's, so the table below 
 | Age grouping                 | Files       | enums                                    |
 | Datetime parsing             | Files       | chrono, lifetimes                        |
 | Extract pronouns from text   | Files       | rayon, parallelism                       |
-| Polars EDA                   | DataFrames  | TBD                                      |
 | Postgres                     | Databases   | async, sqlx, tokio                       |
 | Meilisearch                  | CLIs        | async, async-std, clap                   |
 | REST API to Postgres         | APIs        | axum, async, tokio                       |
