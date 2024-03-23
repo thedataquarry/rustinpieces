@@ -2177,6 +2177,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "pyo3_rayon"
+version = "0.1.0"
+dependencies = [
+ "csv",
+ "pyo3",
+ "rayon",
+ "regex",
+ "serde",
+]
+
+[[package]]
 name = "quote"
 version = "1.0.35"
 source = "registry+https://github.com/rust-lang/crates.io-index"
