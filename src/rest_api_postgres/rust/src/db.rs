@@ -14,6 +14,7 @@ use sqlx::{
 
 /// Based on the axum sqlx-postgres example
 /// https://github.com/tokio-rs/axum/blob/main/examples/sqlx-postgres/src/main.rs
+#[allow(dead_code)]
 struct DbManager(PoolConnection<Postgres>);
 
 #[async_trait]

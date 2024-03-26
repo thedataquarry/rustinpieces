@@ -57,7 +57,7 @@ fn run1() {
 
 // 2. Enumerate
 fn run2() {
-    let persons = vec![Person::new("James", 33), Person::new("Salima", 31)];
+    let persons = [Person::new("James", 33), Person::new("Salima", 31)];
     for (i, p) in persons.iter().enumerate() {
         println!("Person {}: {}", i, p)
     }
@@ -95,7 +95,7 @@ fn run4() {
 
 // 5. Anonymous functions (closures)
 fn run5() {
-    let mut persons = vec![Person::new("Aiko", 41), Person::new("Rohan", 18)];
+    let mut persons = [Person::new("Aiko", 41), Person::new("Rohan", 18)];
     // Sort by age
     persons.sort_by_key(|p| p.age);
     let youngest_person = persons.first().unwrap();
