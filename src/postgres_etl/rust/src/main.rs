@@ -1,20 +1,7 @@
 use dotenvy::dotenv;
 use rand::{rngs::StdRng, Rng, SeedableRng};
-use serde::Serialize;
 use sqlx::{postgres::PgPoolOptions, PgPool};
 use std::sync::Arc;
-
-#[derive(Serialize)]
-#[serde(rename_all = "camelCase")]
-struct Person {
-    id: i32,
-    name: String,
-    age: i16, // Postgres does not have unsigned integers
-    is_married: bool,
-    city: String,
-    state: String,
-    country: String,
-}
 
 async fn get_pool(pg_uri: &str) -> Result<Arc<PgPool>, sqlx::Error> {
     let pool = Arc::new(
