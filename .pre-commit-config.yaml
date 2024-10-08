@@ -3,7 +3,7 @@ ci:
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.6.0
+    rev: v5.0.0
     hooks:
       - id: check-toml
       - id: check-yaml
@@ -58,7 +58,7 @@ repos:
         files: ^src/pyp3_mock_data/
         entry: bash -c 'cd src/pyo3_mock_data && mypy -p pyp3_mock_data "$@"' --
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.6.8
+    rev: v0.6.9
     hooks:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix]
