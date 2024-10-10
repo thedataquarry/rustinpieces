@@ -52,7 +52,9 @@ class BatchProcessor:
             "ll": " will",
         }
         # Replace contractions with full words
-        formatted_text = re.sub(r"([’'])(s|d|ll)", lambda x: suffix_mapping[x.group(2)], text_lower)
+        formatted_text = re.sub(
+            r"([’'])(s|d|ll)", lambda x: suffix_mapping[x.group(2)], text_lower
+        )
         # Remove non-alphabetic characters
         result = re.sub(r"[^a-zA-Z\s]", "", formatted_text)
         return result
@@ -61,7 +63,9 @@ class BatchProcessor:
         text = data["content"]
         result = self._clean_text(text)
         tokens = result.split()
-        data["num_male_pronouns"], data["num_female_pronouns"] = count_gendered_pronouns(tokens)
+        data["num_male_pronouns"], data["num_female_pronouns"] = (
+            count_gendered_pronouns(tokens)
+        )
         data.pop("content")
         return data
 
@@ -84,7 +88,14 @@ def count_gendered_pronouns(tokens: list[str]) -> tuple[int, int]:
 
 def write_results(data: list[JsonBlob], file_path: Path, file_name: str) -> None:
     output_path = file_path / file_name
-    fieldnames = ["id", "publication", "author", "date", "num_male_pronouns", "num_female_pronouns"]
+    fieldnames = [
+        "id",
+        "publication",
+        "author",
+        "date",
+        "num_male_pronouns",
+        "num_female_pronouns",
+    ]
     with open(output_path, "w") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
@@ -94,7 +105,8 @@ def write_results(data: list[JsonBlob], file_path: Path, file_name: str) -> None
 def main(file_path: Path, batch_size: int) -> None:
     # Get all .csv files in the directory
     files = [
-        Path(f"../data/{file}") for file in ("articles1.csv", "articles2.csv", "articles3.csv")
+        Path(f"../data/{file}")
+        for file in ("articles1.csv", "articles2.csv", "articles3.csv")
     ]
     processor = BatchProcessor(batch_size)
     for input_file in files:

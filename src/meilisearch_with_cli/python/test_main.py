@@ -118,7 +118,9 @@ def test_index_data(client, tmp_path, wine_data, index_name):
     index = client.create_index(index_name)
     file_path = tmp_path / "data.jsonl.gz"
     srsly.write_gzip_jsonl(file_path, wine_data)
-    CliRunner().invoke(app, ["index-data", "-d", str(file_path), "-w", "-i", index_name])
+    CliRunner().invoke(
+        app, ["index-data", "-d", str(file_path), "-w", "-i", index_name]
+    )
     documents = index.get_documents()
     assert documents.total == 5
 

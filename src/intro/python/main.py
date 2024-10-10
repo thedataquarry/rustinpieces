@@ -89,7 +89,9 @@ def run5() -> None:
     persons = [Person("Aiko", 41), Person("Rohan", 18)]
     sorted_by_age = sorted(persons, key=lambda person: person.age)
     youngest_person = sorted_by_age[0]
-    print(f"{youngest_person.name} is the youngest person at {youngest_person.age} years old")
+    print(
+        f"{youngest_person.name} is the youngest person at {youngest_person.age} years old"
+    )
     """
     Rohan is the youngest person at 18 years old
     """
@@ -117,7 +119,9 @@ def run7() -> None:
     """
     persons = [Person("Issa", 39), Person("Ibrahim", 26)]
     persons_born_after_1995 = [
-        (person.name, person.age) for person in persons if approx_year_of_birth(person) > 1995
+        (person.name, person.age)
+        for person in persons
+        if approx_year_of_birth(person) > 1995
     ]
     print(f"Persons born after 1995: {persons_born_after_1995}")
     """

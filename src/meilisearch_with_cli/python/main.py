@@ -18,25 +18,39 @@ MEILISEARCH_API_KEY = "apiKey"
 console = Console()
 
 
-async def preform_indexing(data: List[dict[str, Any]], index_name: str, wait: bool) -> None:
+async def preform_indexing(
+    data: List[dict[str, Any]], index_name: str, wait: bool
+) -> None:
     async with AsyncClient(MEILISEARCH_URL, MEILISEARCH_API_KEY) as client:
         index = client.index(index_name)
         tasks = await index.add_documents_in_batches(data)
         if wait:
-            waits = [client.wait_for_task(task.task_uid, timeout_in_ms=None) for task in tasks]
+            waits = [
+                client.wait_for_task(task.task_uid, timeout_in_ms=None)
+                for task in tasks
+            ]
             await asyncio.gather(*waits)
 
 
 @app.command()
 def create_index(
-    index_name: str = Option("wine", "-i", "--index-name", help="The name to use for the index"),
+    index_name: str = Option(
+        "wine", "-i", "--index-name", help="The name to use for the index"
+    ),
 ) -> None:
     client = Client(MEILISEARCH_URL, MEILISEARCH_API_KEY)
     client.create_index(
         index_name,
         primary_key="id",
         settings=MeilisearchSettings(
-            ranking_rules=["sort", "words", "typo", "proximity", "attribute", "exactness"],
+            ranking_rules=[
+                "sort",
+                "words",
+                "typo",
+                "proximity",
+                "attribute",
+                "exactness",
+            ],
             sortable_attributes=["title", "country"],
             searchable_attributes=[
                 "title",
@@ -65,8 +79,12 @@ def index_data(
         dir_okay=False,
         help="Path to the data file",
     ),
-    index_name: str = Option("wine", "-i", "--index-name", help="The name to use for the index"),
-    wait: bool = Option(False, "-w", "--wait", help="Wait for the data to finish indexing"),
+    index_name: str = Option(
+        "wine", "-i", "--index-name", help="The name to use for the index"
+    ),
+    wait: bool = Option(
+        False, "-w", "--wait", help="Wait for the data to finish indexing"
+    ),
 ) -> None:
     if data_path:
         data = srsly.read_gzip_jsonl(data_path)
@@ -83,7 +101,9 @@ def search(
     query: str = Argument(..., help="The search to preform"),
     limit: int = Option(20, "-l", "--limit", help="Limit the number of search results"),
     sort: List[str] = Option(None, "-s", "--sort", help="Sort order for the results"),
-    index_name: str = Option("wine", "-i", "--index-name", help="The name to use for the index"),
+    index_name: str = Option(
+        "wine", "-i", "--index-name", help="The name to use for the index"
+    ),
 ) -> None:
     client = Client(MEILISEARCH_URL, MEILISEARCH_API_KEY)
     index = client.index(index_name)

@@ -48,7 +48,9 @@ def get_locations(filename: Path) -> list[Location]:
     return locations
 
 
-def generate_fake_persons(faker: Faker, locations: list[Location], num: int) -> list[Person]:
+def generate_fake_persons(
+    faker: Faker, locations: list[Location], num: int
+) -> list[Person]:
     # Generate fake persons with the desired structure and return a list of mappings
     profiles = []
     for i in range(1, num + 1):
