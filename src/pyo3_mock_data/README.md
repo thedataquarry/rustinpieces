@@ -31,7 +31,6 @@ makes sense to write a Rust extension that can be called from Python, which is t
 
 The dataset should be in the following format:
 
-
 ```json
 {
   "id": "int",
@@ -82,12 +81,12 @@ Install the dependencies in a virtual environment via `requirements.txt`.
 
 ```bash
 # First time setup
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
+uv venv
+source .venv/bin/activate
+uv sync --frozen
 
 # For subsequent runs, simply activate the environment
-source venv/bin/activate
+source .venv/bin/activate
 ```
 
 ### Build the Rust module
@@ -100,7 +99,7 @@ or directly.
 make develop
 
 # Directly with Maturin
-maturin develop
+uv run maturin develop
 ```
 
 ### Run script
@@ -115,9 +114,9 @@ that someone :joy:.
 
 ```bash
 # Generate 10 mock person profiles
-python main.py -n 10
+uv run python main.py -n 10
 # Generate 1000 mock person profiles
-python main.py -n 1000
+uv run python main.py -n 1000
 ```
 
 ### Run tests
@@ -130,8 +129,8 @@ running the tests. If you run manually don't forget the build step before testin
 make test
 
 # manually
-maturin develop
-pytest
+uv run maturin develop
+uv run pytest
 
 ==================================================================================== test session starts =====================================================================================
 platform linux -- Python 3.12.2, pytest-8.0.0, pluggy-1.4.0
@@ -165,7 +164,7 @@ can be done with either the provide Makefile or manually.
 make release
 
 # Manually
-maturin develop -r
+uv run maturin develop -r
 ```
 
 ## Performance
