@@ -42,9 +42,7 @@ def run() -> list[dict[str, Any]]:
         raise ValueError("No data found")
 
     for company in data:
-        annual_revenue_lower, annual_revenue_upper = calculate_range(
-            company["annual_revenue"]
-        )
+        annual_revenue_lower, annual_revenue_upper = calculate_range(company["annual_revenue"])
         # Append to existing dict
         company["annual_revenue_lower"] = annual_revenue_lower
         company["annual_revenue_upper"] = annual_revenue_upper

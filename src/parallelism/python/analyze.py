@@ -6,9 +6,7 @@ def get_result() -> pl.DataFrame:
     articles2 = pl.read_csv("../data/articles2_processed.csv")
     articles3 = pl.read_csv("../data/articles3_processed.csv")
     # Combine the data into a single DataFrame
-    result = (
-        pl.concat([articles1, articles2, articles3]).unique(subset=["id"]).sort("id")
-    )
+    result = pl.concat([articles1, articles2, articles3]).unique(subset=["id"]).sort("id")
     print(f"Number of articles: {result.height}")
     return result
 
