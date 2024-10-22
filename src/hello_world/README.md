@@ -4,8 +4,10 @@ Simple hello world program to show how this repo is organized 😀.
 
 ## How to run the Python program
 
+The `uv` package manager is used to run the Python program.
+
 ```bash
-python hello_world.py
+uv run main.py
 ```
 
 ### Output
