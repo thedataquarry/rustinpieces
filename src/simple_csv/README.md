@@ -61,6 +61,14 @@ For this project, we only need the standard library of Python, so there are no d
 
 ### Run script
 
+First, sync the dependencies from `pyproject.toml`.
+
+```bash
+uv sync
+```
+
+The script can be then run using the following command.
+
 ```bash
 uv run main.py
 ```
