@@ -58,7 +58,7 @@ repos:
         files: ^src/pyp3_mock_data/
         entry: bash -c 'cd src/pyo3_mock_data && mypy -p pyp3_mock_data "$@"' --
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.7.2
+    rev: v0.7.3
     hooks:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix]
