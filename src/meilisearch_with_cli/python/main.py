@@ -36,7 +36,14 @@ def create_index(
         index_name,
         primary_key="id",
         settings=MeilisearchSettings(
-            ranking_rules=["sort", "words", "typo", "proximity", "attribute", "exactness"],
+            ranking_rules=[
+                "sort",
+                "words",
+                "typo",
+                "proximity",
+                "attribute",
+                "exactness",
+            ],
             sortable_attributes=["title", "country"],
             searchable_attributes=[
                 "title",

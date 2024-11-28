@@ -1,4 +1,4 @@
-# Modify a CSV file with simple types
+# # Modify a CSV file with simple types
 
 Read in data from a CSV file with simple types (strings, floats) and write it back to a new CSV file with modified values.
 
@@ -56,47 +56,47 @@ Yakutsk,Russia,-37.5,-38.6
 
 ## Python Setup
 
-Install dependencies via the `uv` package manager. All dependencies are listed in `pyproject.toml`.
-For this project, we only need the standard library of Python, so there are no dependencies to install.
+Install the dependencies in a virtual environment via `requirements.txt`.
+
+```bash
+# First time setup
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+
+# For subsequent runs, simply activate the environment
+source venv/bin/activate
+```
 
 ### Run script
 
-First, sync the dependencies from `pyproject.toml`.
-
 ```bash
-uv sync
-```
-
-The script can be then run using the following command.
-
-```bash
-uv run main.py
+python main.py
 ```
 
 ### Run tests
 
 ```bash
-$ uv run pytest -v
-===================================================================================================== test session starts =====================================================================================================
-platform darwin -- Python 3.12.5, pytest-8.3.2, pluggy-1.5.0 -- /Users/prrao/.pyenv/versions/3.12.5/bin/python3.12
+$ pytest -v
+================================================================================================ test session starts ================================================================================================
+platform darwin -- Python 3.11.7, pytest-7.4.4, pluggy-1.3.0 -- /Users/prrao/code/rustinpieces/.venv/bin/python3.11
 cachedir: .pytest_cache
-rootdir: /Users/prrao/code/rustinpieces/src/simple_csv/python
-configfile: pyproject.toml
-plugins: anyio-4.4.0
+rootdir: /Users/prrao/code/rustinpieces/pieces/simple_csv/python
+plugins: Faker-21.0.1
 collected 10 items
 
-test_main.py::test_read_and_modify PASSED                                                                                                                                                                               [ 10%]
-test_main.py::test_modify_fields PASSED                                                                                                                                                                                 [ 20%]
-test_main.py::test_convert_f_to_c[70.2-21.2] PASSED                                                                                                                                                                     [ 30%]
-test_main.py::test_convert_f_to_c[-14.1--25.6] PASSED                                                                                                                                                                   [ 40%]
-test_main.py::test_convert_f_to_c[25.3--3.7] PASSED                                                                                                                                                                     [ 50%]
-test_main.py::test_convert_f_to_c[29.6--1.3] PASSED                                                                                                                                                                     [ 60%]
-test_main.py::test_convert_f_to_c[52.1-11.2] PASSED                                                                                                                                                                     [ 70%]
-test_main.py::test_convert_f_to_c[18.7--7.4] PASSED                                                                                                                                                                     [ 80%]
-test_main.py::test_convert_f_to_c[-37.5--38.6] PASSED                                                                                                                                                                   [ 90%]
-test_main.py::test_write_csv PASSED                                                                                                                                                                                     [100%]
+test_main.py::test_read_and_modify PASSED                                                                                                                                                                     [ 10%]
+test_main.py::test_modify_fields PASSED                                                                                                                                                                       [ 20%]
+test_main.py::test_convert_f_to_c[70.2-21.2] PASSED                                                                                                                                                           [ 30%]
+test_main.py::test_convert_f_to_c[-14.1--25.6] PASSED                                                                                                                                                         [ 40%]
+test_main.py::test_convert_f_to_c[25.3--3.7] PASSED                                                                                                                                                           [ 50%]
+test_main.py::test_convert_f_to_c[29.6--1.3] PASSED                                                                                                                                                           [ 60%]
+test_main.py::test_convert_f_to_c[52.1-11.2] PASSED                                                                                                                                                           [ 70%]
+test_main.py::test_convert_f_to_c[18.7--7.4] PASSED                                                                                                                                                           [ 80%]
+test_main.py::test_convert_f_to_c[-37.5--38.6] PASSED                                                                                                                                                         [ 90%]
+test_main.py::test_write_csv PASSED                                                                                                                                                                           [100%]
 
-===================================================================================================== 10 passed in 0.01s ======================================================================================================
+================================================================================================ 10 passed in 0.02s =================================================================================================
 ```
 
 ## Rust Setup
