@@ -84,7 +84,14 @@ def count_gendered_pronouns(tokens: list[str]) -> tuple[int, int]:
 
 def write_results(data: list[JsonBlob], file_path: Path, file_name: str) -> None:
     output_path = file_path / file_name
-    fieldnames = ["id", "publication", "author", "date", "num_male_pronouns", "num_female_pronouns"]
+    fieldnames = [
+        "id",
+        "publication",
+        "author",
+        "date",
+        "num_male_pronouns",
+        "num_female_pronouns",
+    ]
     with open(output_path, "w") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
