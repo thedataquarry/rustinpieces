@@ -57,7 +57,7 @@ def generate_fake_persons(faker: Faker, locations: list[Location], num: int) -> 
             id=i,
             name=f"{faker.first_name()} {faker.last_name()}",
             age=random.randint(22, 65),
-            isMarried=faker.random_element(elements=("true", "false")),
+            isMarried=faker.random_element(elements=(True, False)),
             city=location["city"],
             state=location["state"],
             country=location["country"],
