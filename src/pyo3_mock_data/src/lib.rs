@@ -162,10 +162,7 @@ fn generate_mock_persons(
 #[pymodule]
 fn _pyo3_mock_data(py: Python, m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(generate_mock_persons, m)?)?;
-    m.add(
-        "FileNotFoundError",
-        py.get_type_bound::<FileNotFoundError>(),
-    )?;
+    m.add("FileNotFoundError", py.get_type::<FileNotFoundError>())?;
 
     Ok(())
 }
