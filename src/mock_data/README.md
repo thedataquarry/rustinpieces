@@ -57,49 +57,55 @@ id,name,age,isMarried,city,state,country
 
 ## Python Setup
 
-Install the dependencies in a virtual environment via `requirements.txt`.
+Install dependencies via the `uv` package manager. All dependencies are listed in `pyproject.toml`.
+
+If you want to manually add the dependencies yourself, run the following commands.
 
 ```bash
-# First time setup
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-
-# For subsequent runs, simply activate the environment
-source venv/bin/activate
+uv add faker
+uv add --dev pytest
 ```
 
 ### Run script
 
+First, sync the dependencies from `pyproject.toml`.
+
+```bash
+uv sync
+```
+
+The script can be then run using the following command.
+
 ```bash
 # Generate 10 mock person profiles
-python main.py -n 10
+uv run main.py -n 10
 # Generate 1000 mock person profiles
-python main.py -n 1000
+uv run main.py -n 1000
 ```
 
 ### Run tests
 
 ```bash
-$ pytest -v
-============================================================= test session starts =============================================================
-platform darwin -- Python 3.11.6, pytest-7.4.3, pluggy-1.3.0 -- /Users/prrao/.pyenv/versions/3.11.6/bin/python3.11
+$ uv run pytest -v
+================================================================================================= test session starts =================================================================================================
+platform darwin -- Python 3.12.5, pytest-8.3.4, pluggy-1.5.0 -- /Users/prrao/code/rustinpieces/src/mock_data/python/.venv/bin/python3
 cachedir: .pytest_cache
-rootdir: /code/rustinpieces/python/mock_data
-plugins: anyio-4.0.0, Faker-21.0.0
+rootdir: /Users/prrao/code/rustinpieces/src/mock_data/python
+configfile: pyproject.toml
+plugins: Faker-33.1.0
 collected 9 items
 
-test_main.py::test_convert_unicode_to_ascii[S\xe3o Paulo-Sao Paulo] PASSED                                                              [ 11%]
-test_main.py::test_convert_unicode_to_ascii[\u0130stanbul-Istanbul] PASSED                                                              [ 22%]
-test_main.py::test_convert_unicode_to_ascii[Mah\u0101r\u0101shtra-Maharashtra] PASSED                                                   [ 33%]
-test_main.py::test_convert_unicode_to_ascii[St\u0159edo\u010desk\xfd Kraj-Stredocesky Kraj] PASSED                                      [ 44%]
-test_main.py::test_convert_unicode_to_ascii[Dar\u2018\u0101-Dara] PASSED                                                                [ 55%]
-test_main.py::test_convert_unicode_to_ascii[\xcele-de-France-Ile-de-France] PASSED                                                      [ 66%]
-test_main.py::test_get_locations PASSED                                                                                                 [ 77%]
-test_main.py::test_generate_fake_persons PASSED                                                                                         [ 88%]
-test_main.py::test_write_persons_to_csv PASSED                                                                                          [100%]
+test_main.py::test_convert_unicode_to_ascii[S\xe3o Paulo-Sao Paulo] PASSED                                                                                                                                      [ 11%]
+test_main.py::test_convert_unicode_to_ascii[\u0130stanbul-Istanbul] PASSED                                                                                                                                      [ 22%]
+test_main.py::test_convert_unicode_to_ascii[Mah\u0101r\u0101shtra-Maharashtra] PASSED                                                                                                                           [ 33%]
+test_main.py::test_convert_unicode_to_ascii[St\u0159edo\u010desk\xfd Kraj-Stredocesky Kraj] PASSED                                                                                                              [ 44%]
+test_main.py::test_convert_unicode_to_ascii[Dar\u2018\u0101-Dara] PASSED                                                                                                                                        [ 55%]
+test_main.py::test_convert_unicode_to_ascii[\xcele-de-France-Ile-de-France] PASSED                                                                                                                              [ 66%]
+test_main.py::test_get_locations PASSED                                                                                                                                                                         [ 77%]
+test_main.py::test_generate_fake_persons PASSED                                                                                                                                                                 [ 88%]
+test_main.py::test_write_persons_to_csv PASSED                                                                                                                                                                  [100%]
 
-============================================================== 9 passed in 0.32s ==============================================================
+================================================================================================== 9 passed in 0.28s ==================================================================================================
 ```
 
 ## Rust Setup
