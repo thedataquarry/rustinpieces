@@ -11,16 +11,14 @@ The API is used to track books that you have read/want to read and lets you rate
 
 ## Python Setup
 
-Install the dependencies in a virtual environment via `requirements.txt`.
+Install dependencies via the `uv` package manager. All dependencies are listed in `pyproject.toml`.
 
 ```sh
 # First time setup
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
+uv sync
 
 # for subsequent runs, simply activate the environment
-source venv/bin/activate
+source .venv/bin/activate
 ```
 
 # Start the database
