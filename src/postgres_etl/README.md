@@ -22,16 +22,23 @@ The outputs are the ingestion time for 100K records and the query throughput (QP
 
 ## Python Setup
 
-Install the dependencies in a virtual environment via `requirements.txt`.
+Install dependencies via the `uv` package manager. All dependencies are listed in `pyproject.toml`.
+
+If you want to manually add the latest versions of the dependencies yourself, run the following commands.
 
 ```bash
-# First time setup
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
+uv add asyncpg
+uv add python-dotenv
+uv add --dev pytest
+uv add --dev pytest-asyncio
+```
 
-# For subsequent runs, simply activate the environment
-source venv/bin/activate
+### Run script
+
+First, sync the dependencies from `pyproject.toml`.
+
+```bash
+uv sync
 ```
 
 ### Run scripts
@@ -41,7 +48,7 @@ source venv/bin/activate
 The loader script is run just once as follows.
 
 ```bash
-python load_data.py
+uv run load_data.py
 ```
 
 This will ingest the 100K records via gathered async tasks.
@@ -51,7 +58,7 @@ This will ingest the 100K records via gathered async tasks.
 The query script is run as follows.
 
 ```bash
-python main.py -n 100000
+uv run main.py -n 100000
 ```
 
 ### Run tests
@@ -59,13 +66,13 @@ python main.py -n 100000
 Tests can be run as follows:
 
 ```bash
-$ pytest -v
+$ uv run pytest -v
 =========================================== test session starts ============================================
-platform darwin -- Python 3.11.7, pytest-7.4.4, pluggy-1.3.0 -- /code/rustinpieces/python/postgres_etl/.venv/bin/python3.11
+platform darwin -- Python 3.12.5, pytest-7.4.4, pluggy-1.3.0 -- /Users/prrao/code/rustinpieces/src/postgres_etl/python/.venv/bin/python3.12
 cachedir: .pytest_cache
-rootdir: /code/rustinpieces/python/postgres_etl
+rootdir: /Users/prrao/code/rustinpieces/src/postgres_etl/python
 configfile: pyproject.toml
-plugins: asyncio-0.23.3
+plugins: asyncio-0.25.0
 asyncio: mode=Mode.AUTO
 collected 2 items
 
@@ -80,8 +87,8 @@ test_main.py::test_perf_query PASSED                                            
 The results for the data loading and for the query throughput are shown below.
 
 > [!NOTE]
-> The timing numbers shown below are the run times from a 2023 M3 Macbook Pro with 32GB of RAM.
-> The Python version used was `3.11.7`.
+> The timing numbers shown below are the run times from a 2023 M3 Macbook Pro with 36GB of RAM.
+> The Python version used was `3.12.5`.
 
 #### Data loading
 
