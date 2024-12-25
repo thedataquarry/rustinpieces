@@ -48,22 +48,20 @@ or NoSQL database downstream.
 
 ## Python Setup
 
-Install the dependencies in a virtual environment via `requirements.txt`.
-
-```bash
-# First time setup
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-
-# For subsequent runs, simply activate the environment
-source venv/bin/activate
-```
+Install dependencies via the `uv` package manager. All dependencies are listed in `pyproject.toml`.
 
 ### Run script
 
+First, sync the dependencies from `pyproject.toml`.
+
 ```bash
-python main.py
+uv sync
+```
+
+The script can be then run using the following command.
+
+```bash
+uv run main.py
 ```
 
 ### Output
@@ -96,17 +94,18 @@ python main.py
 Tests are run via pytest.
 
 ```bash
-$ pytest -v
-===================================================================================================== test session starts ======================================================================================================
-platform darwin -- Python 3.11.6, pytest-7.4.3, pluggy-1.3.0 -- /code/rust-projects/python/regex_patterns/.venv/bin/python3.11
+$ uv run pytest -v
+=================================================================================================== test session starts ====================================================================================================
+platform darwin -- Python 3.12.5, pytest-8.3.4, pluggy-1.5.0 -- /Users/prrao/code/rustinpieces/src/regex_json/python/.venv/bin/python3
 cachedir: .pytest_cache
-rootdir: /code/rust-projects/python/regex_patterns
+rootdir: /Users/prrao/code/rustinpieces/src/regex_json/python
+configfile: pyproject.toml
 collected 2 items
 
-test_main.py::test_revenue_range PASSED                                                                                                                                                                                  [ 50%]
-test_main.py::test_revenue_values PASSED                                                                                                                                                                                 [100%]
+test_main.py::test_revenue_range PASSED                                                                                                                                                                              [ 50%]
+test_main.py::test_revenue_values PASSED                                                                                                                                                                             [100%]
 
-====================================================================================================== 2 passed in 0.01s =======================================================================================================
+==================================================================================================== 2 passed in 0.00s =====================================================================================================
 ```
 
 ## Rust Setup
