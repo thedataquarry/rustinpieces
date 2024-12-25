@@ -4,19 +4,16 @@ build-backend = "maturin"
 
 [project]
 name = "pyo3-mock-data"
-requires-python = ">=3.9"
+version = "0.1.0"
+requires-python = ">=3.8"
+dependencies = [
+    "maturin>=1.8.0",
+]
 
 [tool.maturin]
 module-name = "pyo3_mock_data._pyo3_mock_data"
 binding = "pyo3"
-features = ["pyo3/extension-module"]
-
-[tool.uv]
-dev-dependencies = [
-  "maturin==1.7.3",
-  "mypy==1.12.0",
-  "pytest==8.3.3",
-]
+# features = ["pyo3/extension-module"]
 
 [tool.mypy]
 check_untyped_defs = true
@@ -24,7 +21,7 @@ disallow_untyped_defs = true
 
 [tool.ruff]
 line-length = 100
-target-version = "py39"
+target-version = "py38"
 fix = true
 
 [tool.ruff.lint]
@@ -46,4 +43,10 @@ ignore=[
   "COM819",
   "ISC001",
   "ISC002",
+]
+
+[dependency-groups]
+dev = [
+    "mypy>=1.14.0",
+    "pytest>=8.3.4",
 ]

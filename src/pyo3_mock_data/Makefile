@@ -8,10 +8,10 @@ lint:
 	cargo clippy --all-targets --quiet
 
 develop:
-	uv run maturin develop
+	uv run maturin develop --uv
 
 release:
-	uv run maturin develop -r
+	uv run maturin develop -r --uv
 
 test: develop
 	uv run pytest
