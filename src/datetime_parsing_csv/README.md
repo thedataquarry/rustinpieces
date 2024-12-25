@@ -79,39 +79,45 @@ id,name,dob,age,isMarried,city,state,country
 
 ## Python Setup
 
-Install the dependencies in a virtual environment via `requirements.txt`.
+Install dependencies via the `uv` package manager. All dependencies are listed in `pyproject.toml`.
+
+If you want to manually add the dependencies yourself, run the following commands.
 
 ```bash
-# First time setup
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-
-# For subsequent runs, simply activate the environment
-source venv/bin/activate
+uv add --dev pytest
 ```
 
 ### Run script
 
+First, sync the dependencies from `pyproject.toml`.
+
 ```bash
-python main.py
+uv sync
+```
+
+The script can be then run using the following command.
+
+```bash
+uv run main.py
 ```
 
 ### Run tests
 
 ```bash
-$ pytest -v
-==================================================================================================== test session starts ====================================================================================================
-platform darwin -- Python 3.11.7, pytest-7.4.4, pluggy-1.3.0 -- /Users/prrao/code/rustinpieces/.venv/bin/python3.11
+$ uv run pytest -v
+================================================================================================= test session starts =================================================================================================
+platform darwin -- Python 3.12.5, pytest-8.3.4, pluggy-1.5.0 -- /Users/prrao/code/rustinpieces/src/datetime_parsing_csv/python/.venv/bin/python
 cachedir: .pytest_cache
-rootdir: /Users/prrao/code/rustinpieces/pieces/datetime_parsing_csv/python
+rootdir: /Users/prrao/code/rustinpieces/src/datetime_parsing_csv/python
+configfile: pyproject.toml
+plugins: Faker-33.1.0
 collected 3 items
 
-test_main.py::test_modify_fields PASSED                                                                                                                                                                               [ 33%]
-test_main.py::test_read_and_modify PASSED                                                                                                                                                                             [ 66%]
-test_main.py::test_write_csv PASSED                                                                                                                                                                                   [100%]
+test_main.py::test_modify_fields PASSED                                                                                                                                                                         [ 33%]
+test_main.py::test_read_and_modify PASSED                                                                                                                                                                       [ 66%]
+test_main.py::test_write_csv PASSED                                                                                                                                                                             [100%]
 
-===================================================================================================== 3 passed in 0.01s =====================================================================================================
+================================================================================================== 3 passed in 0.04s ==================================================================================================
 ```
 
 ## Rust Setup
