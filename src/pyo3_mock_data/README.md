@@ -31,7 +31,6 @@ makes sense to write a Rust extension that can be called from Python, which is t
 
 The dataset should be in the following format:
 
-
 ```json
 {
   "id": "int",
@@ -78,16 +77,21 @@ id,name,age,isMarried,city,state,country
 
 ## Setup
 
-Install the dependencies in a virtual environment via `requirements.txt`.
+For this project, we will be bridging the Rust and Python codebases. The Rust codebase will be
+compiled into a shared library and then called from Python. This is done using the `maturin` tool.
+
+We will need to install `maturin` as a dependency in Python.
 
 ```bash
-# First time setup
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
+uv add maturin
+uv add --dev pytest
+uv add --dev mypy
+```
 
-# For subsequent runs, simply activate the environment
-source venv/bin/activate
+If you just want to sync the existing dependency version from `pyproject.toml`, run the following command.
+
+```bash
+uv sync
 ```
 
 ### Build the Rust module
@@ -99,8 +103,8 @@ or directly.
 # With make
 make develop
 
-# Directly with Maturin
-maturin develop
+# Directly with Maturin and the uv package manager instead of pip
+uv run maturin develop --uv
 ```
 
 ### Run script
@@ -115,9 +119,9 @@ that someone :joy:.
 
 ```bash
 # Generate 10 mock person profiles
-python main.py -n 10
+uv run python main.py -n 10
 # Generate 1000 mock person profiles
-python main.py -n 1000
+uv run python main.py -n 1000
 ```
 
 ### Run tests
@@ -129,18 +133,25 @@ running the tests. If you run manually don't forget the build step before testin
 # With make
 make test
 
-# manually
-maturin develop
-pytest
+# Manually via Maturin and the uv package manager instead of pip
+uv run maturin develop --uv
+uv run pytest
+```
 
-==================================================================================== test session starts =====================================================================================
-platform linux -- Python 3.12.2, pytest-8.0.0, pluggy-1.4.0
-rootdir: /home/paul/development/rust/rustinpieces/src/pyo3_mock_data
-collected 1 item
+```
+$ uv run pytest -v
+================================================================================================= test session starts =================================================================================================
+platform darwin -- Python 3.12.5, pytest-8.3.4, pluggy-1.5.0 -- /Users/prrao/code/rustinpieces/src/pyo3_mock_data/.venv/bin/python3
+cachedir: .pytest_cache
+rootdir: /Users/prrao/code/rustinpieces/src/pyo3_mock_data
+configfile: pyproject.toml
+collected 3 items
 
-test_main.py::test_write_persons_to_csv PASSED
+test_main.py::test_write_persons_to_csv[10] PASSED                                                                                                                                                              [ 33%]
+test_main.py::test_write_persons_to_csv[20] PASSED                                                                                                                                                              [ 66%]
+test_main.py::test_write_persons_to_csv_default_limit PASSED                                                                                                                                                    [100%]
 
-===================================================================================== 1 passed in 0.28s ======================================================================================
+================================================================================================== 3 passed in 0.25s ==================================================================================================
 ```
 
 ### Run linter and formatter only
@@ -164,8 +175,8 @@ can be done with either the provide Makefile or manually.
 # With make
 make release
 
-# Manually
-maturin develop -r
+# Manually via Maturin and the uv package manager instead of pip
+uv run maturin develop -r --uv
 ```
 
 ## Performance
@@ -178,16 +189,16 @@ Performance numbers here can be compared to the [mock data](../mock_data/README.
 
 > [!NOTE]
 > The timing numbers shown below are the run times from a 2023 M3 Macbook Pro with 32GB of RAM.
-> The Python version used was `3.11.7` and the Rust version used was `1.75.0`.
+> The Python version used was `3.12.5` and the Rust version used was `1.83.0`.
 
 | numPersons | Release mode |
 | ---------- | ------------ |
-| 10         | 0.06 sec     |
+| 10         | 0.07 sec     |
 | 100        | 0.06 sec     |
 | 1000       | 0.07 sec     |
-| 10000      | 0.07 sec     |
+| 10000      | 0.09 sec     |
 | 100000     | 0.15 sec     |
-| 1000000    | 0.91 sec     |
+| 1000000    | 0.83 sec     |
 
 As can be seen, the Rust bindings called from Python produce near identical timings to
 the pure Rust version's [results](../mock_data/README.md#performance) from the `mock_data`piece,

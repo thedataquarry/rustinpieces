@@ -8,12 +8,12 @@ lint:
 	cargo clippy --all-targets --quiet
 
 develop:
-	maturin develop
+	uv run maturin develop --uv
 
 release:
-	maturin develop -r
+	uv run maturin develop -r --uv
 
 test: develop
-	pytest
+	uv run pytest
 
 all: format check lint test

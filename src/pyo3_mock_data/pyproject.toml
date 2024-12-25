@@ -4,7 +4,11 @@ build-backend = "maturin"
 
 [project]
 name = "pyo3-mock-data"
+version = "0.1.0"
 requires-python = ">=3.8"
+dependencies = [
+    "maturin>=1.8.0",
+]
 
 [tool.maturin]
 module-name = "pyo3_mock_data._pyo3_mock_data"
@@ -39,4 +43,10 @@ ignore=[
   "COM819",
   "ISC001",
   "ISC002",
+]
+
+[dependency-groups]
+dev = [
+    "mypy>=1.14.0",
+    "pytest>=8.3.4",
 ]

@@ -68,24 +68,28 @@ id,name,age
 10,Tammy Woods,56
 ```
 
-### Python Setup
+## Python Setup
 
-Install the dependencies in a virtual environment via `requirements.txt`.
+Install dependencies via the `uv` package manager. All dependencies are listed in `pyproject.toml`.
+
+If you want to manually add the dependencies yourself, run the following commands.
 
 ```bash
-# First time setup
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-
-# For subsequent runs, simply activate the environment
-source venv/bin/activate
+uv add --dev pytest
 ```
 
 ### Run script
 
+First, sync the dependencies from `pyproject.toml`.
+
 ```bash
-python main.py
+uv sync
+```
+
+The script can be then run using the following command.
+
+```bash
+uv run main.py
 ```
 
 #### Output
@@ -99,25 +103,27 @@ DemographicCount(minors=2, adults=8)
 ### Run tests
 
 ```bash
-$ pytest -v
-==================================================================================== test session starts =====================================================================================
-platform linux -- Python 3.12.1, pytest-7.4.4, pluggy-1.3.0 -- /home/paul/development/rust/rustinpieces/python/age_groups_csv/.venv/bin/python
+$ uv run pytest -v
+================================================================================================= test session starts =================================================================================================
+platform darwin -- Python 3.12.5, pytest-8.3.4, pluggy-1.5.0 -- /Users/prrao/code/rustinpieces/src/age_groups_csv/python/.venv/bin/python
 cachedir: .pytest_cache
-rootdir: /home/paul/development/rust/rustinpieces/python/age_groups_csv
+rootdir: /Users/prrao/code/rustinpieces/src/age_groups_csv/python
+configfile: pyproject.toml
+plugins: Faker-33.1.0
 collected 10 items
 
-test_main.py::test_age_bracket[1-AgeBracket.CHILD] PASSED                                                                                                                              [ 10%]
-test_main.py::test_age_bracket[12-AgeBracket.CHILD] PASSED                                                                                                                             [ 20%]
-test_main.py::test_age_bracket[13-AgeBracket.YOUTH] PASSED                                                                                                                             [ 30%]
-test_main.py::test_age_bracket[17-AgeBracket.YOUTH] PASSED                                                                                                                             [ 40%]
-test_main.py::test_age_bracket[18-AgeBracket.ADULT] PASSED                                                                                                                             [ 50%]
-test_main.py::test_age_bracket[59-AgeBracket.ADULT] PASSED                                                                                                                             [ 60%]
-test_main.py::test_age_bracket[60-AgeBracket.SENIOR] PASSED                                                                                                                            [ 70%]
-test_main.py::test_age_bracket[None-None] PASSED                                                                                                                                       [ 80%]
-test_main.py::test_construct_person_obj PASSED                                                                                                                                         [ 90%]
-test_main.py::test_calculate_demographcs PASSED                                                                                                                                        [100%]
+test_main.py::test_age_bracket[1-AgeBracket.CHILD] PASSED                                                                                                                                                       [ 10%]
+test_main.py::test_age_bracket[12-AgeBracket.CHILD] PASSED                                                                                                                                                      [ 20%]
+test_main.py::test_age_bracket[13-AgeBracket.YOUTH] PASSED                                                                                                                                                      [ 30%]
+test_main.py::test_age_bracket[17-AgeBracket.YOUTH] PASSED                                                                                                                                                      [ 40%]
+test_main.py::test_age_bracket[18-AgeBracket.ADULT] PASSED                                                                                                                                                      [ 50%]
+test_main.py::test_age_bracket[59-AgeBracket.ADULT] PASSED                                                                                                                                                      [ 60%]
+test_main.py::test_age_bracket[60-AgeBracket.SENIOR] PASSED                                                                                                                                                     [ 70%]
+test_main.py::test_age_bracket[None-None] PASSED                                                                                                                                                                [ 80%]
+test_main.py::test_construct_person_obj PASSED                                                                                                                                                                  [ 90%]
+test_main.py::test_calculate_demographcs PASSED                                                                                                                                                                 [100%]
 
-===================================================================================== 10 passed in 0.01s =====================================================================================
+================================================================================================= 10 passed in 0.04s ==================================================================================================
 ```
 
 ## Rust Setup

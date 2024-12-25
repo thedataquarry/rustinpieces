@@ -33,8 +33,9 @@ def parse_record(item: list[Any]) -> JsonBlob:
 
 
 class BatchProcessor:
-    def __init__(self, batch_size: int):
+    def __init__(self, batch_size: int, num_workers: int):
         self.batch_size = batch_size
+        self.num_workers = num_workers
         self.pattern1 = re.compile(r"[’']s")
         self.pattern2 = re.compile(r"[’']d")
         self.pattern3 = re.compile(r"[’']ll")
@@ -66,7 +67,7 @@ class BatchProcessor:
         return data
 
     def process_batches(self, data: list[JsonBlob]) -> list[JsonBlob]:
-        with ProcessPoolExecutor(max_workers=NUM_WORKERS) as executor:
+        with ProcessPoolExecutor(max_workers=self.num_workers) as executor:
             batches = list(self._create_batches(data))
             # Process batches in parallel
             results = []
@@ -84,19 +85,26 @@ def count_gendered_pronouns(tokens: list[str]) -> tuple[int, int]:
 
 def write_results(data: list[JsonBlob], file_path: Path, file_name: str) -> None:
     output_path = file_path / file_name
-    fieldnames = ["id", "publication", "author", "date", "num_male_pronouns", "num_female_pronouns"]
+    fieldnames = [
+        "id",
+        "publication",
+        "author",
+        "date",
+        "num_male_pronouns",
+        "num_female_pronouns",
+    ]
     with open(output_path, "w") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(data)
 
 
-def main(file_path: Path, batch_size: int) -> None:
+def main(file_path: Path, batch_size: int, num_workers: int) -> None:
     # Get all .csv files in the directory
     files = [
         Path(f"../data/{file}") for file in ("articles1.csv", "articles2.csv", "articles3.csv")
     ]
-    processor = BatchProcessor(batch_size)
+    processor = BatchProcessor(batch_size, num_workers)
     for input_file in files:
         records = load_csv(input_file)
         results = processor.process_batches(records)
@@ -114,6 +122,5 @@ if __name__ == "__main__":
     args = parser.parse_args()
     # fmt: on
 
-    NUM_WORKERS = args.num_workers
     file_path = Path(args.file_path)
-    main(file_path, args.batch_size)
+    main(file_path, args.batch_size, args.num_workers)

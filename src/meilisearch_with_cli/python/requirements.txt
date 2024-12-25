@@ -1,4 +1,0 @@
-pytest==7.4.4
-pytest-meilisearch==0.3.3
-
--e .  # install the project in editable format

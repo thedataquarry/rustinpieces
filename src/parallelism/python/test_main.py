@@ -6,7 +6,7 @@ from main import BatchProcessor, count_gendered_pronouns, load_csv
 
 @pytest.fixture
 def processor():
-    return BatchProcessor(10)
+    return BatchProcessor(10, 4)
 
 
 @pytest.fixture

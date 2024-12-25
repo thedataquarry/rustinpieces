@@ -50,11 +50,11 @@ Is "AMD Ryzen 3" in the hashset of processors?: true
 
 ### Setup and run
 
-No dependencies are necessary -- simply install the latest version of Python and run the script
-`main.py`.
+No dependencies are necessary -- simply navigate to the `intro/python` directory and run the script
+using the `uv` package manager.
 
 ```bash
-python main.py
+uv run main.py
 ```
 
 ## Rust

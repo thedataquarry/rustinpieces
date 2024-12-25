@@ -1,3 +1,14 @@
+[project]
+name = "postgres_etl"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "asyncpg>=0.30.0",
+    "python-dotenv>=1.0.1",
+]
+
 [tool.mypy]
 check_untyped_defs = true
 disallow_untyped_defs = true
@@ -35,3 +46,10 @@ ignore=[
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
+
+[dependency-groups]
+dev = [
+    "mypy>=1.14.0",
+    "pytest>=8.3.4",
+    "pytest-asyncio>=0.25.0",
+]

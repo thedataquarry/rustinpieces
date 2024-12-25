@@ -51,22 +51,35 @@ example we will also implement a search through the CLI.
 
 ## Python Setup
 
-Install the dependencies in a virtual environment via `requirements.txt`.
+Install the dependencies in a virtual environment via `pyproject.toml`.
+
+If you want to manually install the latest versions of the dependencies, you can do so with the following command:
+
+```bash
+uv add meilisearch-python-sdk
+uv add rich
+uv add srsly
+uv add typer
+```
+
+To use the existing versions of the dependencies, you can run the following command:
 
 ```bash
 # First time setup
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-
-# For subsequent runs, simply activate the environment
-source venv/bin/activate
+uv sync
 ```
 
-In this project installing `requirements.txt` will also install the project itself as an editable
+This will create a virtual environment `.venv` in the local directory and install the dependencies
+into it. To use the CLI, simplyactivate the virtual environment created by uv:
+
+```bash
+source .venv/bin/activate
+```
+
+In this project installing `pyproject.toml` will also install the project itself as an editable
 install containing an entry point called `meilisearch-cli`. This allows us to run the program through
-the entry point, `meilisearch-cli create-index` for example, without the need to use the python command,
-`python main.py create-index`.
+the entry point, for example `meilisearch-cli create-index`, without the need to run it via Python using
+`uv run main.py create-index`.
 
 This project uses [typer](https://github.com/tiangolo/typer) to create the CLI,
 [rich](https://github.com/Textualize/rich) to pretty print text and create a progress spinner,
@@ -87,7 +100,7 @@ docker compose up
 Then run the tests:
 
 ```bash
-$ pytest -v
+$ uv run pytest -v
 ==================================================================================== test session starts ====================================================================================
 platform linux -- Python 3.12.1, pytest-7.4.4, pluggy-1.3.0 -- /home/paul/development/rust/rustinpieces/pieces/meilisearch_with_cli/python/.venv/bin/python
 cachedir: .pytest_cache
@@ -115,7 +128,7 @@ docker compose up
 Then create the index and update its settings:
 
 ```bash
-meilisarch-cli create-index
+meilisearch-cli create-index
 ```
 
 Once the index is created, add the documents to the index:

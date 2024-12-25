@@ -78,27 +78,27 @@ sample dataset in this repo, as well as the full dataset downloaded from Kaggle.
 
 ## Python Setup
 
-Install the dependencies in a virtual environment via `requirements.txt`.
+Install dependencies via the `uv` package manager. All dependencies are listed in `pyproject.toml`.
+
+If you want to manually add the dependencies yourself, run the following commands.
 
 ```bash
-# First time setup
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-
-# For subsequent runs, simply activate the environment
-source venv/bin/activate
+uv add polars
+uv add --dev pytest
 ```
 
-### Run scripts
+### Run script
 
-A single script `main.py` is used to run the parallel processing code, that divides up each CSV's
-records into batches and processes them via `concurrent.futures.ProcessPoolExecutor`.
-
-The script is run as follows:
+First, sync the dependencies from `pyproject.toml`.
 
 ```bash
-python main.py
+uv sync
+```
+
+The script can be then run using the following command.
+
+```bash
+uv run main.py
 ```
 
 ### Run tests
@@ -106,21 +106,22 @@ python main.py
 Tests can be run as follows:
 
 ```bash
-$ pytest -v
-======================================= test session starts ========================================
-platform darwin -- Python 3.11.7, pytest-8.0.0, pluggy-1.4.0 -- /Users/prrao/.pyenv/versions/3.11.7/bin/python3.11
+$ uv run pytest -v
+================================================================================================= test session starts =================================================================================================
+platform darwin -- Python 3.12.5, pytest-8.3.4, pluggy-1.5.0 -- /Users/prrao/code/rustinpieces/src/parallelism/python/.venv/bin/python
 cachedir: .pytest_cache
-rootdir: /Users/prrao/code/rustinpieces/pieces/parallelism/python
-plugins: Faker-22.0.0
+rootdir: /Users/prrao/code/rustinpieces/src/parallelism/python
+configfile: pyproject.toml
+plugins: Faker-33.1.0
 collected 5 items
 
-test_main.py::test_record PASSED                                                             [ 20%]
-test_main.py::test_count_gendered_pronouns PASSED                                            [ 40%]
-test_main.py::test_clean_text PASSED                                                         [ 60%]
-test_main.py::test_calculate_counts PASSED                                                   [ 80%]
-test_main.py::test_process_batches PASSED                                                    [100%]
+test_main.py::test_record PASSED                                                                                                                                                                                [ 20%]
+test_main.py::test_count_gendered_pronouns PASSED                                                                                                                                                               [ 40%]
+test_main.py::test_clean_text PASSED                                                                                                                                                                            [ 60%]
+test_main.py::test_calculate_counts PASSED                                                                                                                                                                      [ 80%]
+test_main.py::test_process_batches PASSED                                                                                                                                                                       [100%]
 
-======================================== 5 passed in 0.15s =========================================
+================================================================================================== 5 passed in 0.11s ==================================================================================================
 ```
 
 ## Rust Setup
