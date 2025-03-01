@@ -142,7 +142,7 @@ mod tests {
         let response = app
             .oneshot(
                 Request::builder()
-                    .uri(&format!("/book/{}", book.id))
+                    .uri(format!("/book/{}", book.id))
                     .body(Body::empty())
                     .unwrap(),
             )
@@ -212,7 +212,7 @@ mod tests {
         let check = app
             .oneshot(
                 Request::builder()
-                    .uri(&format!("/book/{}", book.id))
+                    .uri(format!("/book/{}", book.id))
                     .body(Body::empty())
                     .unwrap(),
             )
@@ -261,7 +261,7 @@ mod tests {
         let check = app
             .oneshot(
                 Request::builder()
-                    .uri(&format!("/book/{}", book.id))
+                    .uri(format!("/book/{}", book.id))
                     .body(Body::empty())
                     .unwrap(),
             )
