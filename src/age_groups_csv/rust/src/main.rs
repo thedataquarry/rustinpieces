@@ -83,7 +83,7 @@ fn main() {
     let file_path = Path::new("../data/persons.csv");
     let persons = load_csv(file_path).expect("Unable to read/open CSV");
     let demographics = DemographicCount::new(&persons);
-    println!("{:?}", demographics);
+    println!("{demographics:?}");
 }
 
 #[cfg(test)]

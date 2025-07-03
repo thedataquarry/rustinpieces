@@ -87,10 +87,7 @@ fn run(input_path: &PathBuf) {
     let output_path = output_path.replace(".csv", "_processed.csv");
     let mut wtr = csv::Writer::from_path(Path::new(&output_path)).unwrap();
     _ = records.iter().map(|x| wtr.serialize(x)).collect::<Vec<_>>();
-    println!(
-        "Results for {:?} to written to {:?}",
-        input_path, output_path
-    );
+    println!("Results for {input_path:?} to written to {output_path:?}");
 }
 
 fn main() {

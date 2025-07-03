@@ -84,7 +84,7 @@ fn run() -> Result<Vec<CompanyFinal>> {
         companies.push(company_final);
     }
     let result = serde_json::to_string_pretty(&companies)?;
-    println!("{}", result);
+    println!("{result}");
     // Return the result as an object so it can be tested
     let company = serde_json::from_str(&result)?;
 
