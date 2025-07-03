@@ -47,8 +47,8 @@ fn approx_year_of_birth(person: &Person) -> u16 {
 // 1. Trait implementations
 fn run1() {
     let p = Person::new("Megan", 28);
-    println!("{}", p);
-    println!("{:?}", p);
+    println!("{p}");
+    println!("{p:?}");
     /*
     Megan is 28 years old
     Person: Megan, 28
@@ -59,7 +59,7 @@ fn run1() {
 fn run2() {
     let persons = [Person::new("James", 33), Person::new("Salima", 31)];
     for (i, p) in persons.iter().enumerate() {
-        println!("Person {}: {}", i, p)
+        println!("Person {i}: {p}")
     }
     /*
     Person 0: James is 33 years old
@@ -75,7 +75,7 @@ fn run3() {
     for (name, age) in names.iter().zip(ages.iter()) {
         persons.push(Person::new(name, *age));
     }
-    println!("{:?}", persons);
+    println!("{persons:?}");
     /*
     [Person: Alice, 24, Person: Charlie, 45]
     */
@@ -85,7 +85,7 @@ fn run3() {
 fn run4() {
     let sorted_ages: (u8, u8, u8) = (18, 41, 65);
     let (youngest, _, oldest) = sorted_ages;
-    println!("Youngest age: {}, oldest age: {}", youngest, oldest);
+    println!("Youngest age: {youngest}, oldest age: {oldest}");
     println!("Middle age: {}", sorted_ages.1);
     /*
     Youngest age: 18, oldest age: 65
@@ -115,10 +115,7 @@ fn run6() {
         // check if person is born in a leap year using simplistic leap year logic
         let birth_year = approx_year_of_birth(&person);
         let person_is_born_in_leap_year = birth_year % 4 == 0;
-        println!(
-            "{}. Born in a leap year?: {}",
-            person, person_is_born_in_leap_year
-        );
+        println!("{person}. Born in a leap year?: {person_is_born_in_leap_year}");
     }
     /*
     Josephine is 20 years old. Born in a leap year?: true
@@ -134,7 +131,7 @@ fn run7() {
         .filter(|p| approx_year_of_birth(p) > 1995)
         .map(|p| (p.name, p.age))
         .collect::<Vec<(String, u8)>>();
-    println!("Persons born after 1995: {:?}", result)
+    println!("Persons born after 1995: {result:?}")
     /*
     Persons born after 1995: [("Ibrahim", 26)]
     */

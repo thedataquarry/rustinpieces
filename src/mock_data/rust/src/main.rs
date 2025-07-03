@@ -103,7 +103,7 @@ fn main() {
         _ => {
             let limit = args[1].parse::<u32>().unwrap();
             run(&locations, limit);
-            println!("Generating {} person profiles.", limit);
+            println!("Generating {limit} person profiles.");
         }
     }
 }

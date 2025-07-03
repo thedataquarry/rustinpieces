@@ -83,7 +83,7 @@ async fn run() -> Result<usize, sqlx::Error> {
     let persons: Vec<Person> =
         read_data(persons_csv_file).expect("Did not obtain valid output from CSV");
     let counter = persons.len();
-    println!("Number of persons: {}", counter);
+    println!("Number of persons: {counter}");
 
     // Obtain connection pool
     let pg_uri = dotenvy::var("DATABASE_URL").expect("Invalid DB URI");
@@ -103,7 +103,7 @@ async fn run() -> Result<usize, sqlx::Error> {
     for task in tasks {
         task.await.expect("Error running async task");
     }
-    println!("Finished loading {:?} records", counter);
+    println!("Finished loading {counter:?} records");
     Ok(counter)
 }
 

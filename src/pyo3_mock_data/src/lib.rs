@@ -38,8 +38,7 @@ struct Person {
 fn check_valid_file(filename: &PathBuf) -> PyResult<()> {
     if !filename.is_file() {
         return Err(FileNotFoundError::new_err(format!(
-            "File not found: {:?}",
-            filename
+            "File not found: {filename:?}"
         )));
     }
 
@@ -153,7 +152,7 @@ fn generate_mock_persons(
 ) -> PyResult<()> {
     check_valid_file(&filename)?;
     let locations = read_cities(&filename)?;
-    println!("Generating {:?} person profiles.", limit);
+    println!("Generating {limit:?} person profiles.");
     run(&locations, limit, &output_filename)?;
 
     Ok(())
