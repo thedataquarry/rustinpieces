@@ -3,14 +3,14 @@ ci:
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
+    rev: v6.0.0
     hooks:
       - id: check-toml
       - id: check-yaml
       - id: end-of-file-fixer
       - id: trailing-whitespace
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.17.1
+    rev: v1.18.2
     hooks:
       - id: mypy
         additional_dependencies:
@@ -35,7 +35,7 @@ repos:
         exclude: ".*/test_.*\\.py|.*/conftest\\.py|src/rest_api_postgres/python/.*|src/pyp3_mock_data/.*|src/pyo3_mock_data/.*"
         args: [--explicit-package-bases] # This is because of the mono repo type setup
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.17.1
+    rev: v1.18.2
     hooks:
       - id: mypy
         pass_filenames: false
@@ -51,14 +51,14 @@ repos:
           ]
         entry: bash -c 'cd src/rest_api_postgres/python && mypy -p app "$@"' --
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.17.1
+    rev: v1.18.2
     hooks:
       - id: mypy
         pass_filenames: false
         files: ^src/pyp3_mock_data/
         entry: bash -c 'cd src/pyo3_mock_data && mypy -p pyp3_mock_data "$@"' --
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.12.7
+    rev: v0.14.4
     hooks:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix]
