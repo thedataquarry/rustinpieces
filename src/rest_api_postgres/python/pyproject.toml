@@ -36,6 +36,11 @@ ignore_missing_imports = true
 asyncio_mode = "auto"
 
 [tool.ruff]
+line-length = 100
+target-version = "py38"
+fix = true
+
+[tool.ruff.lint]
 select=["E", "F", "UP", "I001"]
 ignore=[
   # Recommened ignores by ruff when using formatter
@@ -55,6 +60,3 @@ ignore=[
   "ISC001",
   "ISC002",
 ]
-line-length = 100
-target-version = "py38"
-fix = true
