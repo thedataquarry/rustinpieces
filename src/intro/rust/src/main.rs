@@ -114,7 +114,7 @@ fn run6() {
     for person in persons {
         // check if person is born in a leap year using simplistic leap year logic
         let birth_year = approx_year_of_birth(&person);
-        let person_is_born_in_leap_year = birth_year % 4 == 0;
+        let person_is_born_in_leap_year = birth_year.is_multiple_of(4);
         println!("{person}. Born in a leap year?: {person_is_born_in_leap_year}");
     }
     /*

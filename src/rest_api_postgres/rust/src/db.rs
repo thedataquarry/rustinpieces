@@ -43,6 +43,7 @@ pub async fn create_pool(pg_uri: &str) -> Result<PgPool> {
     Ok(pool)
 }
 
+#[allow(dead_code)]
 pub fn internal_error<E>(err: E) -> (StatusCode, String)
 where
     E: std::error::Error,
