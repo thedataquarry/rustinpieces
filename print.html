@@ -37,7 +37,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-d0760002.js";
+            window.path_to_searchindex_js = "searchindex-89d229d6.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-6b537ae7.js"></script>
@@ -893,10 +893,7 @@ that Python’s <code>dict</code> keys can be any hashable type and values can b
 type, but in Rust, <em>both</em> the keys and values of a <code>HashMap</code> must be of the same type.</p>
 <p>In Python, this <code>dict</code> is perfectly valid:</p>
 <pre><code class="language-py"># You can have a dict with keys of different types
-example = {
-    "a": 1,
-    1: 2
-}
+example = {"a": 1, 1: 2}
 </code></pre>
 <p>In Rust, the compiler will enforce that the keys and values are of the same type, based on
 the first entry’s inferred types.</p>
