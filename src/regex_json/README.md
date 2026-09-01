@@ -67,26 +67,36 @@ uv run main.py
 ### Output
 
 ```python
-[{'annual_revenue': '$10M-$20M',
-  'annual_revenue_lower': 10000000.0,
-  'annual_revenue_upper': 20000000.0,
-  'company': 'Acme Inc.',
-  'industry': 'Technology'},
- {'annual_revenue': '$7.5M-$8.5M',
-  'annual_revenue_lower': 7500000.0,
-  'annual_revenue_upper': 8500000.0,
-  'company': 'Globex Corp.',
-  'industry': 'Logistics'},
- {'annual_revenue': '$500K-$1M',
-  'annual_revenue_lower': 500000.0,
-  'annual_revenue_upper': 1000000.0,
-  'company': 'Initech Corp.',
-  'industry': 'Technology'},
- {'annual_revenue': '$800M-$1B',
-  'annual_revenue_lower': 800000000.0,
-  'annual_revenue_upper': 1000000000.0,
-  'company': 'Umbrella Corp.',
-  'industry': 'Retail'}]
+[
+    {
+        "annual_revenue": "$10M-$20M",
+        "annual_revenue_lower": 10000000.0,
+        "annual_revenue_upper": 20000000.0,
+        "company": "Acme Inc.",
+        "industry": "Technology",
+    },
+    {
+        "annual_revenue": "$7.5M-$8.5M",
+        "annual_revenue_lower": 7500000.0,
+        "annual_revenue_upper": 8500000.0,
+        "company": "Globex Corp.",
+        "industry": "Logistics",
+    },
+    {
+        "annual_revenue": "$500K-$1M",
+        "annual_revenue_lower": 500000.0,
+        "annual_revenue_upper": 1000000.0,
+        "company": "Initech Corp.",
+        "industry": "Technology",
+    },
+    {
+        "annual_revenue": "$800M-$1B",
+        "annual_revenue_lower": 800000000.0,
+        "annual_revenue_upper": 1000000000.0,
+        "company": "Umbrella Corp.",
+        "industry": "Retail",
+    },
+]
 ```
 
 ### Run tests

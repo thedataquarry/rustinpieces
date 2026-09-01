@@ -94,10 +94,7 @@ In Python, this `dict` is perfectly valid:
 
 ```py
 # You can have a dict with keys of different types
-example = {
-    "a": 1,
-    1: 2
-}
+example = {"a": 1, 1: 2}
 ```
 
 In Rust, the compiler will enforce that the keys and values are of the same type, based on
