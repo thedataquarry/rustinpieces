@@ -29,7 +29,7 @@ Rust's learning curve is considerably steeper than Python's, so the table below 
 | Datetime parsing             | Files       | chrono, lifetimes                        |
 | Extract pronouns from text   | Files       | rayon, parallelism                       |
 | Postgres                     | Databases   | async, sqlx, tokio                       |
-| Meilisearch                  | CLIs        | async, async-std, clap                   |
+| Meilisearch                  | CLIs        | async, tokio, clap                       |
 | REST API to Postgres         | APIs        | axum, async, tokio                       |
 | PyO3 mock data generation    | Unification | PyO3, Maturin                            |
 | PyO3 parallel computation    | Unification | PyO3, Maturin                            |
