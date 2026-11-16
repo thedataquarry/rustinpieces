@@ -15,32 +15,24 @@ It is encouraged for you to run the tests, formatters, and linters before submit
 all need to pass before the PR can be merged so you can save youself some time by running them
 locally before submitting. The README of each piece contains instructions for running these checks.
 
-Additionally we use [pre-commit](https://pre-commit.com) to run linting checks. To install
-pre-commit create a virtual environment, activate it, and then install the requirements (Note - if
-you have pre-commit installed at your system level you can skip this step):
+Additionally we use [prek](https://prek.j178.dev) to run linting checks (configured in
+[prek.toml](./prek.toml)). Install it with [uv](https://docs.astral.sh/uv/) and set up the git
+hooks:
 
 ```sh
-# First time setup
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements-dev.txt
-
-# For subsequent runs, simply activate the environment
-source venv/bin/activate
+uv tool install prek
+prek install
 ```
 
-Next install the pre-commit hooks:
-
-```sh
-pre-commit install
-```
-
-Now any time you commit your code pre-commit will run its checks. If you want to run the checks
+Now any time you commit your code prek will run its checks. If you want to run the checks
 before commiting you can do so manually:
 
 ```sh
-pre-commit run --all-files
+prek run --all-files
 ```
+
+The Rust toolchain version is pinned in [rust-toolchain.toml](./rust-toolchain.toml), and `rustup`
+picks it up automatically.
 
 If committing Rust code, make sure to run Cargo's clippy and fmt on the `piece` so that linting is
 respected. You can do this by either using the `Makefile` provided in each `piece`, or by running

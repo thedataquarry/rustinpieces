@@ -11,15 +11,14 @@ use clap::Parser;
 use colored::*;
 use flate2::read::GzDecoder;
 use indicatif::{ProgressBar, ProgressStyle};
-use lazy_static::lazy_static;
 use meilisearch_sdk::{client::Client, search::SearchResults, settings::Settings};
 use serde::{Deserialize, Serialize};
 
 use crate::cli::{Args, Command};
 
-// Create the client
-lazy_static! {
-    static ref CLIENT: Client = Client::new("http://127.0.0.1:7700", Some("apiKey"));
+// A fresh client per call: its connection pool is tied to the tokio runtime that first uses it
+fn client() -> Client {
+    Client::new("http://127.0.0.1:7700", Some("apiKey")).expect("valid Meilisearch URL")
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -41,9 +40,11 @@ struct Wine {
 }
 
 async fn create_index(index_name: &str) -> Result<()> {
-    let index_task = CLIENT.create_index(index_name, Some("id")).await?;
-    index_task.wait_for_completion(&CLIENT, None, None).await?;
-    let index = CLIENT.index(index_name);
+    let index_task = client().create_index(index_name, Some("id")).await?;
+    index_task
+        .wait_for_completion(&client(), None, None)
+        .await?;
+    let index = client().index(index_name);
     let ranking_rules = vec![
         "sort",
         "words",
@@ -69,7 +70,7 @@ async fn create_index(index_name: &str) -> Result<()> {
         .with_searchable_attributes(searchable_attributes);
     let settings_task = index.set_settings(&settings).await?;
     settings_task
-        .wait_for_completion(&CLIENT, None, None)
+        .wait_for_completion(&client(), None, None)
         .await?;
 
     Ok(())
@@ -90,14 +91,14 @@ async fn index_data(data_path: &Option<PathBuf>, index_name: &str, wait: bool) -
         documents.push(json);
     }
 
-    let tasks = CLIENT
+    let tasks = client()
         .index(index_name)
         .add_documents_in_batches(&documents, None, Some("id"))
         .await?;
 
     if wait {
         for task in tasks {
-            task.wait_for_completion(&CLIENT, None, None).await?;
+            task.wait_for_completion(&client(), None, None).await?;
         }
     }
 
@@ -110,7 +111,7 @@ async fn search(
     sort: Option<Vec<String>>,
     index_name: &str,
 ) -> Result<SearchResults<Wine>> {
-    let index = CLIENT.index(index_name);
+    let index = client().index(index_name);
     let result = match sort {
         Some(s) => {
             let str_sort = s
@@ -139,7 +140,7 @@ async fn search(
     Ok(result)
 }
 
-#[async_std::main]
+#[tokio::main]
 async fn main() {
     let args = Args::parse();
     match args.command {
@@ -319,12 +320,12 @@ mod tests {
         ]
     }
 
-    #[async_std::test]
+    #[tokio::test]
     async fn test_create_index() {
         let index_name = &Uuid::new_v4().to_string();
         create_index(&index_name.to_string()).await.unwrap();
 
-        let index = CLIENT.get_index(index_name).await.unwrap();
+        let index = client().get_index(index_name).await.unwrap();
         let searchable_attributes = index.get_searchable_attributes().await.unwrap();
         assert_eq!(
             searchable_attributes,
@@ -340,10 +341,10 @@ mod tests {
             )
         );
 
-        CLIENT.delete_index(index_name).await.unwrap();
+        client().delete_index(index_name).await.unwrap();
     }
 
-    #[async_std::test]
+    #[tokio::test]
     async fn test_index_data() {
         let index_name = &Uuid::new_v4().to_string();
         let dir = tempdir().unwrap().path().to_path_buf();
@@ -364,22 +365,22 @@ mod tests {
         index_data(&Some(data_path), index_name, true)
             .await
             .unwrap();
-        let index = CLIENT.index(index_name);
+        let index = client().index(index_name);
         let documents = index.get_documents::<Wine>().await.unwrap();
 
         assert_eq!(documents.total, 5);
-        CLIENT.delete_index(index_name).await.unwrap();
+        client().delete_index(index_name).await.unwrap();
     }
 
-    #[async_std::test]
+    #[tokio::test]
     async fn test_search() {
         let index_name = &Uuid::new_v4().to_string();
-        let index = CLIENT.index(index_name);
+        let index = client().index(index_name);
         index
             .add_documents::<Wine>(&wine_data(), Some("id"))
             .await
             .unwrap()
-            .wait_for_completion(&CLIENT, None, None)
+            .wait_for_completion(&client(), None, None)
             .await
             .unwrap();
         let result = search("Nicosa", 20, None, &index_name.to_string())
@@ -389,6 +390,6 @@ mod tests {
         let contains_title = result.hits.iter().any(|hit| hit.result.title == title);
 
         assert!(contains_title);
-        CLIENT.delete_index(index_name).await.unwrap();
+        client().delete_index(index_name).await.unwrap();
     }
 }

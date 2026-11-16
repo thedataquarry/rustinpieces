@@ -215,17 +215,16 @@ This project uses [clap](https://github.com/clap-rs/clap) to create the CLI,
 [indicatif](https://github.com/console-rs/indicatif) to create a progress spinner,
 [flate2](https://github.com/rust-lang/flate2-rs) to handle the jsonl.gz files, [serde](https://github.com/serde-rs/serde)
 to handle serilization and deserilization, [serde-json](https://github.com/serde-rs/json) to handle
-JSON, [async-std](https://github.com/async-rs/async-std) for asyncio, and [meilisearch-rust](https://github.com/meilisearch/meilisearch-rust)
+JSON, [tokio](https://github.com/tokio-rs/tokio) for asyncio, and [meilisearch-rust](https://github.com/meilisearch/meilisearch-rust)
 to manage interactions with Meilisearch.
 
 ```bash
 cargo add anyhow
-cargo add async-std --features attributes
+cargo add tokio --features macros,rt-multi-thread
 cargo add clap --features derive
 cargo add colored
 cargo add falate2
 cargo add indicatif
-cargo add lazy_static
 cargo add meilisearch-sdk
 cargo add serde --features derive
 cargo add serde-json
@@ -385,9 +384,9 @@ Options:
 
 ### Takeaways
 
-In Rust asyncio is run using crates, of which you have options to chose from. `meilisearch-rust` was
-designed to let the user pick which async crate to use rather than dictating one. In this example we
-use async-std, but we could have just as easily used tokio or some other crate. It is possilbe to make
+In Rust asyncio is run using crates, of which you have options to chose from. `meilisearch-rust`
+sends its HTTP requests through `reqwest` by default, which runs on tokio, so in this example we use
+tokio as the async runtime. It is possilbe to make
 the program synchronous in `meilisearch-rust` using the [futures](https://github.com/rust-lang/futures-rs)
 crate `block_on`, however it is not as simple to mix asyncio and synchronous calls as we have done in
 the Python example. Because of this we choose to make everything async in the Rust examples.
