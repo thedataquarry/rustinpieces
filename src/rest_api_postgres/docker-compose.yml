@@ -1,12 +1,10 @@
-version: "3.9"
-
 services:
   database:
-    image: "postgres:latest"
+    image: "postgres:18"
     ports:
       - 5432:5432
     env_file:
       - .env
     volumes:
-      - ./data/pg/:/var/lib/postgresql/data/
+      - ./data/pg/:/var/lib/postgresql/
       - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql

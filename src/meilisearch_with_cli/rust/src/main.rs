@@ -19,7 +19,8 @@ use crate::cli::{Args, Command};
 
 // Create the client
 lazy_static! {
-    static ref CLIENT: Client = Client::new("http://127.0.0.1:7700", Some("apiKey"));
+    static ref CLIENT: Client =
+        Client::new("http://127.0.0.1:7700", Some("apiKey")).expect("valid Meilisearch URL");
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]

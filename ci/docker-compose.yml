@@ -1,19 +1,17 @@
-version: "3.9"
-
 services:
   database:
-    image: "postgres:17"
+    image: "postgres:18"
     ports:
       - 5432:5432
     environment:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     volumes:
-      - ./pg/:/var/lib/postgresql/data/
+      - ./pg/:/var/lib/postgresql/
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
       - ./data:/data
 
   meilisearch:
-    image: getmeili/meilisearch:v1.6
+    image: getmeili/meilisearch:v1.57
     ports:
       - "7700:7700"
     environment:
